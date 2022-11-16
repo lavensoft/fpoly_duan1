@@ -119,10 +119,16 @@ public class Login extends javax.swing.JFrame {
         String password = jPasswordField1.getText();
 
         try {
-            UserController.login(email, password);
+            if(email.isEmpty() || password.isEmpty()) throw new Exception("FIELD_IS_NULL");
 
-            new Main().setVisible(true);
-            this.dispose();
+            UserModel user = UserController.login(email, password);
+
+            System.out.println(user.toDocument());
+
+            if(user != null) {
+                new Main().setVisible(true);
+                this.dispose();
+            }
         }catch(Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.toString());
         }

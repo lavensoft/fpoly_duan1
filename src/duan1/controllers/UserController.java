@@ -40,6 +40,10 @@ public class UserController {
 
         UserModel user = UserDAO.get(userQuery);
 
+        System.out.println("QUERY ---");
+
+        System.out.println("QUERY DATA -----");
+
         if(user == null) { //User not exists
             throw new Exception("USER_INVALID");
         }else { //User Exists

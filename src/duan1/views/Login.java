@@ -27,19 +27,6 @@ public class Login extends javax.swing.JFrame {
 
         //INIT DATABASE
         Database.init();
-
-        //*CHECK USER LOGIN */
-        try {
-            UserModel user = UserController.checkLogin();
-
-            if(user != null) {
-                new Main().setVisible(true);
-                this.setVisible(false);
-                this.dispose();
-            }
-        } catch (Exception e) {
-            
-        }
     }
 
     /**
@@ -65,6 +52,11 @@ public class Login extends javax.swing.JFrame {
         jButton3.setText("jButton3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelBoder2.setBackground(new java.awt.Color(64, 64, 64));
@@ -118,7 +110,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println("CLICKED 1");
+        System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -135,6 +127,21 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //*CHECK USER LOGIN */
+        try {
+            UserModel user = UserController.checkLogin();
+
+            if(user != null) {
+                new Main().setVisible(true);
+                this.setVisible(false);
+                this.dispose();
+            }
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

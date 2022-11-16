@@ -6,7 +6,13 @@ package duan1.views;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.util.prefs.BackingStoreException;
+
+import javax.swing.JOptionPane;
+
 import duan1.config.*;
+import duan1.controllers.UserController;
+import duan1.models.UserModel;
 
 /**
  *
@@ -24,8 +30,6 @@ public class Main extends javax.swing.JFrame {
         
         //INIT DATABASE
         Database.init();
-
-        
     }
     
     void closeAll(){
@@ -199,8 +203,14 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
+        try {
+            UserController.logout();
+
+            new Login().setVisible(true);
+            this.dispose();
+        } catch (BackingStoreException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
     }//GEN-LAST:event_lblLogoutMouseClicked
 
     private void lblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhachHangMouseClicked
@@ -228,8 +238,19 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSanPhamMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
         closeAll();
+
+        //Check USER Login
+        try {
+            UserModel user = UserController.checkLogin();
+
+            if(user == null) { //Navigate to login
+                new Login().setVisible(true);
+                this.dispose();
+            }
+        }catch(Exception e) {
+
+        }
     }//GEN-LAST:event_formWindowOpened
 
     

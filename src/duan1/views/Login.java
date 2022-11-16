@@ -6,9 +6,11 @@ package duan1.views;
 
 import java.util.EnumMap;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import duan1.controllers.*;
 import duan1.models.*;
+import duan1.config.*;
 
 /**
  *
@@ -22,6 +24,22 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        //INIT DATABASE
+        Database.init();
+
+        //*CHECK USER LOGIN */
+        try {
+            UserModel user = UserController.checkLogin();
+
+            if(user != null) {
+                new Main().setVisible(true);
+                this.setVisible(false);
+                this.dispose();
+            }
+        } catch (Exception e) {
+            
+        }
     }
 
     /**
@@ -109,13 +127,12 @@ public class Login extends javax.swing.JFrame {
         String password = jPasswordField1.getText();
 
         try {
-            System.out.println(email);
-            System.out.println(password);
-            UserModel user = UserController.login(email, password);
+            UserController.login(email, password);
 
-            System.out.println(user.toDocument());
+            new Main().setVisible(true);
+            this.dispose();
         }catch(Exception e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(rootPane, e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

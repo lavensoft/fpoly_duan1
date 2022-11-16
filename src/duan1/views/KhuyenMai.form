@@ -26,7 +26,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="com.ui.PanelBoder" name="panelBoder1">
+    <Container class="duan1.components.PanelBoder" name="panelBoder1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="40" green="40" red="40" type="rgb"/>
@@ -37,7 +37,7 @@
         <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
       <SubComponents>
-        <Container class="com.ui.PanelBoder" name="panelBoder2">
+        <Container class="duan1.components.PanelBoder" name="panelBoder2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="d9" green="d9" red="d9" type="rgb"/>
@@ -62,7 +62,7 @@
             </DimensionLayout>
           </Layout>
         </Container>
-        <Container class="com.ui.PanelBoder" name="panelBoder4">
+        <Container class="duan1.components.PanelBoder" name="panelBoder4">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="d9" green="d9" red="d9" type="rgb"/>
@@ -129,7 +129,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="com.ui.PanelBoder" name="panelBoder3">
+        <Container class="duan1.components.PanelBoder" name="panelBoder3">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="d9" green="d9" red="d9" type="rgb"/>

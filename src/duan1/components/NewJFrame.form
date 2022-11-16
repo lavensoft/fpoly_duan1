@@ -39,7 +39,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="com.ui.Menu" name="menu1">
+    <Component class="duan1.components.Menu" name="menu1">
     </Component>
   </SubComponents>
 </Form>

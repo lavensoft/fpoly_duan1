@@ -4,6 +4,12 @@
  */
 package duan1.views;
 
+import java.util.EnumMap;
+
+import javax.swing.JTextField;
+import duan1.controllers.*;
+import duan1.models.*;
+
 /**
  *
  * @author TAN PHAT
@@ -90,15 +96,27 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
+        // System.out.println("CLICKED");
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        System.out.println("CLICKED 1");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        //*LOGIN ACTION */
+        String email = jTextField2.getText();
+        String password = jPasswordField1.getText();
+
+        try {
+            System.out.println(email);
+            System.out.println(password);
+            UserModel user = UserController.login(email, password);
+
+            System.out.println(user.toDocument());
+        }catch(Exception e) {
+            System.out.println(e);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

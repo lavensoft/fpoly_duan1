@@ -242,14 +242,10 @@ public class Main extends javax.swing.JFrame {
 
         //Check USER Login
         try {
-            UserModel user = UserController.checkLogin();
-
-            if(user == null) { //Navigate to login
-                new Login().setVisible(true);
-                this.dispose();
-            }
+            UserController.checkLogin();
         }catch(Exception e) {
-
+            new Login().setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_formWindowOpened
 

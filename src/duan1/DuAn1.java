@@ -7,21 +7,12 @@ import java.util.ArrayList;
 
 import duan1.config.*;
 import duan1.models.*;
+import duan1.views.Main;
 import duan1.controllers.*;
 
 public class DuAn1 {
     public static void main(String[] args) {
-
-        //INIT
-        Database.init();
-
-        //Test login
-        try {
-            UserModel usr = UserController.checkLogin();
-            // UserController.login("phat@gmail.com", "12345");
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+        new Main().setVisible(true);
     }
     
 }

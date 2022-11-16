@@ -6,6 +6,7 @@ package duan1.views;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import duan1.config.*;
 
 /**
  *
@@ -21,7 +22,10 @@ public class Main extends javax.swing.JFrame {
         setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
         
+        //INIT DATABASE
+        Database.init();
 
+        
     }
     
     void closeAll(){

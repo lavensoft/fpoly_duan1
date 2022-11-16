@@ -21,7 +21,7 @@ public class Model_Menu {
     }
     
     public Icon toIcon(){
-        return new ImageIcon(getClass().getResource("/com/icon/"+icon+".png"));
+        return new ImageIcon(getClass().getResource("/duan1/assets/icons/"+icon+".png"));
     }
 
     public Model_Menu() {

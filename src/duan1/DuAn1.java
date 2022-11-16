@@ -8,17 +8,9 @@ import java.util.ArrayList;
 import duan1.config.*;
 import duan1.models.*;
 import duan1.controllers.*;
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import org.slf4j.LoggerFactory;
 
 public class DuAn1 {
     public static void main(String[] args) {
-        //DISABLE LOG MONGODB
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
-        rootLogger.setLevel(Level.ERROR);
 
         //INIT
         Database.init();

@@ -11,7 +11,7 @@ import java.util.prefs.BackingStoreException;
 import javax.swing.JOptionPane;
 
 import duan1.config.*;
-import duan1.controllers.UserController;
+import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
 
 /**

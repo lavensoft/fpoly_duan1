@@ -6,18 +6,18 @@ import duan1.config.Collections;
 
 public class UserDAO extends DAO<UserModel> {
     public UserDAO() {
-        super(Collections.USER);
+        super(Collections.USER, new UserModel());
     }
 
-    public void add(UserModel user) {
+    public void add(UserModel user) throws Exception {
         super.add(user);
     }
 
-    public ArrayList<UserModel> getAll(UserModel... user) throws InstantiationException, IllegalAccessException {
+    public ArrayList<UserModel> getAll(UserModel... user) throws Exception {
         return super.getAll(user);
     }
 
-    public UserModel get(UserModel user) throws InstantiationException, IllegalAccessException {
+    public UserModel get(UserModel user) throws Exception {
         return super.get(user);
     }
 }

@@ -13,44 +13,63 @@ import duan1.utils.Log;
 
 public class DAO<M extends IModel> {
     private MongoCollection<Document> collection = null;
+    private M type;
 
-    public DAO(String collection) {
+    public DAO(String collection, M type) {
         if(Database.getDatabase() == null) Database.init();
         this.collection = Database.getDatabase().getCollection(collection);
+        this.type = type;
     }
 
-    public void add(M model) {
-        collection.insertOne(model.toDocument());
-    }
+    public void add(M model) throws Exception {
+        try {
+            // Log.info("ADDING TO DB", type.getClass().getSimpleName());
 
-    public ArrayList<M> getAll(M... model) throws InstantiationException, IllegalAccessException {
-        ArrayList<M> docs = new ArrayList<M>();
-
-        Document findQuery = model.length > 0 ? (Document) model[0] : new Document();
-        MongoCursor<Document> documents = collection.find(findQuery).cursor();
-        
-        Log.info("A", DAO.class.getSimpleName());
-        
-        while(documents.hasNext()) {
-            M doc = (M) model.getClass().newInstance();
-            System.out.println("A");
-            doc.fromDocument(documents.next());
-            System.out.println("B");
-            docs.add(doc);
+            collection.insertOne(model.toDocument());
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
         }
-
-        return docs;
     }
 
-    public M get(M model) throws InstantiationException, IllegalAccessException {
-        Document document = collection.find(model.toDocument()).first();
+    public ArrayList<M> getAll(M... queries) throws InstantiationException, IllegalAccessException, Exception {
+        try {
+            // Log.info("GET ALL FROM DB", type.getClass().getSimpleName());
 
-        if(document == null) return null; //Not exists
-        
-        M modelData = (M) model.getClass().newInstance();
+            ArrayList<M> docs = new ArrayList<M>();
 
-        modelData.fromDocument(document);
+            Document findQuery = queries.length > 0 ? (Document) queries[0] : new Document();
+            MongoCursor<Document> documents = collection.find(findQuery).cursor();
+            
+            while(documents.hasNext()) {
+                M doc = (M) type.getClass().newInstance();
+                doc.fromDocument(documents.next());
+                docs.add(doc);
+            }
 
-        return modelData;
+            return docs;
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
+    }
+
+    public M get(M model) throws InstantiationException, IllegalAccessException, Exception {
+        try {
+            // Log.info("GET FROM DB", type.getClass().getSimpleName());
+
+            Document document = collection.find(model.toDocument()).first();
+
+            if(document == null) return null; //Not exists
+            
+            M modelData = (M) type.getClass().newInstance();
+
+            modelData.fromDocument(document);
+
+            return modelData;
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
     }
 }

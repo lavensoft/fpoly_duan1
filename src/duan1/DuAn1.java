@@ -15,17 +15,7 @@ import duan1.controllers.*;
 public class DuAn1 {
     public static void main(String[] args) {
         try {
-            ProductModel product = new ProductModel();
-            product.name = "iphone";
-
-            ProductController productController = new ProductController();
-            productController.add(product);
-
-            ArrayList<ProductModel> products = new ArrayList<>();
-            products = productController.getAll();
-
-            System.out.println(products.size());
-            System.out.println(products.get(0).toDocument());
+            
         }catch(Exception e) {
             Log.error(e);
         }

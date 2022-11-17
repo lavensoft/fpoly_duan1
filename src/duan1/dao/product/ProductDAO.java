@@ -8,18 +8,18 @@ import duan1.dao.DAO;
 
 public class ProductDAO extends DAO<ProductModel> {
     public ProductDAO() {
-        super(Collections.PRODUCT);
+        super(Collections.PRODUCT, new ProductModel());
     }
 
-    public void add(ProductModel product) {
+    public void add(ProductModel product) throws Exception {
         super.add(product);
     }
 
-    public ArrayList<ProductModel> getAll(ProductModel... product) throws InstantiationException, IllegalAccessException {
+    public ArrayList<ProductModel> getAll(ProductModel... product) throws Exception {
         return super.getAll(product);
     }
 
-    public ProductModel get(ProductModel product) throws InstantiationException, IllegalAccessException {
+    public ProductModel get(ProductModel product) throws Exception {
         return super.get(product);
     }
 }

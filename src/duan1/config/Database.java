@@ -16,16 +16,20 @@ public class Database {
     private static MongoDatabase mongodb;
 
     public static void init() {
-        //DISABLE LOG MONGODB
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
-        rootLogger.setLevel(Level.ERROR);
+        try {
+            //DISABLE LOG MONGODB
+            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
+            rootLogger.setLevel(Level.ERROR);
 
-        //CONNECT TO DATABASE
-        uri = new MongoClientURI("mongodb+srv://lavensoft:irUV9ikbAtcgdPQb@cluster0.51kmh.mongodb.net/duan1?retryWrites=true&w=majority");
-        client = new MongoClient(uri);
-        mongodb = client.getDatabase("duan1");
-        Log.success("[ DATABASE CONNECT SUCCESSFULLY ]", Database.class.getSimpleName());
+            //CONNECT TO DATABASE
+            uri = new MongoClientURI("mongodb+srv://lavensoft:irUV9ikbAtcgdPQb@cluster0.51kmh.mongodb.net/duan1?retryWrites=true&w=majority");
+            client = new MongoClient(uri);
+            mongodb = client.getDatabase("duan1");
+            Log.success("[ DATABASE CONNECT SUCCESSFULLY ]", Database.class.getSimpleName());
+        }catch(Exception e) {
+            Log.error(e);
+        }
     }
 
     public static MongoDatabase getDatabase() {

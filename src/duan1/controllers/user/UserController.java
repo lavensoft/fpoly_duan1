@@ -1,4 +1,4 @@
-package duan1.controllers;
+package duan1.controllers.user;
 
 import duan1.models.*;
 import duan1.models.user.UserModel;

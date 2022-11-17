@@ -1,4 +1,4 @@
-package duan1.controllers;
+package duan1.controllers.product;
 
 import duan1.models.product.ProductModel;
 import duan1.dao.product.ProductDAO;

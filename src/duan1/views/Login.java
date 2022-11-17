@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import duan1.controllers.*;
+import duan1.controllers.user.UserController;
 import duan1.models.*;
 import duan1.models.user.UserModel;
 import duan1.config.*;

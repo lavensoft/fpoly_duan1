@@ -23,7 +23,7 @@ public interface IModel {
     }
 
     public String _id = "";
-    public static MongoCollection<Document> collection = null;
+    public MongoCollection<Document> collection = null;
     
     public void fromDocument(Document document);
     public Document toDocument();

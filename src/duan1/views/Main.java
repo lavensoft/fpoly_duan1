@@ -19,6 +19,8 @@ import duan1.models.user.UserModel;
  * @author TAN PHAT
  */
 public class Main extends javax.swing.JFrame {
+    //*CONTROLLERS */
+    private UserController userController = new UserController();
 
     /**
      * Creates new form Main
@@ -242,7 +244,7 @@ public class Main extends javax.swing.JFrame {
 
         //Check USER Login
         try {
-            UserController.checkLogin();
+            userController.checkLogin();
         }catch(Exception e) {
             new Login().setVisible(true);
             this.dispose();

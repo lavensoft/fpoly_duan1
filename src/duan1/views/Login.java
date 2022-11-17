@@ -19,6 +19,8 @@ import java.awt.Color;
  * @author TAN PHAT
  */
 public class Login extends javax.swing.JFrame {
+    //* CONTROLLERS */
+    private UserController userController = new UserController();
 
     /**
      * Creates new form Login
@@ -160,7 +162,7 @@ public class Login extends javax.swing.JFrame {
         try {
             if(email.isEmpty() || password.isEmpty()) throw new Exception("FIELD_IS_NULL");
 
-            UserModel user = UserController.login(email, password);
+            UserModel user = userController.login(email, password);
 
             System.out.println(user.toDocument());
 
@@ -176,7 +178,7 @@ public class Login extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //*CHECK USER LOGIN */
         try {
-            UserModel user = UserController.checkLogin();
+            UserModel user = userController.checkLogin();
 
             if(user != null) {
                 new Main().setVisible(true);

@@ -19,7 +19,7 @@ public class ProductModel extends Document implements IModel {
     public ArrayList<String> dimensions = new ArrayList<String>();
     public String manufacturer = "";
 
-    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(IModel.Collections.PRODUCT.toString());
+    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(Collections.PRODUCT);
 
     @Override
     public void fromDocument(Document document) {

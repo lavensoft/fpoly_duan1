@@ -12,7 +12,12 @@ import duan1.controllers.*;
 
 public class DuAn1 {
     public static void main(String[] args) {
-        new Main().setVisible(true);
+        try {
+            UserController userController = new UserController();
+            userController.login("phat@gmail.com", "12345");
+        }catch(Exception e) {
+            System.out.println(e);
+        }
     }
     
 }

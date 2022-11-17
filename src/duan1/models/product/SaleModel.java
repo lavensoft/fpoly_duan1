@@ -18,7 +18,7 @@ public class SaleModel extends Document implements IModel {
     public Integer stocks;
     public String product = "";
 
-    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(IModel.Collections.PRODUCT_SALE.toString());
+    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(Collections.PRODUCT_SALE);
 
     @Override
     public void fromDocument(Document document) {

@@ -21,8 +21,6 @@ public class UserModel extends Document implements IModel {
     public String password = "";
     public String avatar = "";
 
-    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(IModel.Collections.USER.toString());
-
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();

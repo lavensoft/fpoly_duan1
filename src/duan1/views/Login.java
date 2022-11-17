@@ -31,8 +31,6 @@ public class Login extends javax.swing.JFrame {
         this.setTitle("Login");
         //OPACITY
         opacity();
-        //INIT DATABASE
-        Database.init();
     }
     void opacity(){
         txtUserName.setBackground(new Color(0,0,0,1));

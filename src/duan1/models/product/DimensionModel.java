@@ -17,7 +17,7 @@ public class DimensionModel extends Document implements IModel {
     public String dateCreated = "";
     public Integer stocks;
 
-    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(IModel.Collections.PRODUCT_DIMENSION.toString());
+    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(Collections.PRODUCT_DIMENSION);
 
     @Override
     public void fromDocument(Document document) {

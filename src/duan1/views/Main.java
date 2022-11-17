@@ -29,9 +29,6 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
-        
-        //INIT DATABASE
-        Database.init();
     }
     
     void closeAll(){

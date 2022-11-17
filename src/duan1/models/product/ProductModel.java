@@ -11,7 +11,7 @@ import org.bson.types.ObjectId;
 
 public class ProductModel extends Document implements IModel {
     public String _id = "";
-    public String title = "";
+    public String name = "";
     public String description = "";
     public String banner = "";
     public String dateCreated = "";
@@ -19,12 +19,10 @@ public class ProductModel extends Document implements IModel {
     public ArrayList<String> dimensions = new ArrayList<String>();
     public String manufacturer = "";
 
-    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(Collections.PRODUCT);
-
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
-        this.title = document.getString("title");
+        this.name = document.getString("name");
         this.description = document.getString("email");
         this.banner = document.getString("banner");
         this.dateCreated = document.getString("dateCreated");
@@ -36,7 +34,7 @@ public class ProductModel extends Document implements IModel {
     @Override
     public Document toDocument() {
         if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
-        if(!this.title.isEmpty()) put("title", this.title);
+        if(!this.name.isEmpty()) put("name", this.name);
         if(!this.description.isEmpty()) put("description", this.description);
         if(!this.banner.isEmpty()) put("banner", this.banner);
         if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);

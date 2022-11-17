@@ -2,7 +2,6 @@ package duan1.dao;
 
 import java.util.ArrayList;
 import duan1.models.user.UserModel;
-import duan1.abstracts.*;
 import duan1.config.Collections;
 
 public class UserDAO extends DAO<UserModel> {

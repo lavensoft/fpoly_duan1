@@ -6,6 +6,8 @@ import com.mongodb.client.MongoDatabase;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
+import duan1.utils.Log;
+
 import org.slf4j.LoggerFactory;
 
 public class Database {
@@ -23,7 +25,7 @@ public class Database {
         uri = new MongoClientURI("mongodb+srv://lavensoft:irUV9ikbAtcgdPQb@cluster0.51kmh.mongodb.net/duan1?retryWrites=true&w=majority");
         client = new MongoClient(uri);
         mongodb = client.getDatabase("duan1");
-        System.out.println("====== [ DATABASE CONNECT SUCCESSFULLY ] ======");
+        Log.success("[ DATABASE CONNECT SUCCESSFULLY ]", Database.class.getSimpleName());
     }
 
     public static MongoDatabase getDatabase() {

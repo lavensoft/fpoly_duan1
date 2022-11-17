@@ -1,4 +1,4 @@
-package duan1.abstracts;
+package duan1.dao;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ import com.mongodb.client.MongoCursor;
 
 import duan1.config.Database;
 import duan1.interfaces.*;
+import duan1.utils.Log;
 
 public class DAO<M extends IModel> {
     private MongoCollection<Document> collection = null;
@@ -27,10 +28,14 @@ public class DAO<M extends IModel> {
 
         Document findQuery = model.length > 0 ? (Document) model[0] : new Document();
         MongoCursor<Document> documents = collection.find(findQuery).cursor();
-
+        
+        Log.info("A", DAO.class.getSimpleName());
+        
         while(documents.hasNext()) {
             M doc = (M) model.getClass().newInstance();
+            System.out.println("A");
             doc.fromDocument(documents.next());
+            System.out.println("B");
             docs.add(doc);
         }
 

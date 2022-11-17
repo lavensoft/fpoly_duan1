@@ -14,8 +14,6 @@ public class ManufacturerModel extends Document implements IModel {
     public String logo = "";
     public String dateCreated = "";
 
-    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(Collections.PRODUCT_MANUFACTURER);
-
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();

@@ -1,6 +1,7 @@
 package duan1.controllers;
 
 import duan1.models.*;
+import duan1.models.user.UserModel;
 import duan1.dao.*;
 import duan1.utils.*;
 
@@ -39,10 +40,6 @@ public class UserController {
         userQuery.password = password;
 
         UserModel user = UserDAO.get(userQuery);
-
-        System.out.println("QUERY ---");
-
-        System.out.println("QUERY DATA -----");
 
         if(user == null) { //User not exists
             throw new Exception("USER_INVALID");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.bson.Document;
 import com.mongodb.client.*;
 import duan1.models.*;
+import duan1.models.user.UserModel;
 
 public class UserDAO {
     public static void add(UserModel user) {

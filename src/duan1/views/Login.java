@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import duan1.controllers.*;
 import duan1.models.*;
+import duan1.models.user.UserModel;
 import duan1.config.*;
 import java.awt.Color;
 

@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 import duan1.config.*;
 import duan1.controllers.UserController;
-import duan1.models.UserModel;
+import duan1.models.user.UserModel;
 
 /**
  *

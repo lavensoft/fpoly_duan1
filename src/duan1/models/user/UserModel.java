@@ -1,10 +1,13 @@
-package duan1.models;
+package duan1.models.user;
+
 import duan1.config.*;
+import duan1.interfaces.IModel;
+
 import org.bson.Document;
 import com.mongodb.client.*;
 import org.bson.types.ObjectId;
 
-public class UserModel extends Document {
+public class UserModel extends Document implements IModel {
     public String _id = "";
     public String name = "";
     public String email = "";
@@ -18,8 +21,9 @@ public class UserModel extends Document {
     public String password = "";
     public String avatar = "";
 
-    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(Config.Collections.USER);
+    public static MongoCollection<Document> collection = Database.getDatabase().getCollection(IModel.Collections.USER.toString());
 
+    @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
         this.name = document.getString("name");
@@ -35,6 +39,7 @@ public class UserModel extends Document {
         this.avatar = document.getString("avatar");
     }
 
+    @Override
     public Document toDocument() {
         if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
         if(!this.name.isEmpty()) put("name", this.name);

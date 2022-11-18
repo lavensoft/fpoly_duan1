@@ -8,6 +8,7 @@ import duan1.utils.*;
 import java.util.prefs.BackingStoreException;
 
 import org.bson.Document;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class UserController {
     private UserDAO userDAO = new UserDAO();
@@ -37,7 +38,7 @@ public class UserController {
     public UserModel login(String email, String password) throws Exception {
         UserModel userQuery = new UserModel();
         userQuery.email = email;
-        userQuery.password = password;
+        userQuery.password = DigestUtils.sha256Hex(password);
 
         UserModel user = userDAO.get(userQuery);
 

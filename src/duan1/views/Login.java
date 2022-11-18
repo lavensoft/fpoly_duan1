@@ -8,9 +8,9 @@ import java.util.EnumMap;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import duan1.controllers.*;
+
 import duan1.controllers.user.UserController;
-import duan1.models.*;
+
 import duan1.models.user.UserModel;
 import duan1.config.*;
 import java.awt.Color;
@@ -20,6 +20,7 @@ import java.awt.Color;
  * @author TAN PHAT
  */
 public class Login extends javax.swing.JFrame {
+
     //* CONTROLLERS */
     private UserController userController = new UserController();
 
@@ -33,9 +34,10 @@ public class Login extends javax.swing.JFrame {
         //OPACITY
         opacity();
     }
-    void opacity(){
-        txtUserName.setBackground(new Color(0,0,0,1));
-        TxtPass.setBackground(new Color(0,0,0,1));
+
+    void opacity() {
+        txtUserName.setBackground(new Color(0, 0, 0, 1));
+        TxtPass.setBackground(new Color(0, 0, 0, 1));
     }
 
     /**
@@ -159,17 +161,19 @@ public class Login extends javax.swing.JFrame {
         String password = TxtPass.getText();
 
         try {
-            if(email.isEmpty() || password.isEmpty()) throw new Exception("FIELD_IS_NULL");
+            if (email.isEmpty() || password.isEmpty()) {
+                throw new Exception("FIELD_IS_NULL");
+            }
 
             UserModel user = userController.login(email, password);
 
             System.out.println(user.toDocument());
 
-            if(user != null) {
+            if (user != null) {
                 new Main().setVisible(true);
                 this.dispose();
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -179,13 +183,13 @@ public class Login extends javax.swing.JFrame {
         try {
             UserModel user = userController.checkLogin();
 
-            if(user != null) {
+            if (user != null) {
                 new Main().setVisible(true);
                 this.setVisible(false);
                 this.dispose();
             }
         } catch (Exception e) {
-            
+
         }
     }//GEN-LAST:event_formWindowOpened
 

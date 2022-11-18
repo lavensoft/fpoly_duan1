@@ -31,6 +31,10 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Login");
+        
+        txtUserName.setText("phat@gmail.com");
+        TxtPass.setText("12345");
+
         //OPACITY
         opacity();
     }

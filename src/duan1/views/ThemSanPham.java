@@ -4,6 +4,12 @@
  */
 package duan1.views;
 
+import java.io.File;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author TAN PHAT
@@ -15,6 +21,7 @@ public class ThemSanPham extends javax.swing.JFrame {
      */
     public ThemSanPham() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -186,6 +193,13 @@ public class ThemSanPham extends javax.swing.JFrame {
 
     private void pnAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnAnhMouseClicked
         // TODO add your handling code here:
+        JFileChooser fileDialog = new JFileChooser();
+
+        fileDialog.showOpenDialog(fileDialog);
+
+        File selectedFile = fileDialog.getSelectedFile();
+
+        txtAnh.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));
     }//GEN-LAST:event_pnAnhMouseClicked
 
     /**

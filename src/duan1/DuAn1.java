@@ -15,13 +15,16 @@ import duan1.utils.HttpClient;
 import duan1.utils.Log;
 import duan1.views.Main;
 import duan1.controllers.*;
+import duan1.controllers.product.ProductController;
 
 public class DuAn1 {
     public static void main(String[] args) {
         try {
-            File file = new File("/Users/nhatsdevil/Pictures/LOC22945.png");
+            ProductModel product = new ProductModel();
+            product.name = "iPhone";
+            product.banner = "/Users/nhatsdevil/Pictures/LOC22945.png";
 
-            HttpClient.uploadFile(file);
+            new ProductController().add(product);
         }catch(Exception e) {
             Log.error(e);
         }

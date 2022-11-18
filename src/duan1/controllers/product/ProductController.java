@@ -1,14 +1,21 @@
 package duan1.controllers.product;
 
 import duan1.models.product.ProductModel;
+import duan1.utils.HttpClient;
 import duan1.dao.product.ProductDAO;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ProductController {
     private ProductDAO productDAO = new ProductDAO();
 
     public void add(ProductModel product) throws Exception {
+        //Upload image
+        String imageUrl = HttpClient.uploadFile(new File(product.banner));
+        product.banner = imageUrl;
+
+        //Add product
         productDAO.add(product);
     }
 

@@ -1,8 +1,8 @@
 package duan1.controllers.user;
 
-import duan1.models.*;
 import duan1.models.user.UserModel;
 import duan1.dao.*;
+import duan1.dao.user.UserDAO;
 import duan1.utils.*;
 
 import java.util.prefs.BackingStoreException;

@@ -1,8 +1,9 @@
-package duan1.dao;
+package duan1.dao.user;
 
 import java.util.ArrayList;
 import duan1.models.user.UserModel;
 import duan1.config.Collections;
+import duan1.dao.DAO;
 
 public class UserDAO extends DAO<UserModel> {
     public UserDAO() {

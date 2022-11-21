@@ -7,35 +7,47 @@ package duan1.views;
 import duan1.components.Cards;
 import duan1.controllers.product.ProductController;
 import duan1.models.product.ProductModel;
+import duan1.utils.SocketIO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+import io.socket.emitter.Emitter.Listener;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.swing.JPanel;
 import javax.swing.plaf.ColorUIResource;
+
+import org.bson.Document;
 
 /**
  *
  * @author TAN PHAT
  */
 public class SanPham extends javax.swing.JPanel {
-
-    /**
-     * Creates new form SanPham
-     */
+    private Socket socket;
     private ProductController controller = new ProductController();
     private ArrayList<ProductModel> arrProduct = new ArrayList<>();
     public ArrayList<JPanel> arr = new ArrayList<>();
-    public SanPham() {
+
+    public SanPham(Socket socket) {
+        this.socket = socket;
+
         initComponents();
         setOpaque(false);
         load();
-        card();
-        
+        drawCard();
+        initSocket();
     }
     
-    void card(){
+    void drawCard(){
         PanelCard.setLayout(new GridLayout(3, 4, 50, 15));
         PanelCard.setSize(775, 455);
+
+        arr.clear();
+        PanelCard.removeAll();
         
         for(int i=0;i<arrProduct.size();i++){
             ProductModel data = arrProduct.get(i);
@@ -57,9 +69,30 @@ public class SanPham extends javax.swing.JPanel {
     void load(){
         try {
             arrProduct = controller.getAll();
-            System.out.println(arrProduct.get(0).name);
+            Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
         }
+    }
+
+    //*SOCKET HANDLERS */
+    void initSocket() {
+        socket.on("/products/add", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                //Update data
+                ProductModel product = new ProductModel();
+
+                Document data = new Document();
+                data = data.parse((String) args[0]);
+                
+                product.fromDocument(data);
+
+                arrProduct.add(0, product);
+
+                //Rerender Card
+                drawCard();
+            }
+        });
     }
 
     /**
@@ -237,7 +270,7 @@ public class SanPham extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        new ThemSanPham().setVisible(true);
+        new ThemSanPham(socket).setVisible(true);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed

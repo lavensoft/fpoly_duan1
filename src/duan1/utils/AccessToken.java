@@ -1,6 +1,7 @@
 package duan1.utils;
 
-import duan1.models.*;
+
+import duan1.models.user.UserModel;
 import duan1.config.*;
 import com.auth0.jwt.algorithms.*;
 import com.auth0.jwt.interfaces.DecodedJWT;

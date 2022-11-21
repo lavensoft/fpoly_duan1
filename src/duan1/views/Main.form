@@ -22,9 +22,9 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="com.panel.SanPham" name="sanPham2">
+    <Component class="duan1.views.SanPham" name="sanPham2">
     </Component>
-    <Container class="com.panel.KhachHang" name="khachHang1">
+    <Container class="duan1.views.KhachHang" name="khachHang1">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -39,14 +39,14 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="com.panel.SanPham" name="sanPham3">
+    <Component class="duan1.views.SanPham" name="sanPham3">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
     </Component>
-    <Container class="com.ui.PanelBoder" name="panelBoder3">
+    <Container class="duan1.components.PanelBoder" name="panelBoder3">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -61,7 +61,7 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Container class="com.ui.PanelBoder" name="panelBoder2">
+    <Container class="duan1.components.PanelBoder" name="panelBoder2">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="false"/>
@@ -74,7 +74,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.ui.Menu" name="menu1">
+        <Component class="duan1.components.Menu" name="menu1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="270" y="-10" width="-1" height="580"/>
@@ -115,7 +115,7 @@
     <Property name="useNullLayout" type="boolean" value="false"/>
   </Layout>
   <SubComponents>
-    <Container class="com.ui.PanelBoder" name="panelBoder5">
+    <Container class="duan1.components.PanelBoder" name="panelBoder5">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="a0" green="a0" red="a0" type="rgb"/>
@@ -265,35 +265,35 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.ui.Menu" name="menu3">
+        <Component class="duan1.components.Menu" name="menu3">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.panel.SanPham" name="PnSanPham">
+        <Component class="duan1.views.SanPham" name="PnSanPham">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="250" y="0" width="830" height="720"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.panel.NhanVien" name="PnNhanVien">
+        <Component class="duan1.views.NhanVien" name="PnNhanVien">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="250" y="0" width="830" height="720"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.panel.KhuyenMai" name="PnKhuyenMai">
+        <Component class="duan1.views.KhuyenMai" name="PnKhuyenMai">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="250" y="0" width="830" height="720"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.panel.KhachHang" name="PnKhachHang">
+        <Component class="duan1.views.KhachHang" name="PnKhachHang">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="250" y="0" width="830" height="720"/>

@@ -1,17 +1,19 @@
-package duan1.controllers;
+package duan1.controllers.user;
 
-import duan1.models.*;
+import duan1.models.user.UserModel;
 import duan1.dao.*;
+import duan1.dao.user.UserDAO;
 import duan1.utils.*;
 
 import java.util.prefs.BackingStoreException;
 
 import org.bson.Document;
-
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class UserController {
-    public static UserModel checkLogin() throws Exception {
+    private UserDAO userDAO = new UserDAO();
+
+    public UserModel checkLogin() throws Exception {
         UserModel user = new UserModel();
 
         String jwt = LocalStorage.get("@jwt");
@@ -23,7 +25,7 @@ public class UserController {
             Document jwtPayload = AccessToken.verify(jwt);
             user._id = jwtPayload.getString("uid");
 
-            user = UserDAO.get(user);
+            user = userDAO.get(user);
 
             if(user == null) throw new Exception("USER_NOT_FOUND");
 
@@ -33,12 +35,12 @@ public class UserController {
         }
     }
 
-    public static UserModel login(String email, String password) throws Exception {
+    public UserModel login(String email, String password) throws Exception {
         UserModel userQuery = new UserModel();
         userQuery.email = email;
-        userQuery.password = password;
+        userQuery.password = DigestUtils.sha256Hex(password);
 
-        UserModel user = UserDAO.get(userQuery);
+        UserModel user = userDAO.get(userQuery);
 
         if(user == null) { //User not exists
             throw new Exception("USER_INVALID");

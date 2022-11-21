@@ -5,6 +5,8 @@
 package duan1.views;
 
 import duan1.components.Cards;
+import duan1.controllers.product.ProductController;
+import duan1.models.product.ProductModel;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -20,22 +22,27 @@ public class SanPham extends javax.swing.JPanel {
     /**
      * Creates new form SanPham
      */
+    private ProductController controller = new ProductController();
+    private ArrayList<ProductModel> arrProduct = new ArrayList<>();
     public ArrayList<JPanel> arr = new ArrayList<>();
     public SanPham() {
         initComponents();
         setOpaque(false);
+        load();
         card();
+        
     }
     
     void card(){
         PanelCard.setLayout(new GridLayout(3, 4, 50, 15));
         PanelCard.setSize(775, 455);
         
-        for(int i=0;i<12;i++){
+        for(int i=0;i<arrProduct.size();i++){
+            ProductModel data = arrProduct.get(i);
             Cards card = new Cards();
-            card.setImg("D:\\IT17303\\22FALL\\DuAn1\\Duan1\\src\\com\\icon\\flag.png");
-            card.setName("Product Name");
-            card.setPrice(12000000.0);
+            card.setImg(data.banner);
+            card.setName(data.name);
+            card.setPrice(0.0);
             arr.add(card);           
     }
         for(JPanel pn:arr){
@@ -43,6 +50,15 @@ public class SanPham extends javax.swing.JPanel {
             pn.setBackground(new Color(217,217,217));
             PanelCard.add(pn);
             
+        }
+    }
+    
+    
+    void load(){
+        try {
+            arrProduct = controller.getAll();
+            System.out.println(arrProduct.get(0).name);
+        } catch (Exception e) {
         }
     }
 

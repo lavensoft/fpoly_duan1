@@ -4,11 +4,23 @@
  */
 package duan1.views;
 
+import java.io.File;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+import duan1.controllers.product.ProductController;
+import duan1.models.product.ProductModel;
+
 /**
  *
  * @author TAN PHAT
  */
 public class ThemSanPham extends javax.swing.JFrame {
+    private File productImage;
+    private ProductController productController = new ProductController();
 
     /**
      * Creates new form ThemSanPham
@@ -140,6 +152,11 @@ public class ThemSanPham extends javax.swing.JFrame {
         });
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
         panelBoder1.setLayout(panelBoder1Layout);
@@ -183,13 +200,37 @@ public class ThemSanPham extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            ProductModel product = new ProductModel();
+            product.name = txtTenSanPham.getText();
+            product.banner = productImage.getAbsolutePath();
+            product.description = txtDesc.getText();
+
+            productController.add(product);
+
+           JOptionPane.showMessageDialog(rootPane, "Đã thêm thành công!");
+            this.dispose();
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void pnAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnAnhMouseClicked
         // TODO add your handling code here:
+        JFileChooser fileDialog = new JFileChooser();
+
+        fileDialog.showOpenDialog(fileDialog);
+
+        productImage = fileDialog.getSelectedFile();
+
+        txtAnh.setText(productImage.getName());
+        
+        // txtAnh.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));
     }//GEN-LAST:event_pnAnhMouseClicked
 
     /**

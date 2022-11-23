@@ -5,6 +5,7 @@ import duan1.dao.*;
 import duan1.dao.user.UserDAO;
 import duan1.utils.*;
 
+import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 
 import org.bson.Document;
@@ -61,5 +62,13 @@ public class UserController {
 
         //Clear temp user data
         AccessToken.clear();
+    }
+
+    public ArrayList<UserModel> getAll(UserModel... queries) throws Exception {
+        return userDAO.getAll(queries);
+    }
+
+    public UserModel get(UserModel query) throws Exception {
+        return userDAO.get(query);
     }
 }

@@ -57,7 +57,11 @@
             "libs/json-20090211.jar",
             "libs/okhttp-3.12.12.jar",
             "libs/okio-1.15.0.jar",
-            "libs/socket.io-client-2.1.0.jar"
+            "libs/socket.io-client-2.1.0.jar",
+            "libs/netbeans/**/*.jar",
+            "libs/miglayout-4.0.jar",
+            "libs/TimingFramework-0.55.jar",
+            "libs/ui-dashboard-010.jar"
         ],
         "exclude": [
             "libs/json-20160810.jar"

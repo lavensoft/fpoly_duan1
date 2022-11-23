@@ -33,8 +33,10 @@ public class SanPham extends javax.swing.JPanel {
         
     }
     
+
+    
     void card(){
-        PanelCard.setLayout(new GridLayout(3, 4, 50, 15));
+        PanelCard.setLayout(new GridLayout(rows(), 4, 50, 15));
         PanelCard.setSize(775, 455);
         
         for(int i=0;i<arrProduct.size();i++){
@@ -59,6 +61,16 @@ public class SanPham extends javax.swing.JPanel {
             arrProduct = controller.getAll();
             System.out.println(arrProduct.get(0).name);
         } catch (Exception e) {
+        }
+    }
+    
+    int rows(){
+        int row = arrProduct.size() /4;
+        if(row %2==0){
+            return row;
+        }
+        else{
+            return row+1;
         }
     }
 

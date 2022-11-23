@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 
 import duan1.controllers.product.ProductController;
 import duan1.models.product.ProductModel;
+import duan1.utils.SocketIO;
+import io.socket.client.Socket;
 
 /**
  *
@@ -21,17 +23,17 @@ import duan1.models.product.ProductModel;
 public class ThemSanPham extends javax.swing.JFrame {
     private File productImage;
     private ProductController productController = new ProductController();
+    private Socket socket;
 
     /**
      * Creates new form ThemSanPham
      */
-    public ThemSanPham() {
+    public ThemSanPham(Socket socket) {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        this.socket = socket;
     }
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -207,9 +209,14 @@ public class ThemSanPham extends javax.swing.JFrame {
             product.banner = productImage.getAbsolutePath();
             product.description = txtDesc.getText();
 
+            //*Add to DB */
             productController.add(product);
 
-           JOptionPane.showMessageDialog(rootPane, "Đã thêm thành công!");
+            //*Emit to Socket
+            socket.emit("/products/add", product.toJson());
+
+            this.dispose();
+        //    JOptionPane.showMessageDialog(rootPane, "Đã thêm thành công!");
             this.dispose();
         }catch(Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -261,11 +268,11 @@ public class ThemSanPham extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ThemSanPham().setVisible(true);
-            }
-        });
+        // java.awt.EventQueue.invokeLater(new Runnable() {
+        //     public void run() {
+        //         new ThemSanPham().setVisible(true);
+        //     }
+        // });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

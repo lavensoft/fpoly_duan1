@@ -13,12 +13,17 @@ import javax.swing.JOptionPane;
 import duan1.config.*;
 import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
+import duan1.utils.SocketIO;
+import io.socket.client.Socket;
 
 /**
  *
  * @author TAN PHAT
  */
 public class Main extends javax.swing.JFrame {
+    SocketIO io = new SocketIO();
+    Socket socket = io.socket;
+    
     //*CONTROLLERS */
     private UserController userController = new UserController();
 
@@ -50,9 +55,9 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        sanPham2 = new duan1.views.SanPham();
+        sanPham2 = new duan1.views.SanPham(socket);
         khachHang1 = new duan1.views.KhachHang();
-        sanPham3 = new duan1.views.SanPham();
+        sanPham3 = new duan1.views.SanPham(socket);
         jLabel1 = new javax.swing.JLabel();
         panelBoder3 = new duan1.components.PanelBoder();
         panelBoder2 = new duan1.components.PanelBoder();
@@ -68,7 +73,7 @@ public class Main extends javax.swing.JFrame {
         lblKhachHang = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         menu3 = new duan1.components.Menu();
-        PnSanPham = new duan1.views.SanPham();
+        PnSanPham = new duan1.views.SanPham(socket);
         PnNhanVien = new duan1.views.NhanVien();
         PnKhuyenMai = new duan1.views.KhuyenMai();
         PnKhachHang = new duan1.views.KhachHang();

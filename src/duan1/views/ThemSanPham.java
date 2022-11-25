@@ -154,11 +154,6 @@ public class ThemSanPham extends javax.swing.JFrame {
         });
 
         btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
         panelBoder1.setLayout(panelBoder1Layout);
@@ -202,7 +197,7 @@ public class ThemSanPham extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {                                         
         try {
             ProductModel product = new ProductModel();
             product.name = txtTenSanPham.getText();
@@ -218,10 +213,11 @@ public class ThemSanPham extends javax.swing.JFrame {
             this.dispose();
         //    JOptionPane.showMessageDialog(rootPane, "Đã thêm thành công!");
             this.dispose();
+            
         }catch(Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }                                        
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();

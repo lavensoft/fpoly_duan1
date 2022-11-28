@@ -7,7 +7,13 @@ package duan1.components;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 /**
@@ -25,16 +31,56 @@ public class Cards extends javax.swing.JPanel {
     }
 
     public void setImg(String imageurl) {
-        ImageIcon icon = new ImageIcon(imageurl);
+        try {
 
-        ImgLable.setIcon(icon);
+            URL urls = new URL(imageurl);
+//
+//            ImageIcon icon = new ImageIcon(urls);
+
+            ImgLable.setIcon(ImageProduct(urls));
+        } catch (Exception ex) {
+            Logger.getLogger(Cards.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
+//    public BufferedImage crop(BufferedImage src) {
+//        BufferedImage dest = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
+//        Graphics g = dest.getGraphics();
+//        g.drawImage(src, 0, 0, getWidth(), getHeight(), getX(), getY(),getX() + getWidth(), getY() + getHeight(), null);
+//        g.dispose();
+//        return dest;
+//    }
+//    private Image createImageWithText(String src, int x, int y) {
+//        BufferedImage bufferedImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+//        Graphics g = bufferedImage.getGraphics();
+//
+//        g.drawString(src, x, y);
+//
+//        return bufferedImage;
+//    }
+//    private String bu (String src){
+//        BufferedImage buf = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
+//        Graphics g = buf.getGraphics();
+//        
+//         g.drawString(src, 20, 20);
+//        return buf.toString() ;
+//    }
+    ImageIcon ImageProduct(URL src) {
+        ImageIcon imacon = new ImageIcon(src);
+        Image dadimage = imacon.getImage();
+        Image modifiedDabImage = dadimage.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+        imacon = new ImageIcon(modifiedDabImage);
+        
+        return imacon;
+    }
+    
+    
 
     public void setName(String name) {
         ProductTitle.setText(name);
     }
-    
-    public void setPrice(Double price){
+
+    public void setPrice(Double price) {
         ProductPrice.setText(price.toString());
     }
 
@@ -101,7 +147,7 @@ public class Cards extends javax.swing.JPanel {
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         // TODO add your handling code here:
-        this.setBackground(new Color(64,64,64));
+        this.setBackground(new Color(64, 64, 64));
     }//GEN-LAST:event_formMouseEntered
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
@@ -110,7 +156,7 @@ public class Cards extends javax.swing.JPanel {
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         // TODO add your handling code here:
-        this.setBackground(new Color(217,217,217));
+        this.setBackground(new Color(217, 217, 217));
     }//GEN-LAST:event_formMouseExited
 
 

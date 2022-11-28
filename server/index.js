@@ -1,7 +1,7 @@
 const http = require('http');
 
 //*HTTP SERVER
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 9004;
 let ip = process.env.IP || 'localhost';
 
 const server = http.createServer().listen(port, ip, function(){

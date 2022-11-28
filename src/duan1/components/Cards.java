@@ -56,7 +56,7 @@ public class Cards extends javax.swing.JPanel {
     ImageIcon ImageProduct(URL src) {
         ImageIcon imacon = new ImageIcon(src);
         Image dadimage = imacon.getImage();
-        Image modifiedDabImage = dadimage.getScaledInstance(170, 150, java.awt.Image.SCALE_SMOOTH);
+        Image modifiedDabImage = dadimage.getScaledInstance(161, 150, java.awt.Image.SCALE_SMOOTH);
         imacon = new ImageIcon(modifiedDabImage);
         
         return imacon;

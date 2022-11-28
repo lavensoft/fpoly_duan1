@@ -56,8 +56,12 @@ public class SanPham extends javax.swing.JPanel {
         System.out.println("DRAW");
         arr.clear();
         PanelCard.removeAll();
+
+        System.out.println(_loadDimensions);
         
         if(!_loadDimensions) { //PRIMARY
+            System.out.println("PRIMARY");
+            System.out.println(arrProduct.size());
             arrProduct.forEach(data -> {
                 Cards card = new Cards();
                 card.setImg(data.banner);
@@ -140,6 +144,8 @@ public class SanPham extends javax.swing.JPanel {
             public void call(Object... args) {
                 //Update data
                 ProductModel product = new ProductModel();
+
+                System.out.println("SOCKETIO");
 
                 Document data = new Document();
                 data = data.parse((String) args[0]);

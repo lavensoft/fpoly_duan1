@@ -10,7 +10,7 @@ import io.socket.engineio.client.transports.WebSocket;
 import io.socket.client.Socket;
 
 public class SocketIO {
-    private URI uri = URI.create("http://localhost:8080");
+    private URI uri = URI.create("https://server.duan1.lavenes.com");
     public Socket socket = IO.socket(uri);
 
     public SocketIO() {

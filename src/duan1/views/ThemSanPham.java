@@ -11,7 +11,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import duan1.controllers.product.DimensionController;
 import duan1.controllers.product.ProductController;
+import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
 import duan1.utils.SocketIO;
 import io.socket.client.Socket;
@@ -23,16 +25,20 @@ import io.socket.client.Socket;
 public class ThemSanPham extends javax.swing.JFrame {
     private File productImage;
     private ProductController productController = new ProductController();
+    private DimensionController dimensionController = new DimensionController();
+
     private Socket socket;
+    private String _parentProduct = "";
 
     /**
      * Creates new form ThemSanPham
      */
-    public ThemSanPham(Socket socket) {
+    public ThemSanPham(Socket socket, String parentProduct) {
         initComponents();
         this.setLocationRelativeTo(null);
-
+        
         this.socket = socket;
+        this._parentProduct = parentProduct;
     }
 
     /**
@@ -154,6 +160,11 @@ public class ThemSanPham extends javax.swing.JFrame {
         });
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
         panelBoder1.setLayout(panelBoder1Layout);
@@ -199,20 +210,31 @@ public class ThemSanPham extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {                                         
         try {
-            ProductModel product = new ProductModel();
-            product.name = txtTenSanPham.getText();
-            product.banner = productImage.getAbsolutePath();
-            product.description = txtDesc.getText();
+            if(_parentProduct.isEmpty()) { //*PRIMARY PRODUCT */
+                ProductModel product = new ProductModel();
+                product.name = txtTenSanPham.getText();
+                product.banner = productImage.getAbsolutePath();
+                product.description = txtDesc.getText();
+    
+                //*Add to DB */
+                productController.add(product);
+    
+                //*Emit to Socket
+                socket.emit("/products/add", product.toJson());
+            }else{ //* DIMENSION PRODUCT */
+                DimensionModel dimension = new DimensionModel();
+                dimension.name = txtTenSanPham.getText();
+                dimension.banner = productImage.getAbsolutePath();
+                dimension.description = txtDesc.getText();
+                dimension.product = _parentProduct;
 
-            //*Add to DB */
-            productController.add(product);
+                dimensionController.add(dimension);
 
-            //*Emit to Socket
-            socket.emit("/products/add", product.toJson());
+                //!TODO: ADD SOCKET
+            }
 
             this.dispose();
         //    JOptionPane.showMessageDialog(rootPane, "Đã thêm thành công!");
-            this.dispose();
             
         }catch(Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());

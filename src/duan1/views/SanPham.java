@@ -5,7 +5,9 @@
 package duan1.views;
 
 import duan1.components.Cards;
+import duan1.controllers.product.DimensionController;
 import duan1.controllers.product.ProductController;
+import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
 import duan1.utils.SocketIO;
 import io.socket.client.Socket;
@@ -16,6 +18,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.function.Function;
 
 import javax.swing.JPanel;
 import javax.swing.plaf.ColorUIResource;
@@ -29,8 +32,12 @@ import org.bson.Document;
 public class SanPham extends javax.swing.JPanel {
     private Socket socket;
     private ProductController controller = new ProductController();
+    private DimensionController dimensionController = new DimensionController();
     private ArrayList<ProductModel> arrProduct = new ArrayList<>();
     public ArrayList<JPanel> arr = new ArrayList<>();
+    private ArrayList<DimensionModel> arrDimension = new ArrayList<>();
+    private boolean _loadDimensions = false;
+    private String _dimensionProduct = "";
 
     public SanPham(Socket socket) {
         this.socket = socket;
@@ -46,22 +53,63 @@ public class SanPham extends javax.swing.JPanel {
         PanelCard.setLayout(new GridLayout(rows(), 4, 50, 15));
         PanelCard.setSize(775, 455);
 
+        System.out.println("DRAW");
         arr.clear();
         PanelCard.removeAll();
         
-        for(int i=0;i<arrProduct.size();i++){
-            ProductModel data = arrProduct.get(i);
-            Cards card = new Cards();
-            card.setImg(data.banner);
-            card.setName(data.name);
-            card.setPrice(0.0);
-            arr.add(card);           
-    }
+        if(!_loadDimensions) { //PRIMARY
+            arrProduct.forEach(data -> {
+                Cards card = new Cards();
+                card.setImg(data.banner);
+                card.setName(data.name);
+                card.setPrice(0.0);
+                card.addContainerListener(null);
+    
+                Function<Integer, Void> onClick = e -> {
+                    _loadDimensions = true;
+                    _dimensionProduct = data._id;
+    
+                    DimensionModel query = new DimensionModel();
+                    query.product = data._id;
+    
+                    try {
+                        arrDimension = dimensionController.getAll(query);
+                    } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+    
+                    drawCard();
+                    return null;
+                };
+                
+                card.onClick(onClick);
+    
+                arr.add(card); 
+            });       
+        }else{//DIMENSION
+            arrDimension.forEach(data -> {
+                Cards card = new Cards();
+                card.setImg(data.banner);
+                card.setName(data.name);
+                card.setPrice(0.0);
+                card.addContainerListener(null);
+    
+                // Function<Integer, Void> onClick = e -> {
+                    
+                //     return null;
+                // };
+                
+                // card.onClick(onClick);
+    
+                arr.add(card); 
+            });         
+        }
+
         for(JPanel pn:arr){
             pn.setSize(150, 150);
             pn.setBackground(new Color(217,217,217));
             PanelCard.add(pn);
-            
         }
     }
     
@@ -281,7 +329,7 @@ public class SanPham extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        new ThemSanPham(socket).setVisible(true);
+        new ThemSanPham(socket, _dimensionProduct).setVisible(true);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed

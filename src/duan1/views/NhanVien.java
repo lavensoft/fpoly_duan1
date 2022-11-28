@@ -263,7 +263,7 @@ public class NhanVien extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        panelBoder1.add(panelBoder3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 790, 350));
+        panelBoder1.add(panelBoder3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 790, 350));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

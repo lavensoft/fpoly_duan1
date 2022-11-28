@@ -38,7 +38,6 @@ public class KhuyenMai extends javax.swing.JPanel {
         tblKhuyenMai = new javax.swing.JTable();
 
         panelBoder1.setBackground(new java.awt.Color(64, 64, 64));
-        panelBoder1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelBoder2.setBackground(new java.awt.Color(217, 217, 217));
 
@@ -52,8 +51,6 @@ public class KhuyenMai extends javax.swing.JPanel {
             panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 140, Short.MAX_VALUE)
         );
-
-        panelBoder1.add(panelBoder2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 600, 140));
 
         panelBoder4.setBackground(new java.awt.Color(217, 217, 217));
 
@@ -102,8 +99,6 @@ public class KhuyenMai extends javax.swing.JPanel {
                 .addGap(27, 27, 27))
         );
 
-        panelBoder1.add(panelBoder4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 20, -1, -1));
-
         panelBoder3.setBackground(new java.awt.Color(217, 217, 217));
 
         tblKhuyenMai.setBackground(new java.awt.Color(217, 217, 217));
@@ -137,7 +132,29 @@ public class KhuyenMai extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        panelBoder1.add(panelBoder3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 780, 440));
+        javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
+        panelBoder1.setLayout(panelBoder1Layout);
+        panelBoder1Layout.setHorizontalGroup(
+            panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBoder1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBoder1Layout.createSequentialGroup()
+                        .addComponent(panelBoder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(panelBoder4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelBoder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        panelBoder1Layout.setVerticalGroup(
+            panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBoder1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelBoder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelBoder4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60)
+                .addComponent(panelBoder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

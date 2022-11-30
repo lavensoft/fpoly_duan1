@@ -230,7 +230,8 @@ public class ThemSanPham extends javax.swing.JFrame {
 
                 dimensionController.add(dimension);
 
-                //!TODO: ADD SOCKET
+                //*Emit to Socket
+                socket.emit("/products/dimension/add", dimension.toJson());
             }
 
             this.dispose();

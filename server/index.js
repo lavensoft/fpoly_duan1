@@ -25,5 +25,10 @@ io.on('connection', socket => {
         socket.broadcast.emit('/products/add', data);
     })
 
+    socket.on('/products/dimension/add', data => {
+        socket.emit('/products/dimension/add', data);
+        socket.broadcast.emit('/products/dimension/add', data);
+    })
+
     socket.on('disconnect', () => { /* … */ });
 });

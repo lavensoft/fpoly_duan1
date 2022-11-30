@@ -12,6 +12,8 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -21,13 +23,21 @@ import javax.swing.ImageIcon;
  * @author TAN PHAT
  */
 public class Cards extends javax.swing.JPanel {
-
+    private Function<Integer, Void> _onClickFunc = null;
     /**
      * Creates new form Cards
      */
     public Cards() {
         initComponents();
         setOpaque(false);
+    }
+
+    public void onClick(Function<Integer, Void> func) {
+        this._onClickFunc = func;
+    }
+
+    public void _onClick() {
+        _onClickFunc.apply(0);
     }
 
     public void setImg(String imageurl) {
@@ -43,38 +53,14 @@ public class Cards extends javax.swing.JPanel {
         }
     }
 
-//    public BufferedImage crop(BufferedImage src) {
-//        BufferedImage dest = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
-//        Graphics g = dest.getGraphics();
-//        g.drawImage(src, 0, 0, getWidth(), getHeight(), getX(), getY(),getX() + getWidth(), getY() + getHeight(), null);
-//        g.dispose();
-//        return dest;
-//    }
-//    private Image createImageWithText(String src, int x, int y) {
-//        BufferedImage bufferedImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
-//        Graphics g = bufferedImage.getGraphics();
-//
-//        g.drawString(src, x, y);
-//
-//        return bufferedImage;
-//    }
-//    private String bu (String src){
-//        BufferedImage buf = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
-//        Graphics g = buf.getGraphics();
-//        
-//         g.drawString(src, 20, 20);
-//        return buf.toString() ;
-//    }
     ImageIcon ImageProduct(URL src) {
         ImageIcon imacon = new ImageIcon(src);
         Image dadimage = imacon.getImage();
-        Image modifiedDabImage = dadimage.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+        Image modifiedDabImage = dadimage.getScaledInstance(161, 150, java.awt.Image.SCALE_SMOOTH);
         imacon = new ImageIcon(modifiedDabImage);
         
         return imacon;
     }
-    
-    
 
     public void setName(String name) {
         ProductTitle.setText(name);
@@ -126,20 +112,20 @@ public class Cards extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ImgLable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ProductTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(ProductPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ProductPrice, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ProductTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(ImgLable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ImgLable, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ImgLable, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ProductTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ProductPrice)
                 .addContainerGap())
         );
@@ -151,7 +137,7 @@ public class Cards extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseEntered
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        // TODO add your handling code here:
+        _onClick();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited

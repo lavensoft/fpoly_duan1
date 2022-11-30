@@ -4,6 +4,15 @@
  */
 package duan1.views;
 
+import duan1.controllers.product.ProductController;
+import duan1.controllers.user.UserController;
+import duan1.models.product.ProductModel;
+import duan1.models.user.UserModel;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author TAN PHAT
@@ -13,8 +22,34 @@ public class NhanVien extends javax.swing.JPanel {
     /**
      * Creates new form NhanVien
      */
+     private UserController controller = new UserController();
+     private ArrayList<UserModel> arrUser = new ArrayList<>();
+     private DefaultTableModel model = new DefaultTableModel();
     public NhanVien() {
         initComponents();
+        load();
+    }
+    
+    void load(){
+         try {
+             arrUser = controller.getAll();
+             model = (DefaultTableModel) tblNhanVien.getModel();
+             model.setRowCount(0);  
+             for(UserModel pm : arrUser){
+                 model.addRow(new Object[]{                   
+                     pm.name,
+                     pm.password,
+                     pm.email,
+                     pm.cccd,
+                     pm.joinDate,
+                     pm.salary,
+                     pm.permission
+                 });
+             }
+             
+         } catch (Exception ex) {
+             Logger.getLogger(NhanVien.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
 
     /**
@@ -200,13 +235,13 @@ public class NhanVien extends javax.swing.JPanel {
         tblNhanVien.setBackground(new java.awt.Color(217, 217, 217));
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tên", "Mật khẩu", "Cccd", "Ngày gia nhập", "Lương", "Vị trí"
             }
         ));
         jScrollPane2.setViewportView(tblNhanVien);
@@ -228,7 +263,7 @@ public class NhanVien extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        panelBoder1.add(panelBoder3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 790, 350));
+        panelBoder1.add(panelBoder3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 790, 350));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

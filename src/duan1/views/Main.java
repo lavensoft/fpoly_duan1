@@ -55,9 +55,9 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        sanPham2 = new duan1.views.SanPham(socket);
+        // sanPham2 = new duan1.views.SanPham(socket);
         khachHang1 = new duan1.views.KhachHang();
-        sanPham3 = new duan1.views.SanPham(socket);
+        // sanPham3 = new duan1.views.SanPham(socket);
         jLabel1 = new javax.swing.JLabel();
         panelBoder3 = new duan1.components.PanelBoder();
         panelBoder2 = new duan1.components.PanelBoder();

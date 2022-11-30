@@ -26,7 +26,7 @@ public class Database {
             uri = new MongoClientURI("mongodb+srv://lavensoft:irUV9ikbAtcgdPQb@cluster0.51kmh.mongodb.net/duan1?retryWrites=true&w=majority");
             client = new MongoClient(uri);
             mongodb = client.getDatabase("duan1");
-            Log.success("[ DATABASE CONNECT SUCCESSFULLY ]", Database.class.getSimpleName());
+            Log.success("[ DATABASE CONNECT SUCCESSFULLY ]", Database.class.getName());
         }catch(Exception e) {
             Log.error(e);
         }

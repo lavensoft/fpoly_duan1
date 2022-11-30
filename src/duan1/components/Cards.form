@@ -21,23 +21,23 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="ImgLable" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="ProductTitle" pref="130" max="32767" attributes="0"/>
-                  <Component id="ProductPrice" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="ProductPrice" alignment="1" min="-2" pref="130" max="-2" attributes="0"/>
+                  <Component id="ProductTitle" alignment="1" min="-2" pref="130" max="-2" attributes="0"/>
               </Group>
           </Group>
+          <Component id="ImgLable" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="ImgLable" min="-2" pref="75" max="-2" attributes="0"/>
+              <Component id="ImgLable" min="-2" pref="130" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="ProductTitle" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="ProductPrice" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

@@ -40,7 +40,7 @@ public class Main extends javax.swing.JFrame {
         PnKhachHang.setVisible(false);
         PnKhuyenMai.setVisible(false);
         PnNhanVien.setVisible(false);
-//        PnSanPham.setVisible(false);
+        PnSanPham.setVisible(false);
         PnHoaDon.setVisible(false);
     }
     
@@ -54,7 +54,7 @@ public class Main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        PnSanPham = new duan1.views.SanPham();
         jPanel1 = new javax.swing.JPanel();
         khachHang1 = new duan1.views.KhachHang();
         jLabel1 = new javax.swing.JLabel();
@@ -76,6 +76,8 @@ public class Main extends javax.swing.JFrame {
         PnNhanVien = new duan1.views.NhanVien();
         PnKhuyenMai = new duan1.views.KhuyenMai();
         PnKhachHang = new duan1.views.KhachHang();
+
+        PnSanPham.setSocket(socket);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -204,6 +206,7 @@ public class Main extends javax.swing.JFrame {
         panelBoder5.add(PnNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
         panelBoder5.add(PnKhuyenMai, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
         panelBoder5.add(PnKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
+        panelBoder5.add(PnSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
 
         getContentPane().add(panelBoder5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 720));
 
@@ -302,6 +305,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private duan1.views.HoaDon PnHoaDon;
     private duan1.views.KhachHang PnKhachHang;
+    private duan1.views.SanPham PnSanPham;
     private duan1.views.KhuyenMai PnKhuyenMai;
     private duan1.views.NhanVien PnNhanVien;
     private javax.swing.JLabel jLabel1;

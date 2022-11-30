@@ -43,13 +43,16 @@ public class SanPham extends javax.swing.JPanel {
     private boolean _loadDimensions = false;
     private String _dimensionProduct = "";
 
-    public SanPham(Socket socket) {
-        this.socket = socket;
-
+    public SanPham() {
         initComponents();
         setOpaque(false);
         load();
         drawCard();
+    }
+
+    void setSocket(Socket socket) {
+        this.socket = socket;
+        
         initSocket();
     }
     

@@ -93,7 +93,7 @@ public class SanPham extends javax.swing.JPanel {
                 card.onClick(onClick);
 
                 //Render to UI
-                card.setSize(new Dimension(150, 150));
+                card.setSize(new Dimension(150, 200));
                 card.setBackground(new Color(217, 217, 217));
                 PanelCard.add(card);
             });       
@@ -113,7 +113,6 @@ public class SanPham extends javax.swing.JPanel {
                 // card.onClick(onClick);
 
                 //Render to UI
-                card.setSize(150, 150);
                 card.setBackground(new Color(217, 217, 217));
                 PanelCard.add(card);
             });         
@@ -123,15 +122,15 @@ public class SanPham extends javax.swing.JPanel {
     }
     
     
-    int rows(){
-        int row = arrProduct.size() /4;
-        if(row %2==0){
-            return row;
-        }
-        else{
-            return row+1;
-        }
-    }
+    // int rows(){
+    //     int row = arrProduct.size() /4;
+    //     if(row %2==0){
+    //         return row;
+    //     }
+    //     else{
+    //         return row+1;
+    //     }
+    // }
     
     
     void load(){

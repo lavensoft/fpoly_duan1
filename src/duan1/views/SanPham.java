@@ -22,10 +22,8 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.function.Function;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
-import javax.swing.event.MouseInputAdapter;
 import javax.swing.plaf.ColorUIResource;
 
 import org.bson.Document;
@@ -34,23 +32,6 @@ import org.bson.Document;
  *
  * @author TAN PHAT
  */
-
-class PopClickListener extends MouseInputAdapter {
-    public void mousePressed(MouseEvent e) {
-        if (e.isPopupTrigger())
-            doPop(e);
-    }
-
-    public void mouseReleased(MouseEvent e) {
-        if (e.isPopupTrigger())
-            doPop(e);
-    }
-
-    private void doPop(MouseEvent e) {
-        // ContextM menu = new PopUpDemo();
-        // menu.show(e.getComponent(), e.getX(), e.getY());
-    }
-}
 
 public class SanPham extends javax.swing.JPanel {
     private Socket socket;
@@ -89,8 +70,9 @@ public class SanPham extends javax.swing.JPanel {
                 card.setName(data.name);
                 card.setPrice(0.0);
                 card.addContainerListener(null);
-    
-                Function<Integer, Void> onClick = e -> {
+                
+                //CARD CLICK
+                card.onClick(e -> {
                     _loadDimensions = true;
                     _dimensionProduct = data._id;
 
@@ -108,9 +90,19 @@ public class SanPham extends javax.swing.JPanel {
     
                     drawCard();
                     return null;
-                };
-                
-                card.onClick(onClick);
+                });
+
+                //CARD EDIT
+                card.onEdit(e -> {
+                    System.out.println("EDIT");
+                    return null;
+                });
+
+                //CARD DELETE
+                card.onDelete(e -> {
+                    System.out.println("DELETE");
+                    return null;
+                });
 
                 //Render to UI
                 card.setSize(new Dimension(150, 200));

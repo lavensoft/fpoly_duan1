@@ -40,7 +40,8 @@ public class Main extends javax.swing.JFrame {
         PnKhachHang.setVisible(false);
         PnKhuyenMai.setVisible(false);
         PnNhanVien.setVisible(false);
-        PnSanPham.setVisible(false);
+//        PnSanPham.setVisible(false);
+        PnHoaDon.setVisible(false);
     }
     
     
@@ -55,9 +56,7 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        // sanPham2 = new duan1.views.SanPham(socket);
         khachHang1 = new duan1.views.KhachHang();
-        // sanPham3 = new duan1.views.SanPham(socket);
         jLabel1 = new javax.swing.JLabel();
         panelBoder3 = new duan1.components.PanelBoder();
         panelBoder2 = new duan1.components.PanelBoder();
@@ -73,7 +72,7 @@ public class Main extends javax.swing.JFrame {
         lblKhachHang = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         menu3 = new duan1.components.Menu();
-        PnSanPham = new duan1.views.SanPham(socket);
+        PnHoaDon = new duan1.views.HoaDon();
         PnNhanVien = new duan1.views.NhanVien();
         PnKhuyenMai = new duan1.views.KhuyenMai();
         PnKhachHang = new duan1.views.KhachHang();
@@ -136,6 +135,11 @@ public class Main extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Hóa Đơn");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         panelBoder5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 240, 30));
 
         lblSanPham.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -196,7 +200,7 @@ public class Main extends javax.swing.JFrame {
         panelBoder5.add(lblKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 530, 240, 30));
         panelBoder5.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 250, 10));
         panelBoder5.add(menu3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-        panelBoder5.add(PnSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
+        panelBoder5.add(PnHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, -1, -1));
         panelBoder5.add(PnNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
         panelBoder5.add(PnKhuyenMai, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
         panelBoder5.add(PnKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
@@ -253,6 +257,12 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        closeAll();
+        PnHoaDon.setVisible(true);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
     
     /**
      * @param args the command line arguments
@@ -290,10 +300,10 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private duan1.views.HoaDon PnHoaDon;
     private duan1.views.KhachHang PnKhachHang;
     private duan1.views.KhuyenMai PnKhuyenMai;
     private duan1.views.NhanVien PnNhanVien;
-    private duan1.views.SanPham PnSanPham;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -311,7 +321,5 @@ public class Main extends javax.swing.JFrame {
     private duan1.components.PanelBoder panelBoder2;
     private duan1.components.PanelBoder panelBoder3;
     private duan1.components.PanelBoder panelBoder5;
-    private duan1.views.SanPham sanPham2;
-    private duan1.views.SanPham sanPham3;
     // End of variables declaration//GEN-END:variables
 }

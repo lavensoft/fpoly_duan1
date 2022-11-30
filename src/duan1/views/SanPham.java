@@ -9,6 +9,7 @@ import duan1.controllers.product.DimensionController;
 import duan1.controllers.product.ProductController;
 import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
+import duan1.utils.Log;
 import duan1.utils.SocketIO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -34,7 +35,7 @@ public class SanPham extends javax.swing.JPanel {
     private ProductController controller = new ProductController();
     private DimensionController dimensionController = new DimensionController();
     private ArrayList<ProductModel> arrProduct = new ArrayList<>();
-    public ArrayList<JPanel> arr = new ArrayList<>();
+    // public ArrayList<JPanel> arr = new ArrayList<>();
     private ArrayList<DimensionModel> arrDimension = new ArrayList<>();
     private boolean _loadDimensions = false;
     private String _dimensionProduct = "";
@@ -53,15 +54,12 @@ public class SanPham extends javax.swing.JPanel {
         PanelCard.setLayout(new GridLayout(rows(), 4, 50, 15));
         PanelCard.setSize(775, 455);
 
-        System.out.println("DRAW");
-        arr.clear();
-        PanelCard.removeAll();
+        Log.info("RENDERING PRODUCT CARDS...", SanPham.class.getName());
 
-        System.out.println(_loadDimensions);
+        //Clear exsits cards
+        PanelCard.removeAll();
         
         if(!_loadDimensions) { //PRIMARY
-            System.out.println("PRIMARY");
-            System.out.println(arrProduct.size());
             arrProduct.forEach(data -> {
                 Cards card = new Cards();
                 card.setImg(data.banner);
@@ -72,6 +70,8 @@ public class SanPham extends javax.swing.JPanel {
                 Function<Integer, Void> onClick = e -> {
                     _loadDimensions = true;
                     _dimensionProduct = data._id;
+
+                    Log.info("CLICKED ON PRODUCT: " + data._id, SanPham.class.getName());
     
                     DimensionModel query = new DimensionModel();
                     query.product = data._id;
@@ -88,8 +88,11 @@ public class SanPham extends javax.swing.JPanel {
                 };
                 
                 card.onClick(onClick);
-    
-                arr.add(card); 
+
+                //Render to UI
+                card.setSize(150, 150);
+                card.setBackground(new Color(217, 217, 217));
+                PanelCard.add(card);
             });       
         }else{//DIMENSION
             arrDimension.forEach(data -> {
@@ -105,16 +108,15 @@ public class SanPham extends javax.swing.JPanel {
                 // };
                 
                 // card.onClick(onClick);
-    
-                arr.add(card); 
+
+                //Render to UI
+                card.setSize(150, 150);
+                card.setBackground(new Color(217, 217, 217));
+                PanelCard.add(card);
             });         
         }
 
-        for(JPanel pn:arr){
-            pn.setSize(150, 150);
-            pn.setBackground(new Color(217,217,217));
-            PanelCard.add(pn);
-        }
+        Log.success("RENDERING PRODUCT CARDS SUCCESSFULLY", SanPham.class.getName());
     }
     
     

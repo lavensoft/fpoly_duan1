@@ -134,13 +134,24 @@ public class SanPham extends javax.swing.JPanel {
                 card.setName(data.name);
                 card.setPrice(0.0);
                 card.addContainerListener(null);
-    
-                // Function<Integer, Void> onClick = e -> {
+
+                //CARD DELETE
+                card.onDelete(e -> {
+                    DimensionModel query = new DimensionModel();
+                    query._id = data._id;
+
+                    try {
+                        dimensionController.delete(query);
+
+                        //Redraw UI
+                        PanelCard.remove(card);
+                        PanelCard.revalidate(); //Redraw component
+                    } catch (Exception err) {
+                        Log.error(err);
+                    }
                     
-                //     return null;
-                // };
-                
-                // card.onClick(onClick);
+                    return null;
+                });
 
                 //Render to UI
                 card.setBackground(new Color(217, 217, 217));

@@ -16,6 +16,7 @@ public class DimensionDAO extends DAO<DimensionModel> {
     }
 
     public ArrayList<DimensionModel> getAll(DimensionModel... dimension) throws Exception {
+        if(dimension.length > 0) dimension[0].toDocument();
         return super.getAll(dimension);
     }
 

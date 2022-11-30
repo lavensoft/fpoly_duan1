@@ -19,6 +19,7 @@ public class DimensionController {
     }
 
     public ArrayList<DimensionModel> getAll(DimensionModel... queries) throws Exception {
+        if(queries.length > 0) queries[0].toDocument();
         return dimensionDAO.getAll(queries);
     }
 

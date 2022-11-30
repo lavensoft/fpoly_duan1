@@ -11,11 +11,13 @@ import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
 import duan1.utils.Log;
 import duan1.utils.SocketIO;
+import duan1.utils.WrapLayout;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import io.socket.emitter.Emitter.Listener;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +53,8 @@ public class SanPham extends javax.swing.JPanel {
     }
     
     void drawCard(){
-        PanelCard.setLayout(new GridLayout(rows(), 4, 50, 15));
+        // PanelCard.setLayout(new GridLayout(rows(), 4, 50, 15));
+        PanelCard.setLayout(new WrapLayout(0, 24, 24));
         PanelCard.setSize(775, 455);
 
         Log.info("RENDERING PRODUCT CARDS...", SanPham.class.getName());
@@ -90,7 +93,7 @@ public class SanPham extends javax.swing.JPanel {
                 card.onClick(onClick);
 
                 //Render to UI
-                card.setSize(150, 150);
+                card.setSize(new Dimension(150, 150));
                 card.setBackground(new Color(217, 217, 217));
                 PanelCard.add(card);
             });       

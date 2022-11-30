@@ -38,8 +38,6 @@ public class DAO<M extends IModel> {
 
             ArrayList<M> docs = new ArrayList<M>();
 
-            System.out.println(queries.length > 0 ? (Document) queries[0] : "");
-
             Document findQuery = queries.length > 0 ? (Document) queries[0] : new Document();
             MongoCursor<Document> documents = collection.find(findQuery).cursor();
             

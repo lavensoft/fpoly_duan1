@@ -15,12 +15,20 @@ public class DimensionDAO extends DAO<DimensionModel> {
         super.add(dimension);
     }
 
-    public ArrayList<DimensionModel> getAll(DimensionModel... dimension) throws Exception {
-        if(dimension.length > 0) dimension[0].toDocument();
-        return super.getAll(dimension);
+    public ArrayList<DimensionModel> getAll(DimensionModel... queries) throws Exception {
+        if(queries.length > 0) queries[0].toDocument();
+        return super.getAll(queries);
     }
 
-    public DimensionModel get(DimensionModel dimension) throws Exception {
-        return super.get(dimension);
+    public DimensionModel get(DimensionModel query) throws Exception {
+        return super.get(query);
+    }
+
+    public void delete(DimensionModel query) throws Exception {
+        super.delete(query);
+    }
+
+    public void deleteMany(DimensionModel query) throws Exception {
+        super.deleteMany(query);
     }
 }

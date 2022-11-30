@@ -77,9 +77,8 @@ class PopClickListener extends MouseInputAdapter {
 
 public class Cards extends javax.swing.JPanel {
     private Function<Integer, Void> _onClickFunc = null;
-    private Function<Integer, Void> _contextMenuEditEvent;
-    private Function<Integer, Void> _contextMenuDeleteEvent;
-    private PopClickListener _contextMenuEvent = new PopClickListener(_contextMenuEditEvent, _contextMenuDeleteEvent);
+    private Function<Integer, Void> contextMenuEditEvent;
+    private Function<Integer, Void> contextMenuDeleteEvent;
 
     /**
      * Creates new form Cards
@@ -87,16 +86,21 @@ public class Cards extends javax.swing.JPanel {
     public Cards() {
         initComponents();
         setOpaque(false);
+    }
 
-        this.addMouseListener(_contextMenuEvent);
+    private void addMouseListener() {
+        PopClickListener contextMenuEvent = new PopClickListener(contextMenuEditEvent, contextMenuDeleteEvent);
+        this.addMouseListener(contextMenuEvent);
     }
 
     public void onEdit(Function<Integer, Void> func) {
-        _contextMenuEditEvent = func;
+        contextMenuEditEvent = func;
+        addMouseListener();
     }
 
     public void onDelete(Function<Integer, Void> func) {
-        _contextMenuDeleteEvent = func;
+        contextMenuDeleteEvent = func;
+        addMouseListener();
     }
 
     public void onClick(Function<Integer, Void> func) {

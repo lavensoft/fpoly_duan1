@@ -72,4 +72,22 @@ public class DAO<M extends IModel> {
             throw e;
         }
     }
+
+    public void delete(M query) throws InstantiationException, IllegalAccessException, Exception {
+        try {
+            collection.deleteOne(query.toDocument());
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
+    }
+
+    public void deleteMany(M query) throws InstantiationException, IllegalAccessException, Exception {
+        try {
+            collection.deleteMany(query.toDocument());
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
+    }
 }

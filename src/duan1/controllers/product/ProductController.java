@@ -26,4 +26,12 @@ public class ProductController {
     public ProductModel get(ProductModel query) throws Exception {
         return productDAO.get(query);
     }
+
+    public void delete(ProductModel query) throws Exception {
+        productDAO.delete(query);
+    }
+
+    public void deleteMany(ProductModel query) throws Exception {
+        productDAO.deleteMany(query);
+    }
 }

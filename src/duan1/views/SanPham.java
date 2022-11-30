@@ -34,9 +34,12 @@ import org.bson.Document;
  */
 
 public class SanPham extends javax.swing.JPanel {
-    private Socket socket;
-    private ProductController controller = new ProductController();
+    //* CONTROLLERS */
+    private ProductController productController = new ProductController();
     private DimensionController dimensionController = new DimensionController();
+
+    //* VARIABLES */
+    private Socket socket;
     private ArrayList<ProductModel> arrProduct = new ArrayList<>();
     // public ArrayList<JPanel> arr = new ArrayList<>();
     private ArrayList<DimensionModel> arrDimension = new ArrayList<>();
@@ -52,7 +55,7 @@ public class SanPham extends javax.swing.JPanel {
 
     void setSocket(Socket socket) {
         this.socket = socket;
-        
+
         initSocket();
     }
     
@@ -86,12 +89,12 @@ public class SanPham extends javax.swing.JPanel {
     
                     try {
                         arrDimension = dimensionController.getAll(query);
-                    } catch (Exception e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
     
-                    drawCard();
+                        drawCard();
+                    } catch (Exception err) {
+                        Log.error(err);
+                    }
+
                     return null;
                 });
 
@@ -103,7 +106,19 @@ public class SanPham extends javax.swing.JPanel {
 
                 //CARD DELETE
                 card.onDelete(e -> {
-                    System.out.println("DELETE");
+                    ProductModel query = new ProductModel();
+                    query._id = data._id;
+
+                    try {
+                        productController.delete(query);
+
+                        //Redraw UI
+                        PanelCard.remove(card);
+                        PanelCard.revalidate(); //Redraw component
+                    } catch (Exception err) {
+                        Log.error(err);
+                    }
+                    
                     return null;
                 });
 
@@ -150,7 +165,7 @@ public class SanPham extends javax.swing.JPanel {
     
     void load(){
         try {
-            arrProduct = controller.getAll();
+            arrProduct = productController.getAll();
             Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
         }

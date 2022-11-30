@@ -22,8 +22,10 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.function.Function;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.plaf.ColorUIResource;
 
 import org.bson.Document;
@@ -32,6 +34,24 @@ import org.bson.Document;
  *
  * @author TAN PHAT
  */
+
+class PopClickListener extends MouseInputAdapter {
+    public void mousePressed(MouseEvent e) {
+        if (e.isPopupTrigger())
+            doPop(e);
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        if (e.isPopupTrigger())
+            doPop(e);
+    }
+
+    private void doPop(MouseEvent e) {
+        // ContextM menu = new PopUpDemo();
+        // menu.show(e.getComponent(), e.getX(), e.getY());
+    }
+}
+
 public class SanPham extends javax.swing.JPanel {
     private Socket socket;
     private ProductController controller = new ProductController();

@@ -22,8 +22,6 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="duan1.views.SanPham" name="sanPham2">
-    </Component>
     <Container class="duan1.views.KhachHang" name="khachHang1">
 
       <Layout>
@@ -39,8 +37,6 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="duan1.views.SanPham" name="sanPham3">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
@@ -269,13 +265,6 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="duan1.views.SanPham" name="PnSanPham">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="250" y="0" width="830" height="720"/>
             </Constraint>
           </Constraints>
         </Component>

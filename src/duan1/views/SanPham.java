@@ -149,14 +149,32 @@ public class SanPham extends javax.swing.JPanel {
                 //Update data
                 ProductModel product = new ProductModel();
 
-                System.out.println("SOCKETIO");
-
                 Document data = new Document();
                 data = data.parse((String) args[0]);
                 
                 product.fromDocument(data);
 
                 arrProduct.add(0, product);
+
+                //Rerender Card
+                drawCard();
+            }
+        });
+
+        socket.on("/products/dimension/add", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                //Update data
+                DimensionModel dimension = new DimensionModel();
+
+                Document data = new Document();
+                data = data.parse((String) args[0]);
+                
+                dimension.fromDocument(data);
+
+                arrDimension.add(0, dimension);
+
+                System.out.println(arrDimension.size());
 
                 //Rerender Card
                 drawCard();

@@ -5,6 +5,12 @@
 package duan1.views;
 
 import java.awt.CardLayout;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Color;
 import java.util.prefs.BackingStoreException;
 
@@ -13,6 +19,7 @@ import javax.swing.JOptionPane;
 import duan1.config.*;
 import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
+import duan1.utils.Log;
 import duan1.utils.SocketIO;
 import io.socket.client.Socket;
 
@@ -31,9 +38,25 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     public Main() {
+        initAssets();
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+    }
+
+    void initAssets() {
+        try {
+            InputStream ioniconStream = Main.class.getResourceAsStream("/duan1/assets/fonts/ionicons.ttf");
+            Font ioniconsFont = Font.createFont(Font.TRUETYPE_FONT, ioniconStream);
+            
+            Config.FONT_IONICONS = ioniconsFont.deriveFont(Font.PLAIN, 24f);
+
+            Log.success("[ ASSETS LOADED SUCCESSFULLY ]", Main.class.getName());
+        } catch (IOException e) {
+            Log.error(e);
+        } catch (FontFormatException e) {
+            Log.error(e);
+        }
     }
     
     void closeAll(){
@@ -43,8 +66,6 @@ public class Main extends javax.swing.JFrame {
         PnSanPham.setVisible(false);
         PnHoaDon.setVisible(false);
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -82,6 +82,93 @@ public class SanPham extends javax.swing.JPanel {
 
         initSocket();
     }
+
+    private Cards addCard(
+        String banner, 
+        String name, 
+        Double price) {
+        Cards card = new Cards();
+        card.setImg(banner);
+        card.setName(name);
+        card.setPrice(price);
+
+        return card;
+    }
+
+    Cards addProductCard(String _id, String banner, String name, Double price) {
+
+        Cards card = addCard(banner, name, 0.0);
+
+        card.onClick(e -> {
+            //* CLICK */
+            _loadDimensions = true;
+            _dimensionProduct = _id;
+
+            Log.info("CLICKED ON PRODUCT: " + _id, SanPham.class.getName());
+
+            DimensionModel query = new DimensionModel();
+            query.product = _id;
+
+            try {
+                arrDimension = dimensionController.getAll(query);
+
+                drawCard();
+            } catch (Exception err) {
+                Log.error(err);
+            }
+
+            return null;
+        });
+
+        card.onDelete(e -> {
+            ProductModel query = new ProductModel();
+            query._id = _id;
+
+            try {
+                productController.delete(query);
+
+                //Redraw UI
+                PanelCard.remove(card);
+                PanelCard.revalidate(); //Redraw component
+            } catch (Exception err) {
+                Log.error(err);
+            }
+            
+            return null;
+        });
+
+        //Render to UI
+        card.setSize(new Dimension(150, 200));
+        card.setBackground(new Color(217, 217, 217));
+        
+        return card;
+    }
+
+    Cards addDimensionCard(String _id, String banner, String name, Double price) {
+        Cards card = addCard(banner, name, price);
+
+        card.onDelete(e -> {
+            DimensionModel query = new DimensionModel();
+            query._id = _id;
+
+            try {
+                dimensionController.delete(query);
+
+                //Redraw UI
+                PanelCard.remove(card);
+                PanelCard.revalidate(); //Redraw component
+            } catch (Exception err) {
+                Log.error(err);
+            }
+        
+            return null;
+        });
+
+        //Render to UI
+        card.setBackground(new Color(217, 217, 217));
+
+        return card;
+    }
     
     void drawCard(){
         // PanelCard.setLayout(new GridLayout(rows(), 4, 50, 15));
@@ -96,90 +183,12 @@ public class SanPham extends javax.swing.JPanel {
         
         if(!_loadDimensions) { //PRIMARY
             arrProduct.forEach(data -> {
-                Cards card = new Cards();
-                card.setImg(data.banner);
-                card.setName(data.name);
-                card.setPrice(0.0);
-                card.addContainerListener(null);
-                
-                //CARD CLICK
-                card.onClick(e -> {
-                    _loadDimensions = true;
-                    _dimensionProduct = data._id;
-
-                    Log.info("CLICKED ON PRODUCT: " + data._id, SanPham.class.getName());
-    
-                    DimensionModel query = new DimensionModel();
-                    query.product = data._id;
-    
-                    try {
-                        arrDimension = dimensionController.getAll(query);
-    
-                        drawCard();
-                    } catch (Exception err) {
-                        Log.error(err);
-                    }
-
-                    return null;
-                });
-
-                //CARD EDIT
-                card.onEdit(e -> {
-                    System.out.println("EDIT");
-                    return null;
-                });
-
-                //CARD DELETE
-                card.onDelete(e -> {
-                    ProductModel query = new ProductModel();
-                    query._id = data._id;
-
-                    try {
-                        productController.delete(query);
-
-                        //Redraw UI
-                        PanelCard.remove(card);
-                        PanelCard.revalidate(); //Redraw component
-                    } catch (Exception err) {
-                        Log.error(err);
-                    }
-                    
-                    return null;
-                });
-
-                //Render to UI
-                card.setSize(new Dimension(150, 200));
-                card.setBackground(new Color(217, 217, 217));
+                Cards card = addProductCard(data._id, data.banner, data.name, 0.0);
                 PanelCard.add(card);
             });       
         }else{//DIMENSION
             arrDimension.forEach(data -> {
-                Cards card = new Cards();
-                card.setImg(data.banner);
-                card.setName(data.name);
-                card.setPrice(0.0);
-                card.addContainerListener(null);
-
-                //CARD DELETE
-                card.onDelete(e -> {
-                    DimensionModel query = new DimensionModel();
-                    query._id = data._id;
-
-                    try {
-                        dimensionController.delete(query);
-
-                        //Redraw UI
-                        PanelCard.remove(card);
-                        PanelCard.revalidate(); //Redraw component
-                    } catch (Exception err) {
-                        Log.error(err);
-                    }
-                    
-                    return null;
-                });
-
-                //Render to UI
-                card.setBackground(new Color(217, 217, 217));
+                Cards card = addDimensionCard(data._id, data.banner, data.name, 0.0);
                 PanelCard.add(card);
             });         
         }
@@ -222,8 +231,11 @@ public class SanPham extends javax.swing.JPanel {
 
                 arrProduct.add(0, product);
 
-                //Rerender Card
-                drawCard();
+                //Render card
+                Cards card = addProductCard(product._id, product.banner, product.name, 0.0);
+
+                PanelCard.add(card, 0);
+                PanelCard.revalidate();
             }
         });
 
@@ -240,10 +252,11 @@ public class SanPham extends javax.swing.JPanel {
 
                 arrDimension.add(0, dimension);
 
-                System.out.println(arrDimension.size());
-
-                //Rerender Card
-                drawCard();
+                //Render card
+                Cards card = addProductCard(dimension._id, dimension.banner, dimension.name, 0.0);
+                
+                PanelCard.add(card, 0);
+                PanelCard.revalidate();
             }
         });
     }

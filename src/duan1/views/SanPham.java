@@ -274,7 +274,8 @@ public class SanPham extends javax.swing.JPanel {
         menu1 = new duan1.components.Menu();
         panelBoder1 = new duan1.components.PanelBoder();
         panelBoder3 = new duan1.components.PanelBoder();
-        btnThem = new javax.swing.JButton();
+        headerBar = new duan1.components.HeaderBar();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         PanelCard = new duan1.components.PanelBoder();
 
@@ -296,10 +297,10 @@ public class SanPham extends javax.swing.JPanel {
 
         panelBoder3.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnThem.setText("T");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -307,17 +308,21 @@ public class SanPham extends javax.swing.JPanel {
         panelBoder3.setLayout(panelBoder3Layout);
         panelBoder3Layout.setHorizontalGroup(
             panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder3Layout.createSequentialGroup()
-                .addContainerGap(741, Short.MAX_VALUE)
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+            .addGroup(panelBoder3Layout.createSequentialGroup()
+                .addComponent(headerBar, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         panelBoder3Layout.setVerticalGroup(
             panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBoder3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(headerBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(panelBoder3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelBoder1.add(panelBoder3, java.awt.BorderLayout.PAGE_START);
@@ -328,7 +333,7 @@ public class SanPham extends javax.swing.JPanel {
         PanelCard.setLayout(PanelCardLayout);
         PanelCardLayout.setHorizontalGroup(
             PanelCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 816, Short.MAX_VALUE)
+            .addGap(0, 886, Short.MAX_VALUE)
         );
         PanelCardLayout.setVerticalGroup(
             PanelCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,15 +356,15 @@ public class SanPham extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         new ThemSanPham(socket, _dimensionProduct).setVisible(true);
-    }//GEN-LAST:event_btnThemActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private duan1.components.PanelBoder PanelCard;
-    private javax.swing.JButton btnThem;
+    private duan1.components.HeaderBar headerBar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private duan1.components.Menu menu1;

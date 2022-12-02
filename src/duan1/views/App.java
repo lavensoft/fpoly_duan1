@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.swing.JButton;
+import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 import duan1.config.Config;
 import duan1.controllers.user.UserController;
@@ -72,12 +75,12 @@ public class App extends javax.swing.JFrame {
 
     private void initAssets() {
         try {
-            InputStream ioniconStream = Main.class.getResourceAsStream("/duan1/assets/fonts/ionicons.ttf");
+            InputStream ioniconStream = App.class.getResourceAsStream("/duan1/assets/fonts/ionicons.ttf");
             Font ioniconsFont = Font.createFont(Font.TRUETYPE_FONT, ioniconStream);
             
             Config.FONT_IONICONS = ioniconsFont.deriveFont(Font.PLAIN, 24f);
 
-            Log.success("[ ASSETS LOADED SUCCESSFULLY ]", Main.class.getName());
+            Log.success("[ ASSETS LOADED SUCCESSFULLY ]", App.class.getName());
         } catch (IOException | FontFormatException e) {
             Log.error(e);
         } 
@@ -127,21 +130,28 @@ public class App extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+
+            Log.success("[ UI LOADED SUCCESSFULLY ]", Main.class.getName());
+        }catch(Exception e) {
+            Log.error(e);
         }
+        // try {
+        //     for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+        //         if ("Nimbus".equals(info.getName())) {
+        //             javax.swing.UIManager.setLookAndFeel(info.getClassName());
+        //             break;
+        //         }
+        //     }
+        // } catch (ClassNotFoundException ex) {
+        //     java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // } catch (InstantiationException ex) {
+        //     java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // } catch (IllegalAccessException ex) {
+        //     java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        //     java.util.logging.Logger.getLogger(App.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // }
         //</editor-fold>
 
         /* Create and display the form */

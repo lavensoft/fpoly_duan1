@@ -8,12 +8,15 @@ import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
 import duan1.utils.WrapLayout;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import java.awt.FlowLayout;
 
 /**
  *
@@ -34,15 +37,33 @@ public class HoaDon extends javax.swing.JPanel {
     }
 
     private void reinit() {
-        billTotalPanel.setLayout(new WrapLayout());
-        billTotalPanel.add(new JLabel("Test"));
-        billTotalPanel.add(new JLabel("Test"));
-        billTotalPanel.add(new JLabel("Test"));
-        billTotalPanel.add(new JLabel("Test"));
-        billTotalPanel.add(new JLabel("Test"));
+        billTotalPanel.setLayout(new WrapLayout(0, 24, 24));
     }
 
-    public void loadTable() {
+    private void loadTotalBill() {
+        billProducts.forEach(data -> {
+            JPanel row = new JPanel();
+            row.setLayout(new FlowLayout());
+            // row.setSize(500, 250);
+            row.setBackground(new Color(255, 255, 0));
+
+            JPanel productNameContainer = new JPanel();
+
+            Double price = 0.0;
+
+            if(data.price != null) price = data.price;
+    
+            productNameContainer.add(new JLabel(data.name));
+            row.add(productNameContainer);
+            row.add(new JLabel(price.toString() + " đ"));
+
+            billTotalPanel.add(row);
+        });
+
+        billTotalPanel.revalidate();
+    }
+
+    private void loadTable() {
         model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
         billProducts.forEach(data -> {
@@ -54,6 +75,7 @@ public class HoaDon extends javax.swing.JPanel {
         billProducts.add(dimension);
         
         loadTable();
+        loadTotalBill();
     }
 
     /**

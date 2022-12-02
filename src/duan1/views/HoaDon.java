@@ -4,6 +4,12 @@
  */
 package duan1.views;
 
+import duan1.models.product.ProductModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author TAN PHAT
@@ -13,10 +19,28 @@ public class HoaDon extends javax.swing.JPanel {
     /**
      * Creates new form HoaDon
      */
+    DefaultTableModel model = new DefaultTableModel();
+
     public HoaDon() {
         initComponents();
         setOpaque(false);
+        ThemHoaDonSanPham them = new ThemHoaDonSanPham();
+        
+        
+        
     }
+
+    public void getObject(ArrayList<ProductModel> arr) {
+        model = (DefaultTableModel) tblSanPham.getModel();
+        model.setRowCount(0);
+        arr.forEach(data -> {
+            model.addRow(new Object[]{data.name});
+        });
+    }
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,7 +55,7 @@ public class HoaDon extends javax.swing.JPanel {
         panelBoder1 = new duan1.components.PanelBoder();
         panelBoder2 = new duan1.components.PanelBoder();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSanPham = new javax.swing.JTable();
         panelBoder3 = new duan1.components.PanelBoder();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -48,7 +72,7 @@ public class HoaDon extends javax.swing.JPanel {
         panelBoder2.setBackground(new java.awt.Color(153, 153, 153));
         panelBoder2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -56,10 +80,10 @@ public class HoaDon extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tên Sản Phẩm", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblSanPham);
 
         javax.swing.GroupLayout panelBoder2Layout = new javax.swing.GroupLayout(panelBoder2);
         panelBoder2.setLayout(panelBoder2Layout);
@@ -194,7 +218,7 @@ public class HoaDon extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         new ThemHoaDonSanPham().setVisible(true);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -211,10 +235,10 @@ public class HoaDon extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private duan1.components.Menu menu1;
     private duan1.components.PanelBoder panelBoder1;
     private duan1.components.PanelBoder panelBoder2;
     private duan1.components.PanelBoder panelBoder3;
+    private javax.swing.JTable tblSanPham;
     // End of variables declaration//GEN-END:variables
 }

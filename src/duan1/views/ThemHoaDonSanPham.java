@@ -8,8 +8,15 @@ import duan1.components.Cards;
 import duan1.controllers.product.ProductController;
 import duan1.models.product.ProductModel;
 import duan1.utils.WrapLayout;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.w3c.dom.css.RGBColor;
 
 /**
  *
@@ -20,34 +27,51 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     /**
      * Creates new form ThemHoaDonSanPham
      */
-     ProductController controller  = new ProductController();
+    ProductController controller = new ProductController();
     ArrayList<ProductModel> arrProduct = new ArrayList<>();
+    ProductModel model = new ProductModel();
+    int index = 0;
+
     public ThemHoaDonSanPham() {
         initComponents();
+        this.setLocationRelativeTo(null);
         load();
         drawcard();
+
     }
-    
-     void load(){
+
+    void load() {
         try {
             arrProduct = controller.getAll();
             Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
         }
     }
-    
-    void drawcard(){
+
+    void drawcard() {
         PanelCard.setLayout(new WrapLayout());
         PanelCard.removeAll();
-        
+
         arrProduct.forEach(data -> {
             Cards card = new Cards();
             card.setImg(data.banner);
             card.setName(data.name);
             card.setPrice(0.0);
             PanelCard.add(card);
-            
+
+            card.onClick(e -> {
+                ProductModel model = new ProductModel();
+                txtSanPham.setText(data.name);
+                return null;
+
+            });
+
         });
+
+    }
+
+    void opacity() {
+        txtSanPham.setBackground(new Color(0, 0, 0, 1));
     }
 
     /**
@@ -60,6 +84,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private void initComponents() {
 
         panelBoder1 = new duan1.components.PanelBoder();
+        jTextField5 = new javax.swing.JTextField();
         panelBoder4 = new duan1.components.PanelBoder();
         jScrollPane2 = new javax.swing.JScrollPane();
         PanelCard = new duan1.components.PanelBoder();
@@ -74,7 +99,16 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        txtSanPham = new javax.swing.JTextField();
+        txtKichThuocManHinh = new javax.swing.JTextField();
+        txtRam = new javax.swing.JTextField();
+        txtRom = new javax.swing.JTextField();
+        txtPin = new javax.swing.JTextField();
+        txtGia = new javax.swing.JTextField();
+        txtCamera = new javax.swing.JTextField();
+        txtSim = new javax.swing.JTextField();
+        btnThoat = new javax.swing.JButton();
 
         panelBoder1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -90,6 +124,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         javax.swing.GroupLayout PanelCardLayout = new javax.swing.GroupLayout(PanelCard);
         PanelCard.setLayout(PanelCardLayout);
@@ -126,7 +161,24 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
         jLabel9.setText("Sim");
 
-        jButton1.setText("Thoát");
+        btnThem.setText("Them");
+        btnThem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemMouseClicked(evt);
+            }
+        });
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
+
+        btnThoat.setText("Thoát");
+        btnThoat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThoatActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBoder2Layout = new javax.swing.GroupLayout(panelBoder2);
         panelBoder2.setLayout(panelBoder2Layout);
@@ -152,12 +204,27 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 48, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtKichThuocManHinh, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtRam, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtRom, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPin, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtGia, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCamera, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSim, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelBoder2Layout.createSequentialGroup()
+                                .addGap(150, 150, 150)
+                                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 37, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder2Layout.createSequentialGroup()
+                    .addContainerGap(288, Short.MAX_VALUE)
+                    .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(22, 22, 22)))
         );
         panelBoder2Layout.setVerticalGroup(
             panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,24 +234,45 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtKichThuocManHinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCamera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(btnThem)
+                .addGap(24, 24, 24))
+            .addGroup(panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder2Layout.createSequentialGroup()
+                    .addContainerGap(672, Short.MAX_VALUE)
+                    .addComponent(btnThoat)
+                    .addGap(23, 23, 23)))
         );
 
         javax.swing.GroupLayout panelBoder4Layout = new javax.swing.GroupLayout(panelBoder4);
@@ -215,6 +303,28 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        try {
+            // TODO add your handling code here:
+
+            model.name = txtSanPham.getText();
+            controller.add(model);
+        } catch (Exception ex) {
+            Logger.getLogger(ThemHoaDonSanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        S
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnThoatActionPerformed
+
+    private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnThemMouseClicked
 
     /**
      * @param args the command line arguments
@@ -253,7 +363,8 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private duan1.components.PanelBoder PanelCard;
-    private javax.swing.JButton jButton1;
+    public javax.swing.JButton btnThem;
+    private javax.swing.JButton btnThoat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -265,8 +376,18 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTextField5;
     private duan1.components.PanelBoder panelBoder1;
     private duan1.components.PanelBoder panelBoder2;
     private duan1.components.PanelBoder panelBoder4;
+    private javax.swing.JTextField txtCamera;
+    private javax.swing.JTextField txtGia;
+    private javax.swing.JTextField txtKichThuocManHinh;
+    private javax.swing.JTextField txtPin;
+    private javax.swing.JTextField txtRam;
+    private javax.swing.JTextField txtRom;
+    private javax.swing.JTextField txtSanPham;
+    private javax.swing.JTextField txtSim;
     // End of variables declaration//GEN-END:variables
+
 }

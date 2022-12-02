@@ -160,11 +160,6 @@ public class ThemSanPham extends javax.swing.JFrame {
         });
 
         btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
         panelBoder1.setLayout(panelBoder1Layout);

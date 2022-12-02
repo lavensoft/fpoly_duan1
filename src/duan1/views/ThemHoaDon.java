@@ -26,19 +26,65 @@ public class ThemHoaDon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        panelBoder1 = new duan1.components.PanelBoder();
+        jButton1 = new javax.swing.JButton();
+        scrollView = new javax.swing.JScrollPane();
+        panelBoder2 = new duan1.components.PanelBoder();
+        detailCard1 = new duan1.components.DetailCard();
+
+        setPreferredSize(new java.awt.Dimension(802, 690));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setText("Them");
+
+        javax.swing.GroupLayout panelBoder2Layout = new javax.swing.GroupLayout(panelBoder2);
+        panelBoder2.setLayout(panelBoder2Layout);
+        panelBoder2Layout.setHorizontalGroup(
+            panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBoder2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(detailCard1, javax.swing.GroupLayout.PREFERRED_SIZE, 775, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        panelBoder2Layout.setVerticalGroup(
+            panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBoder2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(detailCard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(555, Short.MAX_VALUE))
         );
+
+        scrollView.setViewportView(panelBoder2);
+
+        javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
+        panelBoder1.setLayout(panelBoder1Layout);
+        panelBoder1Layout.setHorizontalGroup(
+            panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(16, 16, 16))
+            .addComponent(scrollView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+        );
+        panelBoder1Layout.setVerticalGroup(
+            panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBoder1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(scrollView, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        add(panelBoder1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 690));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private duan1.components.DetailCard detailCard1;
+    private javax.swing.JButton jButton1;
+    private duan1.components.PanelBoder panelBoder1;
+    private duan1.components.PanelBoder panelBoder2;
+    private javax.swing.JScrollPane scrollView;
     // End of variables declaration//GEN-END:variables
 }

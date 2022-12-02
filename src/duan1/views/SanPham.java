@@ -71,10 +71,10 @@ public class SanPham extends javax.swing.JPanel {
         PanelCard.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(200, 10, 10, 10), new EtchedBorder()));
 
         //Set button icon
-        Font btnFont = Config.FONT_IONICONS.deriveFont(15f);
+        // Font btnFont = Config.FONT_IONICONS.deriveFont(15f);
 
-        btnThem.setFont(btnFont);
-        btnThem.setText("\uf102");
+        // btnThem.setFont(btnFont);
+        // btnThem.setText("\uf102");
     }
 
     void setSocket(Socket socket) {

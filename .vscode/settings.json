@@ -61,7 +61,8 @@
             "libs/netbeans/**/*.jar",
             "libs/miglayout-4.0.jar",
             "libs/TimingFramework-0.55.jar",
-            "libs/ui-dashboard-010.jar"
+            "libs/ui-dashboard-010.jar",
+            "libs/flatlaf-2.6.jar"
         ],
         "exclude": [
             "libs/json-20160810.jar"

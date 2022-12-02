@@ -4,6 +4,7 @@
  */
 package duan1.views;
 
+import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,10 +25,6 @@ public class HoaDon extends javax.swing.JPanel {
     public HoaDon() {
         initComponents();
         setOpaque(false);
-        ThemHoaDonSanPham them = new ThemHoaDonSanPham();
-        
-        
-        
     }
 
     public void getObject(ArrayList<ProductModel> arr) {
@@ -37,10 +34,11 @@ public class HoaDon extends javax.swing.JPanel {
             model.addRow(new Object[]{data.name});
         });
     }
-    
-    
-    
-    
+
+    public void addBillProduct(DimensionModel dimension) {
+        System.out.println("ADD PRODUCT");
+        System.out.println(dimension.toDocument());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -217,7 +215,9 @@ public class HoaDon extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        new ThemHoaDonSanPham().setVisible(true);
+        ThemHoaDonSanPham themHD = new ThemHoaDonSanPham();
+        themHD.setHoaDonContext(this);
+        themHD.setVisible(true);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

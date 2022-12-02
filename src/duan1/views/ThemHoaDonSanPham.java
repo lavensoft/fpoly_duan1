@@ -5,7 +5,9 @@
 package duan1.views;
 
 import duan1.components.Cards;
+import duan1.controllers.product.DimensionController;
 import duan1.controllers.product.ProductController;
+import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
 import duan1.utils.WrapLayout;
 import java.awt.Color;
@@ -27,17 +29,22 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     /**
      * Creates new form ThemHoaDonSanPham
      */
-    ProductController controller = new ProductController();
-    ArrayList<ProductModel> arrProduct = new ArrayList<>();
-    ProductModel model = new ProductModel();
+    DimensionController controller = new DimensionController();
+    ArrayList<DimensionModel> arrProduct = new ArrayList<>();
+    DimensionModel model = new DimensionModel();
     int index = 0;
+
+    private HoaDon hoaDonContext;
 
     public ThemHoaDonSanPham() {
         initComponents();
         this.setLocationRelativeTo(null);
         load();
         drawcard();
+    }
 
+    public void setHoaDonContext(HoaDon hoaDonContext) {
+        this.hoaDonContext = hoaDonContext;
     }
 
     void load() {
@@ -60,7 +67,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
             PanelCard.add(card);
 
             card.onClick(e -> {
-                ProductModel model = new ProductModel();
+                this.model = data;
                 txtSanPham.setText(data.name);
                 return null;
 
@@ -308,12 +315,13 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
 
-            model.name = txtSanPham.getText();
-            controller.add(model);
+            // model.name = txtSanPham.getText();
+            // controller.add(model);
+            System.out.println(model.toDocument());
+            hoaDonContext.addBillProduct(model);
         } catch (Exception ex) {
             Logger.getLogger(ThemHoaDonSanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
-        S
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed

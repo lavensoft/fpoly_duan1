@@ -35,7 +35,7 @@ public class DimensionModel extends Document implements IModel {
     public Document toDocument() {
         if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
         if(!this.name.isEmpty()) put("name", this.name);
-        if(this.description != null || !this.description.isEmpty()) put("description", this.description);
+        if(!this.description.isEmpty()) put("description", this.description);
         if(price != null) put("price", this.price);
         if(salePrice != null) put("salePrice", this.salePrice);
         if(!this.banner.isEmpty()) put("banner", this.banner);

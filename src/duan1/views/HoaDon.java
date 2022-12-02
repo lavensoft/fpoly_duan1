@@ -6,9 +6,13 @@ package duan1.views;
 
 import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
+import duan1.utils.WrapLayout;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,23 +25,35 @@ public class HoaDon extends javax.swing.JPanel {
      * Creates new form HoaDon
      */
     DefaultTableModel model = new DefaultTableModel();
+    ArrayList<DimensionModel> billProducts = new ArrayList<>();
 
     public HoaDon() {
         initComponents();
         setOpaque(false);
+        reinit();
     }
 
-    public void getObject(ArrayList<ProductModel> arr) {
+    private void reinit() {
+        billTotalPanel.setLayout(new WrapLayout());
+        billTotalPanel.add(new JLabel("Test"));
+        billTotalPanel.add(new JLabel("Test"));
+        billTotalPanel.add(new JLabel("Test"));
+        billTotalPanel.add(new JLabel("Test"));
+        billTotalPanel.add(new JLabel("Test"));
+    }
+
+    public void loadTable() {
         model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
-        arr.forEach(data -> {
+        billProducts.forEach(data -> {
             model.addRow(new Object[]{data.name});
         });
     }
 
     public void addBillProduct(DimensionModel dimension) {
-        System.out.println("ADD PRODUCT");
-        System.out.println(dimension.toDocument());
+        billProducts.add(dimension);
+        
+        loadTable();
     }
 
     /**
@@ -60,6 +76,8 @@ public class HoaDon extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
+        billTotalView = new javax.swing.JScrollPane();
+        billTotalPanel = new duan1.components.PanelBoder();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
@@ -105,21 +123,30 @@ public class HoaDon extends javax.swing.JPanel {
 
         jLabel2.setText("Thành Tiền");
 
+        billTotalPanel.setLayout(new java.awt.FlowLayout());
+        billTotalView.setViewportView(billTotalPanel);
+
         javax.swing.GroupLayout panelBoder3Layout = new javax.swing.GroupLayout(panelBoder3);
         panelBoder3.setLayout(panelBoder3Layout);
         panelBoder3Layout.setHorizontalGroup(
             panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
-            .addComponent(jSeparator2)
             .addGroup(panelBoder3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                     .addGroup(panelBoder3Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder3Layout.createSequentialGroup()
+                .addGroup(panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2)
+                    .addGroup(panelBoder3Layout.createSequentialGroup()
+                        .addComponent(billTotalView, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 0, 0)
+                .addComponent(jSeparator1))
         );
         panelBoder3Layout.setVerticalGroup(
             panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,8 +154,12 @@ public class HoaDon extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBoder3Layout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(billTotalView))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,6 +254,8 @@ public class HoaDon extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private duan1.components.PanelBoder billTotalPanel;
+    private javax.swing.JScrollPane billTotalView;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

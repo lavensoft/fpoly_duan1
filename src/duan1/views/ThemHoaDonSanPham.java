@@ -312,18 +312,12 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-//        try {
-//            // TODO add your handling code here:
-//
-//            model.name = txtSanPham.getText();
-//            controller.add(model);
-//        } catch (Exception ex) {
-//            Logger.getLogger(ThemHoaDonSanPham.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-        
-        
-
+       try {
+            hoaDonContext.addBillProduct(model);
+            this.dispose();
+       } catch (Exception ex) {
+           Logger.getLogger(ThemHoaDonSanPham.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed

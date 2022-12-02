@@ -292,7 +292,7 @@ public class SanPham extends javax.swing.JPanel {
         setOpaque(false);
 
         panelBoder1.setBackground(new java.awt.Color(255, 255, 255));
-        panelBoder1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelBoder1.setLayout(new java.awt.BorderLayout());
 
         panelBoder3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -308,19 +308,19 @@ public class SanPham extends javax.swing.JPanel {
         panelBoder3Layout.setHorizontalGroup(
             panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(741, Short.MAX_VALUE)
                 .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGap(15, 15, 15))
         );
         panelBoder3Layout.setVerticalGroup(
             panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBoder3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        panelBoder1.add(panelBoder3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, -1));
+        panelBoder1.add(panelBoder3, java.awt.BorderLayout.PAGE_START);
 
         PanelCard.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -337,7 +337,7 @@ public class SanPham extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(PanelCard);
 
-        panelBoder1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 2, 806, 710));
+        panelBoder1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

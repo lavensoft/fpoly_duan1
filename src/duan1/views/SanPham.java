@@ -40,13 +40,12 @@ import org.bson.Document;
  * @author TAN PHAT
  */
 
-public class SanPham extends javax.swing.JPanel {
+public class SanPham extends View{
     //* CONTROLLERS */
     private ProductController productController = new ProductController();
     private DimensionController dimensionController = new DimensionController();
 
     //* VARIABLES */
-    private Socket socket;
     private ArrayList<ProductModel> arrProduct = new ArrayList<>();
     // public ArrayList<JPanel> arr = new ArrayList<>();
     private ArrayList<DimensionModel> arrDimension = new ArrayList<>();
@@ -56,7 +55,6 @@ public class SanPham extends javax.swing.JPanel {
     public SanPham() {
         initComponents();
         revalidateComponents();
-        setOpaque(false);
         load();
         drawCard();
     }
@@ -77,10 +75,66 @@ public class SanPham extends javax.swing.JPanel {
         // btnThem.setText("\uf102");
     }
 
-    void setSocket(Socket socket) {
+    @Override
+    public void setSocket(Socket socket) {
         this.socket = socket;
 
         initSocket();
+    }
+    
+    
+    void load(){
+        try {
+            arrProduct = productController.getAll();
+            Collections.reverse(arrProduct); //Sort to newest
+        } catch (Exception e) {
+        }
+    }
+
+    //*SOCKET HANDLERS */
+    @Override
+    public void initSocket() {
+        socket.on("/products/add", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                //Update data
+                ProductModel product = new ProductModel();
+
+                Document data = new Document();
+                data = data.parse((String) args[0]);
+                
+                product.fromDocument(data);
+
+                arrProduct.add(0, product);
+
+                //Render card
+                Cards card = addProductCard(product._id, product.banner, product.name, 0.0);
+
+                PanelCard.add(card, 0);
+                PanelCard.revalidate();
+            }
+        });
+
+        socket.on("/products/dimension/add", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                //Update data
+                DimensionModel dimension = new DimensionModel();
+
+                Document data = new Document();
+                data = data.parse((String) args[0]);
+                
+                dimension.fromDocument(data);
+
+                arrDimension.add(0, dimension);
+
+                //Render card
+                Cards card = addProductCard(dimension._id, dimension.banner, dimension.name, 0.0);
+                
+                PanelCard.add(card, 0);
+                PanelCard.revalidate();
+            }
+        });
     }
 
     private Cards addCard(
@@ -206,60 +260,6 @@ public class SanPham extends javax.swing.JPanel {
     //         return row+1;
     //     }
     // }
-    
-    
-    void load(){
-        try {
-            arrProduct = productController.getAll();
-            Collections.reverse(arrProduct); //Sort to newest
-        } catch (Exception e) {
-        }
-    }
-
-    //*SOCKET HANDLERS */
-    void initSocket() {
-        socket.on("/products/add", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                //Update data
-                ProductModel product = new ProductModel();
-
-                Document data = new Document();
-                data = data.parse((String) args[0]);
-                
-                product.fromDocument(data);
-
-                arrProduct.add(0, product);
-
-                //Render card
-                Cards card = addProductCard(product._id, product.banner, product.name, 0.0);
-
-                PanelCard.add(card, 0);
-                PanelCard.revalidate();
-            }
-        });
-
-        socket.on("/products/dimension/add", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                //Update data
-                DimensionModel dimension = new DimensionModel();
-
-                Document data = new Document();
-                data = data.parse((String) args[0]);
-                
-                dimension.fromDocument(data);
-
-                arrDimension.add(0, dimension);
-
-                //Render card
-                Cards card = addProductCard(dimension._id, dimension.banner, dimension.name, 0.0);
-                
-                PanelCard.add(card, 0);
-                PanelCard.revalidate();
-            }
-        });
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -274,8 +274,9 @@ public class SanPham extends javax.swing.JPanel {
         menu1 = new duan1.components.Menu();
         panelBoder1 = new duan1.components.PanelBoder();
         panelBoder3 = new duan1.components.PanelBoder();
-        headerBar = new duan1.components.HeaderBar();
+        jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        headerBar1 = new duan1.components.HeaderBar();
         jScrollPane1 = new javax.swing.JScrollPane();
         PanelCard = new duan1.components.PanelBoder();
 
@@ -290,40 +291,42 @@ public class SanPham extends javax.swing.JPanel {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setOpaque(false);
-
         panelBoder1.setBackground(new java.awt.Color(255, 255, 255));
         panelBoder1.setLayout(new java.awt.BorderLayout());
 
         panelBoder3.setBackground(new java.awt.Color(255, 255, 255));
+        panelBoder3.setPreferredSize(new java.awt.Dimension(888, 64));
+        panelBoder3.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setText("jButton1");
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton1.setFont(new java.awt.Font("Ionicons", 0, 18)); // NOI18N
+        jButton1.setText("");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout panelBoder3Layout = new javax.swing.GroupLayout(panelBoder3);
-        panelBoder3.setLayout(panelBoder3Layout);
-        panelBoder3Layout.setHorizontalGroup(
-            panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBoder3Layout.createSequentialGroup()
-                .addComponent(headerBar, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        panelBoder3Layout.setVerticalGroup(
-            panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBoder3Layout.createSequentialGroup()
-                .addComponent(headerBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(panelBoder3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        panelBoder3.add(jPanel4, java.awt.BorderLayout.LINE_END);
+        panelBoder3.add(headerBar1, java.awt.BorderLayout.CENTER);
 
         panelBoder1.add(panelBoder3, java.awt.BorderLayout.PAGE_START);
 
@@ -333,11 +336,11 @@ public class SanPham extends javax.swing.JPanel {
         PanelCard.setLayout(PanelCardLayout);
         PanelCardLayout.setHorizontalGroup(
             PanelCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 886, Short.MAX_VALUE)
+            .addGap(0, 888, Short.MAX_VALUE)
         );
         PanelCardLayout.setVerticalGroup(
             PanelCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 698, Short.MAX_VALUE)
+            .addGap(0, 703, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(PanelCard);
@@ -363,9 +366,10 @@ public class SanPham extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private duan1.components.PanelBoder PanelCard;
-    private duan1.components.HeaderBar headerBar;
+    private duan1.components.HeaderBar headerBar1;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private duan1.components.Menu menu1;
     private duan1.components.PanelBoder panelBoder1;

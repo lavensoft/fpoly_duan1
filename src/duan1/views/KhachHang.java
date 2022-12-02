@@ -10,19 +10,15 @@ import javax.swing.JOptionPane;
  *
  * @author TAN PHAT
  */
-public class KhachHang extends javax.swing.JPanel {
+public class KhachHang extends View {
 
     /**
      * Creates new form KhachHang
      */
     public KhachHang() {
         initComponents();
-        setOpaque(false);
     }
     
-    
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

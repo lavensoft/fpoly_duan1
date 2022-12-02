@@ -8,7 +8,7 @@ package duan1.views;
  *
  * @author TAN PHAT
  */
-public class ThemHoaDon extends javax.swing.JPanel {
+public class ThemHoaDon extends View {
 
     /**
      * Creates new form ThemHoaDon

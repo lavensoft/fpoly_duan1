@@ -44,10 +44,11 @@ public class App extends javax.swing.JFrame {
     }
 
     public <V> void navigate(Class<V> view) {
-        Component v;
+        View v;
 
         try {
-            v = (Component) view.newInstance();
+            v = (View) view.newInstance();
+            v.setSocket(socket);
 
             getContentPane().remove(currentView);
             getContentPane().add(BorderLayout.CENTER, v);

@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author TAN PHAT
  */
-public class NhanVien extends javax.swing.JPanel {
+public class NhanVien extends View {
 
     /**
      * Creates new form NhanVien

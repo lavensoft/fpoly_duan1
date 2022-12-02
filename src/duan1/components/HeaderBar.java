@@ -29,10 +29,12 @@ public class HeaderBar extends javax.swing.JPanel {
         lead = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        action = new javax.swing.JPanel();
         title = new javax.swing.JPanel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
+
+        lead.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 13)); // NOI18N
         jLabel1.setText("SCREEN NAME");
@@ -58,24 +60,13 @@ public class HeaderBar extends javax.swing.JPanel {
 
         add(lead, java.awt.BorderLayout.LINE_START);
 
-        javax.swing.GroupLayout actionLayout = new javax.swing.GroupLayout(action);
-        action.setLayout(actionLayout);
-        actionLayout.setHorizontalGroup(
-            actionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        actionLayout.setVerticalGroup(
-            actionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 69, Short.MAX_VALUE)
-        );
-
-        add(action, java.awt.BorderLayout.LINE_END);
+        title.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout titleLayout = new javax.swing.GroupLayout(title);
         title.setLayout(titleLayout);
         titleLayout.setHorizontalGroup(
             titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 433, Short.MAX_VALUE)
+            .addGap(0, 533, Short.MAX_VALUE)
         );
         titleLayout.setVerticalGroup(
             titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +78,6 @@ public class HeaderBar extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel action;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel lead;

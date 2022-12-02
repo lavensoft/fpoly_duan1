@@ -8,14 +8,13 @@ package duan1.views;
  *
  * @author TAN PHAT
  */
-public class KhuyenMai extends javax.swing.JPanel {
+public class KhuyenMai extends View {
 
     /**
      * Creates new form KhuyenMai
      */
     public KhuyenMai() {
         initComponents();
-        setOpaque(false);
     }
 
     /**

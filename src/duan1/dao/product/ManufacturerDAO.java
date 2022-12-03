@@ -1,6 +1,7 @@
 package duan1.dao.product;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import duan1.models.product.ManufacturerModel;
 import duan1.config.Collections;
@@ -12,6 +13,7 @@ public class ManufacturerDAO extends DAO<ManufacturerModel> {
     }
 
     public void add(ManufacturerModel manufacturer) throws Exception {
+        manufacturer.dateCreated = new Date().toString();
         super.add(manufacturer);
     }
 

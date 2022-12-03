@@ -1,5 +1,7 @@
 package duan1.models.customer;
 
+import java.util.Date;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import duan1.interfaces.IModel;
@@ -9,7 +11,7 @@ public class CustomerModel extends Document implements IModel {
    public String phone = "";
    public String name = "";
    public String dateCreated = "";
-   public Double points = 0.0;
+   public Double points;
 
    @Override
    public void fromDocument(Document document) {

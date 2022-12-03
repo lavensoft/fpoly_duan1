@@ -1,6 +1,7 @@
 package duan1.dao.order;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import duan1.models.order.OrderModel;
 import duan1.config.Collections;
@@ -12,6 +13,7 @@ public class OrderDAO extends DAO<OrderModel> {
     }
 
     public void add(OrderModel order) throws Exception {
+        order.dateCreated = new Date().toString();
         super.add(order);
     }
 

@@ -1,6 +1,7 @@
 package duan1.dao.product;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import duan1.models.product.DimensionModel;
 import duan1.config.Collections;
@@ -12,6 +13,7 @@ public class DimensionDAO extends DAO<DimensionModel> {
     }
 
     public void add(DimensionModel dimension) throws Exception {
+        dimension.dateCreated = new Date().toString();
         super.add(dimension);
     }
 

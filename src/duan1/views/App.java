@@ -14,6 +14,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import duan1.config.Config;
 import duan1.controllers.user.UserController;
+import duan1.states.AppStates;
 import duan1.utils.Log;
 import duan1.utils.SocketIO;
 import io.socket.client.Socket;
@@ -114,7 +115,7 @@ public class App extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //Check USER Login
         try {
-            userController.checkLogin();
+            AppStates.user.clientUser = userController.checkLogin();
         }catch(Exception e) {
             new Login().setVisible(true);
             this.dispose();

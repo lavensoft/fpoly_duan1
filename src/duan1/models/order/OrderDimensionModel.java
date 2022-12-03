@@ -8,9 +8,8 @@ public class OrderDimensionModel extends Document implements IModel {
    public String _id = "";
    public String order = "";
    public String product = "";
-   public Integer count = 0;
-   public Double discount = 0.0;
-   public String paymentMethod = "";
+   public Integer count;
+   public Double discount;
 
    @Override
    public void fromDocument(Document document) {
@@ -19,7 +18,6 @@ public class OrderDimensionModel extends Document implements IModel {
     this.product = document.getString("product");
     this.count = document.getInteger("count");
     this.discount = document.getDouble("discount");
-    this.paymentMethod = document.getString("paymentMethod");
    }
 
    @Override
@@ -29,7 +27,6 @@ public class OrderDimensionModel extends Document implements IModel {
        if(!this.product.isEmpty()) put("product", this.product);
        if(count != null) put("count", this.count);
        if(discount != null) put("discount", this.discount);
-       if(!this.paymentMethod.isEmpty()) put("paymentMethod", this.paymentMethod);
 
        return this;
    }

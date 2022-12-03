@@ -7,8 +7,19 @@ package duan1.views;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import duan1.components.DetailCard;
+import duan1.config.Config;
+import duan1.controllers.customer.CustomerController;
+import duan1.controllers.order.OrderController;
+import duan1.controllers.order.OrderDimensionController;
+import duan1.models.customer.CustomerModel;
+import duan1.models.order.OrderDimensionModel;
+import duan1.models.order.OrderModel;
 import duan1.models.product.DimensionModel;
+import duan1.states.AppStates;
+import duan1.utils.Log;
 import duan1.utils.WrapLayout;
 
 /**
@@ -26,6 +37,12 @@ class Cart {
 }
 
 public class ThemHoaDon extends View {
+    //* CONTROLLERS */
+    CustomerController customerController = new CustomerController();
+    OrderController orderController = new OrderController();
+    OrderDimensionController orderDimensionController = new OrderDimensionController();
+
+    //* VARIABLES */
     ArrayList<Cart> products = new ArrayList<>();
     ThemHoaDonSanPham addProductPopup = new ThemHoaDonSanPham();
     DecimalFormat vndFormat = new DecimalFormat("#,### đ");
@@ -40,6 +57,7 @@ public class ThemHoaDon extends View {
         vndFormat.setMaximumFractionDigits(8);
     }
 
+    //* ADD PRODUCT TO BILL */
     public void addBillProduct(DimensionModel product, Integer count) {
         //Update data
         Cart productCart = new Cart(count, product);
@@ -71,6 +89,7 @@ public class ThemHoaDon extends View {
         calculateBill();
     }
 
+    //* CALCULATE ORDER */
     private void calculateBill() {
         billPrice = 0.0;
 
@@ -85,6 +104,45 @@ public class ThemHoaDon extends View {
         lblTotal.setText(vndFormat.format(billPrice));
         lblDiscount.setText("0");
         lblBillTotal.setText(vndFormat.format(Math.round(billPrice * 1.1)));
+    }
+
+    //* SAVE ORDER */
+    private void submitOrder() {
+        try {
+            //* CREATE CUSTOMER */
+            CustomerModel customer = new CustomerModel();
+            customer.phone = txtPhone.getText();
+            customer.name = txtName.getText();
+
+            customerController.add(customer);
+            customer = customerController.get(customer);
+
+            //* CREATE ORDER */
+            OrderModel order = new OrderModel();
+            order.author = AppStates.user.clientUser._id;
+            order.customer = customer._id;
+            order.description = txtNote.getText();
+            order.paymentMethod = Config.PAYMENT_METHODS[comboPayment.getSelectedIndex()];
+
+            orderController.add(order);
+            order = orderController.get(order);
+
+            //* CREATE ORDER DIMENSIONS */
+            for(Cart item : products) {
+                OrderDimensionModel orderDimension = new OrderDimensionModel();
+                orderDimension.order = order._id;
+                orderDimension.product = item.product._id;
+                orderDimension.count = item.count;
+                orderDimension.discount = 0.0;
+
+                orderDimensionController.add(orderDimension);
+            }
+
+            JOptionPane.showMessageDialog(addProductPopup, "ORDER_CREATE_SUCCESSFULLY");
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            Log.error(e);
+        }
     }
 
     private void init() {
@@ -102,7 +160,6 @@ public class ThemHoaDon extends View {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         productContainer = new duan1.components.PanelBoder();
-        detailCard2 = new duan1.components.DetailCard();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -143,17 +200,11 @@ public class ThemHoaDon extends View {
         productContainer.setLayout(productContainerLayout);
         productContainerLayout.setHorizontalGroup(
             productContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(productContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(detailCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(263, Short.MAX_VALUE))
+            .addGap(0, 926, Short.MAX_VALUE)
         );
         productContainerLayout.setVerticalGroup(
             productContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(productContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(detailCard2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(655, Short.MAX_VALUE))
+            .addGap(0, 725, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(productContainer);
@@ -218,6 +269,11 @@ public class ThemHoaDon extends View {
         });
 
         btnAdd.setText("Tạo Đơn");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -409,6 +465,10 @@ public class ThemHoaDon extends View {
         addProductPopup.setVisible(true);
     }//GEN-LAST:event_btnAddProductActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        this.submitOrder();
+    }//GEN-LAST:event_btnAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -416,7 +476,6 @@ public class ThemHoaDon extends View {
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnPrint2;
     private javax.swing.JComboBox<String> comboPayment;
-    private duan1.components.DetailCard detailCard2;
     private duan1.components.HeaderBar headerBar1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;

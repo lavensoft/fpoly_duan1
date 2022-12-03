@@ -174,7 +174,7 @@ public class Login extends javax.swing.JFrame {
             System.out.println(user.toDocument());
 
             if (user != null) {
-                new Main().setVisible(true);
+                new App().setVisible(true);
                 this.dispose();
             }
         } catch (Exception e) {

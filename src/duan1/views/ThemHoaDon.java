@@ -4,6 +4,7 @@
  */
 package duan1.views;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import duan1.components.DetailCard;
@@ -14,8 +15,21 @@ import duan1.utils.WrapLayout;
  *
  * @author TAN PHAT
  */
+class Cart {
+    public Integer count;
+    public DimensionModel product;
+
+    Cart(Integer count, DimensionModel product) {
+        this.count = count;
+        this.product = product;
+    }
+}
+
 public class ThemHoaDon extends View {
-    ArrayList<DimensionModel> products = new ArrayList<>();
+    ArrayList<Cart> products = new ArrayList<>();
+    ThemHoaDonSanPham addProductPopup = new ThemHoaDonSanPham();
+    DecimalFormat vndFormat = new DecimalFormat("#,### đ");
+    Double billPrice = 0.0;
 
     /**
      * Creates new form ThemHoaDon
@@ -23,11 +37,13 @@ public class ThemHoaDon extends View {
     public ThemHoaDon() {
         initComponents();
         init();
+        vndFormat.setMaximumFractionDigits(8);
     }
 
     public void addBillProduct(DimensionModel product, Integer count) {
         //Update data
-        products.add(0, product);
+        Cart productCart = new Cart(count, product);
+        products.add(0, productCart);
 
         //Render to UI
         DetailCard detailCard = new DetailCard();
@@ -35,13 +51,40 @@ public class ThemHoaDon extends View {
 
         detailCard.setName(product.name);
         desc = "x" + count.toString();
-        if(product.price != null ) desc += " - " + product.price.toString();
+
+        if(product.price != null ) desc += " - " + vndFormat.format(product.price);
 
         detailCard.setDescription(desc);
         detailCard.setImg(product.banner);
 
+        detailCard.onDelete(e -> {
+            products.remove(productCart);
+            productContainer.remove(detailCard);
+            productContainer.revalidate();
+            calculateBill();
+
+            return null;
+        });
+
         productContainer.add(detailCard, 0);
         productContainer.revalidate();
+        calculateBill();
+    }
+
+    private void calculateBill() {
+        billPrice = 0.0;
+
+        //Calculate Product
+        for(Cart item : products) {
+            Double productPrice = item.product.price;
+
+            billPrice += productPrice * item.count;
+        }
+
+        //Render to ui
+        lblTotal.setText(vndFormat.format(billPrice));
+        lblDiscount.setText("0");
+        lblBillTotal.setText(vndFormat.format(Math.round(billPrice * 1.1)));
     }
 
     private void init() {
@@ -362,9 +405,8 @@ public class ThemHoaDon extends View {
     }//GEN-LAST:event_btnPrint2ActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
-        ThemHoaDonSanPham addSanPhamView = new ThemHoaDonSanPham();
-        addSanPhamView.setHoaDonContext(this);
-        addSanPhamView.setVisible(true);
+        addProductPopup.setHoaDonContext(this);
+        addProductPopup.setVisible(true);
     }//GEN-LAST:event_btnAddProductActionPerformed
 
 

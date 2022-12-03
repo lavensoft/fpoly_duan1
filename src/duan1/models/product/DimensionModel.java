@@ -22,7 +22,7 @@ public class DimensionModel extends Document implements IModel {
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
         this.name = document.getString("name");
-        this.description = document.getString("email");
+        this.description = document.getString("description");
         this.price = document.getDouble("price");
         this.salePrice = document.getDouble("salePrice");
         this.banner = document.getString("banner");

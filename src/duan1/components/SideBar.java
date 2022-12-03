@@ -20,6 +20,7 @@ import duan1.utils.WrapLayout;
 import duan1.views.App;
 import duan1.views.KhachHang;
 import duan1.views.KhuyenMai;
+import duan1.views.Login;
 import duan1.views.NhanVien;
 import duan1.views.SanPham;
 import duan1.views.ThemHoaDon;

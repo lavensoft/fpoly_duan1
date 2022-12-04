@@ -206,9 +206,26 @@ public class ThemSanPham extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents                      
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void pnAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnAnhMouseClicked
+        // TODO add your handling code here:
+        JFileChooser fileDialog = new JFileChooser();
+
+        fileDialog.showOpenDialog(fileDialog);
+
+        productImage = fileDialog.getSelectedFile();
+
+        txtAnh.setText(productImage.getName());
+        
+        // txtAnh.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));
+    }//GEN-LAST:event_pnAnhMouseClicked
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed                                        
         try {
             if(_parentProduct.isEmpty()) { //*PRIMARY PRODUCT */
                 ProductModel product = new ProductModel();
@@ -240,24 +257,7 @@ public class ThemSanPham extends javax.swing.JFrame {
         }catch(Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-    }                                        
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void pnAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnAnhMouseClicked
-        // TODO add your handling code here:
-        JFileChooser fileDialog = new JFileChooser();
-
-        fileDialog.showOpenDialog(fileDialog);
-
-        productImage = fileDialog.getSelectedFile();
-
-        txtAnh.setText(productImage.getName());
-        
-        // txtAnh.setIcon(new ImageIcon(selectedFile.getAbsolutePath()));
-    }//GEN-LAST:event_pnAnhMouseClicked
+    }//GEN-LAST:event_btnThemActionPerformed
 
     /**
      * @param args the command line arguments

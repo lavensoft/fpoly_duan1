@@ -12,24 +12,95 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
+
+import java.awt.event.MouseEvent;
+import javax.swing.event.MouseInputAdapter;
 
 /**
  *
  * @author TAN PHAT
  */
+
+
+class PopClickListener extends MouseInputAdapter {
+    Function<Integer, Void> _editEvent;
+    Function<Integer, Void> _deleteEvent;
+
+    PopClickListener(Function<Integer, Void> onEdit, Function<Integer, Void> onDelete) {
+        _editEvent = onEdit;
+        _deleteEvent = onDelete;
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if (e.isPopupTrigger())
+            doPop(e);
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        if (e.isPopupTrigger())
+            doPop(e);
+    }
+
+    private void doPop(MouseEvent e) {
+        ArrayList<Map<String, String>> menuItems = new ArrayList<Map<String, String>>();
+        Map<String, Function<Integer, Void>> events = new HashMap<>();
+        
+        //*ADD ITEMS */
+        Map<String, String> editItem = new HashMap<String, String>();
+        editItem.put("title", "Chỉnh sửa");
+        editItem.put("key", "edit");
+        
+        Map<String, String> deleteItem = new HashMap<String, String>();
+        deleteItem.put("title", "Xoá");
+        deleteItem.put("key", "delete");
+
+        
+        menuItems.add(editItem);
+        menuItems.add(deleteItem);
+
+        events.put("edit", _editEvent);
+        events.put("delete", _deleteEvent);
+
+        ContextMenu menu = new ContextMenu(menuItems, events);
+        menu.show(e.getComponent(), e.getX(), e.getY());
+    }
+}
+
 public class Cards extends javax.swing.JPanel {
     private Function<Integer, Void> _onClickFunc = null;
+    private Function<Integer, Void> contextMenuEditEvent;
+    private Function<Integer, Void> contextMenuDeleteEvent;
+
     /**
      * Creates new form Cards
      */
     public Cards() {
         initComponents();
         setOpaque(false);
+    }
+
+    private void addMouseListener() {
+        PopClickListener contextMenuEvent = new PopClickListener(contextMenuEditEvent, contextMenuDeleteEvent);
+        this.addMouseListener(contextMenuEvent);
+    }
+
+    public void onEdit(Function<Integer, Void> func) {
+        contextMenuEditEvent = func;
+        addMouseListener();
+    }
+
+    public void onDelete(Function<Integer, Void> func) {
+        contextMenuDeleteEvent = func;
+        addMouseListener();
     }
 
     public void onClick(Function<Integer, Void> func) {
@@ -56,7 +127,7 @@ public class Cards extends javax.swing.JPanel {
     ImageIcon ImageProduct(URL src) {
         ImageIcon imacon = new ImageIcon(src);
         Image dadimage = imacon.getImage();
-        Image modifiedDabImage = dadimage.getScaledInstance(161, 150, java.awt.Image.SCALE_SMOOTH);
+        Image modifiedDabImage = dadimage.getScaledInstance(161, 150, java.awt.Image.SCALE_AREA_AVERAGING);
         imacon = new ImageIcon(modifiedDabImage);
         
         return imacon;
@@ -137,7 +208,7 @@ public class Cards extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseEntered
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        _onClick();
+        if(SwingUtilities.isLeftMouseButton(evt)) _onClick();
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited

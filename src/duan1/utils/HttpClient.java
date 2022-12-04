@@ -2,6 +2,7 @@ package duan1.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.http.HttpEntity;
@@ -18,7 +19,7 @@ import org.apache.http.util.EntityUtils;
 import org.bson.Document;
 
 public class HttpClient {
-    public static CloseableHttpResponse post(String url, Document data, Document headers) throws ClientProtocolException, IOException {
+    public static Document post(String url, Document data, Document headers) throws ClientProtocolException, IOException {
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
 
@@ -29,11 +30,9 @@ public class HttpClient {
         httpPost.setHeader("Content-type", "application/json");
 
         CloseableHttpResponse response = client.execute(httpPost);
-        client.close();
-
-        System.out.println(EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
-
-        return response;
+        
+        Document responseBody = Document.parse(EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
+        return responseBody;
     }
 
     public static String uploadFile(File file) throws ParseException, IOException {

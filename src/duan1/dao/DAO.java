@@ -3,9 +3,12 @@ package duan1.dao;
 import java.util.ArrayList;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 
 import duan1.config.Database;
 import duan1.interfaces.*;
@@ -26,6 +29,26 @@ public class DAO<M extends IModel> {
             // Log.info("ADDING TO DB", type.getClass().getSimpleName());
 
             collection.insertOne(model.toDocument());
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
+    }
+
+    public void updateOne(M query, M data) throws Exception {
+        try {
+            Bson updates = data.toUpdates();
+            collection.updateOne(query.toDocument(), updates, new UpdateOptions().upsert(true));
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
+    }
+
+    public void updateMany(M query, M data) throws Exception {
+        try {
+            Bson updates = data.toUpdates();
+            collection.updateMany(query.toDocument(), updates, new UpdateOptions().upsert(true));
         }catch(Exception e) {
             Log.error(e);
             throw e;
@@ -67,6 +90,24 @@ public class DAO<M extends IModel> {
             modelData.fromDocument(document);
 
             return modelData;
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
+    }
+
+    public void deleteOne(M query) throws InstantiationException, IllegalAccessException, Exception {
+        try {
+            collection.deleteOne(query.toDocument());
+        }catch(Exception e) {
+            Log.error(e);
+            throw e;
+        }
+    }
+
+    public void deleteMany(M query) throws InstantiationException, IllegalAccessException, Exception {
+        try {
+            collection.deleteMany(query.toDocument());
         }catch(Exception e) {
             Log.error(e);
             throw e;

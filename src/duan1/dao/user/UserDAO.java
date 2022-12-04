@@ -1,6 +1,8 @@
 package duan1.dao.user;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import duan1.models.user.UserModel;
 import duan1.config.Collections;
 import duan1.dao.DAO;
@@ -11,6 +13,7 @@ public class UserDAO extends DAO<UserModel> {
     }
 
     public void add(UserModel user) throws Exception {
+        user.dateCreated = new Date().toString();
         super.add(user);
     }
 

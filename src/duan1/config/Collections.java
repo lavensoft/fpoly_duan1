@@ -6,4 +6,7 @@ public class Collections {
     public static String PRODUCT = "products";
     public static String PRODUCT_DIMENSION = "product_dimensions";
     public static String PRODUCT_SALE = "product_sales";
+    public static String ORDER = "orders";
+    public static String ORDER_DIMENSION = "order_dimensions";
+    public static String CUSTOMER = "customers";
 }

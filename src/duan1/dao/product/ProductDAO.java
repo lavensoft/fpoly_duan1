@@ -25,8 +25,8 @@ public class ProductDAO extends DAO<ProductModel> {
         return super.get(query);
     }
 
-    public void delete(ProductModel query) throws Exception {
-        super.delete(query);
+    public void deleteOne(ProductModel query) throws Exception {
+        super.deleteOne(query);
     }
 
     public void deleteMany(ProductModel query) throws Exception {

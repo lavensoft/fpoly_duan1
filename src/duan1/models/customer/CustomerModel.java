@@ -3,7 +3,11 @@ package duan1.models.customer;
 import java.util.Date;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+
+import com.mongodb.client.model.Updates;
+
 import duan1.interfaces.IModel;
 
 public class CustomerModel extends Document implements IModel {
@@ -31,5 +35,17 @@ public class CustomerModel extends Document implements IModel {
        if(points != null) put("points", this.points);
 
        return this;
+   }
+
+   @Override
+   public Bson toUpdates() {
+        Bson updates = Updates.combine(
+            !this.phone.isEmpty() ? Updates.set("phone", this.phone) : new Document(),
+            !this.name.isEmpty() ? Updates.set("name", this.name) : new Document(),
+            !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
+            points != null ? Updates.set("points", this.points) : new Document()
+        );
+
+        return updates;
    }
 }

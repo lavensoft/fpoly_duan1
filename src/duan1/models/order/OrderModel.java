@@ -1,7 +1,11 @@
 package duan1.models.order;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+
+import com.mongodb.client.model.Updates;
+
 import duan1.interfaces.IModel;
 
 public class OrderModel extends Document implements IModel {
@@ -11,6 +15,8 @@ public class OrderModel extends Document implements IModel {
    public String description = "";
    public String dateCreated = "";
    public String paymentMethod = "";
+   public String paymentStatus = "";
+   public String paymentOrderId = "";
 
    @Override
    public void fromDocument(Document document) {
@@ -20,6 +26,8 @@ public class OrderModel extends Document implements IModel {
     this.description = document.getString("description");
     this.dateCreated = document.getString("dateCreated");
     this.paymentMethod = document.getString("paymentMethod");
+    this.paymentStatus = document.getString("paymentStatus");
+    this.paymentOrderId = document.getString("paymentOrderId");
    }
 
    @Override
@@ -30,7 +38,24 @@ public class OrderModel extends Document implements IModel {
        if(!this.description.isEmpty()) put("description", this.description);
        if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
        if(!this.paymentMethod.isEmpty()) put("paymentMethod", this.paymentMethod);
+       if(!this.paymentStatus.isEmpty()) put("paymentStatus", this.paymentStatus);
+       if(!this.paymentOrderId.isEmpty()) put("paymentOrderId", this.paymentOrderId);
 
        return this;
+   }
+
+   @Override
+   public Bson toUpdates() {
+        Bson updates = Updates.combine(
+            !this.author.isEmpty() ? Updates.set("author", this.author) : new Document(),
+            !this.customer.isEmpty() ? Updates.set("customer", this.customer) : new Document(),
+            !this.description.isEmpty() ? Updates.set("description", this.description) : new Document(),
+            !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
+            !this.paymentMethod.isEmpty() ? Updates.set("paymentMethod", this.paymentMethod) : new Document(),
+            !this.paymentStatus.isEmpty() ? Updates.set("paymentStatus", this.paymentStatus) : new Document(),
+            !this.paymentOrderId.isEmpty() ? Updates.set("paymentOrderId", this.paymentOrderId) : new Document()
+        );
+
+        return updates;
    }
 }

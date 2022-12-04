@@ -12,6 +12,14 @@ public class CustomerController {
         customerDAO.add(customer);
     }
 
+    public void updateOne(CustomerModel query, CustomerModel customer) throws Exception {
+        customerDAO.updateOne(query, customer);
+    }
+
+    public void updateMany(CustomerModel query, CustomerModel customer) throws Exception {
+        customerDAO.updateMany(query, customer);
+    }
+
     public ArrayList<CustomerModel> getAll(CustomerModel... queries) throws Exception {
         return customerDAO.getAll(queries);
     }

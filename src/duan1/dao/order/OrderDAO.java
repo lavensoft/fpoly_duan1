@@ -26,8 +26,8 @@ public class OrderDAO extends DAO<OrderModel> {
         return super.get(query);
     }
 
-    public void delete(OrderModel query) throws Exception {
-        super.delete(query);
+    public void deleteOne(OrderModel query) throws Exception {
+        super.deleteOne(query);
     }
 
     public void deleteMany(OrderModel query) throws Exception {

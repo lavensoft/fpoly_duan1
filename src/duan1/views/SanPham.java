@@ -179,7 +179,7 @@ public class SanPham extends View{
             query._id = _id;
 
             try {
-                productController.delete(query);
+                productController.deleteOne(query);
 
                 //Redraw UI
                 PanelCard.remove(card);
@@ -206,7 +206,7 @@ public class SanPham extends View{
             query._id = _id;
 
             try {
-                dimensionController.delete(query);
+                dimensionController.deleteOne(query);
 
                 //Redraw UI
                 PanelCard.remove(card);
@@ -291,6 +291,8 @@ public class SanPham extends View{
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        setOpaque(false);
+
         panelBoder1.setBackground(new java.awt.Color(255, 255, 255));
         panelBoder1.setLayout(new java.awt.BorderLayout());
 
@@ -314,7 +316,7 @@ public class SanPham extends View{
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(

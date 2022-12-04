@@ -27,8 +27,8 @@ public class DimensionController {
         return dimensionDAO.get(query);
     }
 
-    public void delete(DimensionModel query) throws Exception {
-        dimensionDAO.delete(query);
+    public void deleteOne(DimensionModel query) throws Exception {
+        dimensionDAO.deleteOne(query);
     }
 
     public void deleteMany(DimensionModel query) throws Exception {

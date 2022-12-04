@@ -4,7 +4,11 @@ import duan1.config.*;
 import duan1.interfaces.IModel;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import com.mongodb.client.*;
+import com.mongodb.client.model.Updates;
+
 import org.bson.types.ObjectId;
 
 public class UserModel extends Document implements IModel {
@@ -53,5 +57,24 @@ public class UserModel extends Document implements IModel {
         if(!this.avatar.isEmpty()) put("avatar", this.avatar);
 
         return this;
+    }
+
+    @Override
+    public Bson toUpdates() {
+        Bson updates = Updates.combine(
+            !this.name.isEmpty() ? Updates.set("name", this.name) : new Document(),
+            !this.email.isEmpty() ? Updates.set("email", this.email) : new Document(),
+            !this.uname.isEmpty() ? Updates.set("uname", this.uname) : new Document(),
+            !this.cccd.isEmpty() ? Updates.set("cccd", this.cccd) : new Document(),
+            !this.joinDate.isEmpty() ? Updates.set("joinDate", this.joinDate) : new Document(),
+            !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
+            !this.permission.isEmpty() ? Updates.set("permission", this.permission) : new Document(),
+            salary != null ? Updates.set("salary", this.salary) : new Document(),
+            !this.refreshToken.isEmpty() ? Updates.set("refreshToken", this.refreshToken) : new Document(),
+            !this.password.isEmpty() ? Updates.set("password", this.password) : new Document(),
+            !this.avatar.isEmpty() ? Updates.set("avatar", this.avatar) : new Document()
+        );
+
+        return updates;
     }
 }

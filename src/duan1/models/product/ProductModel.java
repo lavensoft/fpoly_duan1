@@ -6,7 +6,11 @@ import duan1.interfaces.IModel;
 import java.util.ArrayList;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import com.mongodb.client.*;
+import com.mongodb.client.model.Updates;
+
 import org.bson.types.ObjectId;
 
 public class ProductModel extends Document implements IModel {
@@ -43,5 +47,20 @@ public class ProductModel extends Document implements IModel {
         if(!this.manufacturer.isEmpty()) put("manufacturer", this.manufacturer);
 
         return this;
+    }
+
+    @Override
+    public Bson toUpdates() {
+        Bson updates = Updates.combine(
+            !this.name.isEmpty() ? Updates.set("name", this.name) : new Document(),
+            !this.description.isEmpty() ? Updates.set("description", this.description) : new Document(),
+            !this.banner.isEmpty() ? Updates.set("banner", this.banner) : new Document(),
+            !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
+            !this.author.isEmpty() ? Updates.set("author", this.author) : new Document(),
+            !this.dimensions.isEmpty() ? Updates.set("dimensions", this.dimensions) : new Document(),
+            !this.manufacturer.isEmpty() ? Updates.set("manufacturer", this.manufacturer) : new Document()
+        );
+
+        return updates;
     }
 }

@@ -4,10 +4,13 @@
  */
 package duan1.views;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+import org.bson.Document;
 
 import duan1.components.DetailCard;
 import duan1.config.Config;
@@ -19,7 +22,11 @@ import duan1.models.order.OrderDimensionModel;
 import duan1.models.order.OrderModel;
 import duan1.models.product.DimensionModel;
 import duan1.states.AppStates;
+import duan1.utils.Async;
 import duan1.utils.Log;
+import duan1.utils.Momo;
+import duan1.utils.PrintOrder;
+import duan1.utils.WebBrowser;
 import duan1.utils.WrapLayout;
 
 /**
@@ -47,6 +54,9 @@ public class ThemHoaDon extends View {
     ThemHoaDonSanPham addProductPopup = new ThemHoaDonSanPham();
     DecimalFormat vndFormat = new DecimalFormat("#,### đ");
     Double billPrice = 0.0;
+    Boolean searchWaiting = false;
+    String customerId;
+    Double customerPoints = 0.0;
 
     /**
      * Creates new form ThemHoaDon
@@ -109,18 +119,35 @@ public class ThemHoaDon extends View {
     //* SAVE ORDER */
     private void submitOrder() {
         try {
-            //* CREATE CUSTOMER */
-            CustomerModel customer = new CustomerModel();
-            customer.phone = txtPhone.getText();
-            customer.name = txtName.getText();
+            //* CREATE PAYMENT */
+            // Document momo = Momo.create();
+            // WebBrowser.open(momo.getString("payUrl"));
 
-            customerController.add(customer);
-            customer = customerController.get(customer);
+            //* CREATE CUSTOMER */
+            if(customerId == null) {
+                CustomerModel customer = new CustomerModel();
+                customer.phone = txtPhone.getText();
+                customer.name = txtName.getText();
+    
+                customerController.add(customer);
+                customer = customerController.get(customer);
+                customerId = customer._id;
+            }
+
+            //* UPDATE CUSOMTER DATA */
+            CustomerModel customerUpdated = new CustomerModel();
+            customerUpdated.name = txtName.getText();
+            customerUpdated.points = customerPoints + 20;
+
+            CustomerModel customerUpdateQuery = new CustomerModel();
+            customerUpdateQuery._id = customerId;
+
+            customerController.updateOne(customerUpdateQuery, customerUpdated);
 
             //* CREATE ORDER */
             OrderModel order = new OrderModel();
             order.author = AppStates.user.clientUser._id;
-            order.customer = customer._id;
+            order.customer = customerId;
             order.description = txtNote.getText();
             order.paymentMethod = Config.PAYMENT_METHODS[comboPayment.getSelectedIndex()];
 
@@ -140,6 +167,40 @@ public class ThemHoaDon extends View {
 
             JOptionPane.showMessageDialog(addProductPopup, "ORDER_CREATE_SUCCESSFULLY");
         }catch(Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e);
+            // Log.error(e);
+        }
+    }
+
+    //* PRINT ORDER */
+    private void printOrder() {
+        try {
+            PrintOrder.createPDF();
+        } catch (IOException e) {
+            Log.error(e);
+        } catch (Exception e) {
+            Log.error(e);
+        }
+    }
+
+    //* FIND CUSTOMER */
+    private void loadCustomerData() {
+        try {
+            CustomerModel customer = new CustomerModel();
+            customer.phone = txtPhone.getText();
+            System.out.println(customer.toDocument());
+            customer = customerController.get(customer);
+
+            if(customer != null) {
+                txtName.setText(customer.name);
+                txtPhone.setText(customer.phone);
+                lblPoint.setText(String.valueOf(customer.points));
+
+                customerId = customer._id;
+                if(customer.points != null) customerPoints = customer.points;
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             Log.error(e);
         }
@@ -222,9 +283,21 @@ public class ThemHoaDon extends View {
 
         jLabel5.setText("Điểm thành viên:");
 
+        txtPhone.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtPhoneInputMethodTextChanged(evt);
+            }
+        });
         txtPhone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPhoneActionPerformed(evt);
+            }
+        });
+        txtPhone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPhoneKeyPressed(evt);
             }
         });
 
@@ -453,11 +526,11 @@ public class ThemHoaDon extends View {
     }//GEN-LAST:event_txtPhoneActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        // TODO add your handling code here:
+        this.printOrder();
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnPrint2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint2ActionPerformed
-        // TODO add your handling code here:
+        this.printOrder();
     }//GEN-LAST:event_btnPrint2ActionPerformed
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
@@ -468,6 +541,21 @@ public class ThemHoaDon extends View {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         this.submitOrder();
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void txtPhoneInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtPhoneInputMethodTextChanged
+        
+    }//GEN-LAST:event_txtPhoneInputMethodTextChanged
+
+    private void txtPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyPressed
+        if(!searchWaiting) {
+            Async.setTimeout(() -> {
+                loadCustomerData();
+                searchWaiting = false;
+            }, 1000);
+        }
+
+        searchWaiting = true;
+    }//GEN-LAST:event_txtPhoneKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,7 +4,11 @@ import duan1.config.*;
 import duan1.interfaces.*;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import com.mongodb.client.*;
+import com.mongodb.client.model.Updates;
+
 import org.bson.types.ObjectId;
 
 public class SaleModel extends Document implements IModel {
@@ -44,5 +48,21 @@ public class SaleModel extends Document implements IModel {
         if(!this.product.isEmpty()) put("product", this.product);
 
         return this;
+    }
+
+    @Override
+    public Bson toUpdates() {
+        Bson updates = Updates.combine(
+            !this.title.isEmpty() ? Updates.set("title", this.title) : new Document(),
+            !this.description.isEmpty() ? Updates.set("description", this.description) : new Document(),
+            percent != null ? Updates.set("percent", this.percent) : new Document(),
+            !this.startDate.isEmpty() ? Updates.set("startDate", this.startDate) : new Document(),
+            !this.endDate.isEmpty() ? Updates.set("endDate", this.endDate) : new Document(),
+            !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
+            stocks != null ? Updates.set("stocks", this.stocks) : new Document(),
+            !this.product.isEmpty() ? Updates.set("product", this.product) : new Document()
+        );
+
+        return updates;
     }
 }

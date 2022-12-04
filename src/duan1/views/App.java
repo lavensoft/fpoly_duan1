@@ -6,6 +6,7 @@ package duan1.views;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.UIManager;
@@ -39,9 +40,11 @@ public class App extends javax.swing.JFrame {
      * Creates new form App
      */
     public App() {
+        
         initAssets();
         initComponents();
         init();
+        initProtocol();
     }
 
     public <V> void navigate(Class<V> view) {
@@ -61,6 +64,10 @@ public class App extends javax.swing.JFrame {
         } catch (IllegalAccessException e) {
             Log.error(e);
         }
+    }
+
+    private void initProtocol() {
+
     }
 
     private void init() {
@@ -100,6 +107,8 @@ public class App extends javax.swing.JFrame {
         sideBar2 = new duan1.components.SideBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(150, 30));
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);

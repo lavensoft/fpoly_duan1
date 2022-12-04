@@ -1,6 +1,8 @@
 package duan1.interfaces;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import com.mongodb.client.MongoCollection;
 
 public interface IModel {
@@ -9,4 +11,5 @@ public interface IModel {
     
     public void fromDocument(Document document);
     public Document toDocument();
+    public Bson toUpdates();
 }

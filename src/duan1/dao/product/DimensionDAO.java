@@ -26,8 +26,8 @@ public class DimensionDAO extends DAO<DimensionModel> {
         return super.get(query);
     }
 
-    public void delete(DimensionModel query) throws Exception {
-        super.delete(query);
+    public void deleteOne(DimensionModel query) throws Exception {
+        super.deleteOne(query);
     }
 
     public void deleteMany(DimensionModel query) throws Exception {

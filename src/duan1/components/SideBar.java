@@ -14,6 +14,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
+import duan1.config.Config;
 import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
 import duan1.utils.WrapLayout;
@@ -66,6 +67,9 @@ public class SideBar extends javax.swing.JPanel {
     }
 
     private void initMenuItems() {
+        //Set app version
+        appVersion.setText(Config.APP_VERSION);
+
         menuItemsGroup.setLayout(new WrapLayout(0, 0, 12));
 
         //Set User Info
@@ -144,6 +148,7 @@ public class SideBar extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         userNameLbl = new javax.swing.JLabel();
         emailLbl = new javax.swing.JLabel();
+        appVersion = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -158,10 +163,10 @@ public class SideBar extends javax.swing.JPanel {
         );
         menuItemsGroupLayout.setVerticalGroup(
             menuItemsGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
-        add(menuItemsGroup, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 230, 660));
+        add(menuItemsGroup, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 230, 600));
 
         jPanel1.setBackground(new java.awt.Color(234, 234, 234));
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -177,10 +182,16 @@ public class SideBar extends javax.swing.JPanel {
         jPanel1.add(emailLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 230, 70));
+
+        appVersion.setFont(new java.awt.Font("Helvetica Neue", 1, 11)); // NOI18N
+        appVersion.setForeground(new java.awt.Color(153, 153, 153));
+        appVersion.setText("APP_VERSION");
+        add(appVersion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 720, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel appVersion;
     private javax.swing.JLabel emailLbl;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

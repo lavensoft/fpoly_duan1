@@ -8,7 +8,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.function.Function;
 
+import javax.swing.JPanel;
+
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Dimension;
+
 import duan1.config.Config;
+import java.awt.AlphaComposite;
 
 /**
  *
@@ -22,6 +31,7 @@ public class SideBarItem extends javax.swing.JPanel {
      */
     public SideBarItem() {
         initComponents();
+        init();
     }
 
     public void onClick(Function<Integer, Void> func) {
@@ -39,12 +49,27 @@ public class SideBarItem extends javax.swing.JPanel {
         iconLbl.setText(icon);
     }
 
-    public void setActive(Boolean flag) {
-        if(flag) {
-            this.setBackground(new Color(242, 242, 242));
+    public void setActive(Boolean active) {
+        if(active) {
+            iconLbl.setForeground(new Color(255, 255, 255));
+            titleLbl.setForeground(new Color(255, 255, 255));
+            activeBackground.setBackground(new Color(10, 132, 255, 255));
         }else{
-            this.setBackground(new Color(255, 255, 255));
+            iconLbl.setForeground(new Color(176, 190, 197));
+            titleLbl.setForeground(new Color(176, 190, 197));
+            activeBackground.setBackground(new Color(0, 0, 0, 0));
         }
+    }
+
+    private void init() {
+        iconLbl.setForeground(new Color(176, 190, 197));
+        titleLbl.setForeground(new Color(176, 190, 197));
+
+        this.setOpaque(true);
+        this.setBackground(new Color(0, 0, 0, 0));
+
+        // activeBackground.setOpaque(true);
+        activeBackground.setBackground(new Color(0, 0, 0, 0));
     }
 
     /**
@@ -56,8 +81,9 @@ public class SideBarItem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        iconLbl = new javax.swing.JLabel();
+        activeBackground = new duan1.components.PanelBoder();
         titleLbl = new javax.swing.JLabel();
+        iconLbl = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -66,37 +92,20 @@ public class SideBarItem extends javax.swing.JPanel {
                 formMouseClicked(evt);
             }
         });
+        setLayout(new java.awt.BorderLayout());
+
+        activeBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        titleLbl.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
+        titleLbl.setText("MENU ITEM TITLE");
+        activeBackground.add(titleLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 15, -1, -1));
 
         iconLbl.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         iconLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iconLbl.setText("T");
+        activeBackground.add(iconLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 34, 32));
 
-        titleLbl.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
-        titleLbl.setText("MENU ITEM TITLE");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(iconLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(titleLbl)
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(iconLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(titleLbl)))
-                .addContainerGap(10, Short.MAX_VALUE))
-        );
+        add(activeBackground, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -105,6 +114,7 @@ public class SideBarItem extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private duan1.components.PanelBoder activeBackground;
     private javax.swing.JLabel iconLbl;
     private javax.swing.JLabel titleLbl;
     // End of variables declaration//GEN-END:variables

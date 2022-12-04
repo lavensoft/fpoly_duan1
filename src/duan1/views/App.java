@@ -77,10 +77,12 @@ public class App extends javax.swing.JFrame {
     }
 
     private void init() {
+        //* WINDOW
         this.setSize(1280, 770);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
+        //* APP
         sideBar2.setAppContext(this);
 
         ThemHoaDon hd = new ThemHoaDon();

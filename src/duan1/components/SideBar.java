@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.awt.Font;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import duan1.config.Config;
@@ -60,10 +62,22 @@ public class SideBar extends javax.swing.JPanel {
     public SideBar() {
         initComponents();
         initMenuItems();
+        init();
     }
 
     public void setAppContext(App context) {
         this.appContext = context;
+    }
+
+    private void init() {
+        backdrop.setIcon(new ImageIcon(getClass().getResource("/duan1/assets/images/background.jpeg")));
+        background.setBackground(new Color(18, 19, 26, 190));
+        // backdrop.setBackground(new Color(255,255,255));
+        // this.setBackground(new Color(18, 19, 26, 0));
+        userNameLbl.setForeground(new Color(255, 255, 255));
+        emailLbl.setForeground(new Color(255, 255, 255));
+        userInfoContainer.setBackground(new Color(255, 255, 255, 50));
+        menuItemsGroup.setBackground(new Color(0,0,0,0));
     }
 
     private void initMenuItems() {
@@ -98,8 +112,8 @@ public class SideBar extends javax.swing.JPanel {
         menuItems.forEach(item -> {
             if(item.isBreak) { //* BREAK TITLE */
                 JLabel title = new JLabel(item.title.toUpperCase());
-                title.setFont(new Font("SF Pro Text", Font.BOLD, 12));
-                title.setForeground(new Color(33, 43, 54));
+                title.setFont(new Font("SF Pro Text", Font.BOLD, 11));
+                title.setForeground(new Color(255, 255, 255));
 
                 menuItemsGroup.add(title);
             }else{ //* MENU ITEM */
@@ -144,13 +158,15 @@ public class SideBar extends javax.swing.JPanel {
     private void initComponents() {
 
         menuItemsGroup = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        userInfoContainer = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         userNameLbl = new javax.swing.JLabel();
         emailLbl = new javax.swing.JLabel();
         appVersion = new javax.swing.JLabel();
+        background = new javax.swing.JPanel();
+        backdrop = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(18, 19, 26));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         menuItemsGroup.setBackground(new java.awt.Color(255, 255, 255));
@@ -168,34 +184,50 @@ public class SideBar extends javax.swing.JPanel {
 
         add(menuItemsGroup, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 230, 600));
 
-        jPanel1.setBackground(new java.awt.Color(234, 234, 234));
-        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 58, 58));
+        userInfoContainer.setBackground(new java.awt.Color(255, 255, 255));
+        userInfoContainer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        userInfoContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        userInfoContainer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 58, 58));
 
         userNameLbl.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
         userNameLbl.setText("USER NAME");
-        jPanel1.add(userNameLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, -1, -1));
+        userInfoContainer.add(userNameLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, -1, -1));
 
         emailLbl.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         emailLbl.setText("EMAIL");
-        jPanel1.add(emailLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
+        userInfoContainer.add(emailLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 230, 70));
+        add(userInfoContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 230, 70));
 
         appVersion.setFont(new java.awt.Font("Helvetica Neue", 1, 11)); // NOI18N
         appVersion.setForeground(new java.awt.Color(153, 153, 153));
         appVersion.setText("APP_VERSION");
         add(appVersion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 720, -1, -1));
+
+        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
+        background.setLayout(backgroundLayout);
+        backgroundLayout.setHorizontalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+        backgroundLayout.setVerticalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 780, Short.MAX_VALUE)
+        );
+
+        add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 780));
+        add(backdrop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 780));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel appVersion;
+    private javax.swing.JLabel backdrop;
+    private javax.swing.JPanel background;
     private javax.swing.JLabel emailLbl;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel menuItemsGroup;
+    private javax.swing.JPanel userInfoContainer;
     private javax.swing.JLabel userNameLbl;
     // End of variables declaration//GEN-END:variables
 }

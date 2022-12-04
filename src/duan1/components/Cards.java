@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -24,6 +23,8 @@ import javax.swing.SwingUtilities;
 
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
+
+import duan1.utils.NextImage;
 
 /**
  *
@@ -113,24 +114,10 @@ public class Cards extends javax.swing.JPanel {
 
     public void setImg(String imageurl) {
         try {
-
-            URL urls = new URL(imageurl);
-//
-//            ImageIcon icon = new ImageIcon(urls);
-
-            ImgLable.setIcon(ImageProduct(urls));
+            ImgLable.setIcon(new NextImage().load(imageurl));
         } catch (Exception ex) {
             Logger.getLogger(Cards.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    ImageIcon ImageProduct(URL src) {
-        ImageIcon imacon = new ImageIcon(src);
-        Image dadimage = imacon.getImage();
-        Image modifiedDabImage = dadimage.getScaledInstance(161, 150, java.awt.Image.SCALE_AREA_AVERAGING);
-        imacon = new ImageIcon(modifiedDabImage);
-        
-        return imacon;
     }
 
     public void setName(String name) {

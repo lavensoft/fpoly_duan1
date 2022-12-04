@@ -24,8 +24,8 @@ public class OrderDimensionDAO extends DAO<OrderDimensionModel> {
         return super.get(query);
     }
 
-    public void delete(OrderDimensionModel query) throws Exception {
-        super.delete(query);
+    public void deleteOne(OrderDimensionModel query) throws Exception {
+        super.deleteOne(query);
     }
 
     public void deleteMany(OrderDimensionModel query) throws Exception {

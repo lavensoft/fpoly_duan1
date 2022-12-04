@@ -27,8 +27,8 @@ public class ProductController {
         return productDAO.get(query);
     }
 
-    public void delete(ProductModel query) throws Exception {
-        productDAO.delete(query);
+    public void deleteOne(ProductModel query) throws Exception {
+        productDAO.deleteOne(query);
     }
 
     public void deleteMany(ProductModel query) throws Exception {

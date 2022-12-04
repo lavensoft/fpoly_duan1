@@ -1,7 +1,11 @@
 package duan1.models.order;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+
+import com.mongodb.client.model.Updates;
+
 import duan1.interfaces.IModel;
 
 public class OrderDimensionModel extends Document implements IModel {
@@ -29,5 +33,17 @@ public class OrderDimensionModel extends Document implements IModel {
        if(discount != null) put("discount", this.discount);
 
        return this;
+   }
+
+   @Override
+   public Bson toUpdates() {
+        Bson updates = Updates.combine(
+            !this.order.isEmpty() ? Updates.set("order", this.order) : new Document(),
+            !this.product.isEmpty() ? Updates.set("product", this.product) : new Document(),
+            count != null ? Updates.set("count", this.count) : new Document(),
+            discount != null ? Updates.set("discount", this.discount) : new Document()
+        );
+
+        return updates;
    }
 }

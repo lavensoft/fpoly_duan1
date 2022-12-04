@@ -17,6 +17,14 @@ public class CustomerDAO extends DAO<CustomerModel> {
         super.add(customer);
     }
 
+    public void updateOne(CustomerModel query, CustomerModel customer) throws Exception {
+        super.updateOne(query, customer);
+    }
+
+    public void updateMany(CustomerModel query, CustomerModel customer) throws Exception {
+        super.updateMany(query, customer);
+    }
+
     public ArrayList<CustomerModel> getAll(CustomerModel... queries) throws Exception {
         if(queries.length > 0) queries[0].toDocument();
         return super.getAll(queries);
@@ -26,8 +34,8 @@ public class CustomerDAO extends DAO<CustomerModel> {
         return super.get(query);
     }
 
-    public void delete(CustomerModel query) throws Exception {
-        super.delete(query);
+    public void deleteOne(CustomerModel query) throws Exception {
+        super.deleteOne(query);
     }
 
     public void deleteMany(CustomerModel query) throws Exception {

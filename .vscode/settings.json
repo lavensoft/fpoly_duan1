@@ -62,7 +62,21 @@
             "libs/miglayout-4.0.jar",
             "libs/TimingFramework-0.55.jar",
             "libs/ui-dashboard-010.jar",
-            "libs/flatlaf-2.6.jar"
+            "libs/flatlaf-2.6.jar",
+            "libs/itextpdf-5.5.13.3.jar",
+            "libs/barcodes-7.2.4.jar",
+            "libs/commons-7.2.4.jar",
+            "libs/font-asian-7.2.4.jar",
+            "libs/forms-7.2.4.jar",
+            "libs/hyph-7.2.4.jar",
+            "libs/io-7.2.4.jar",
+            "libs/kernel-7.2.4.jar",
+            "libs/layout-7.2.4.jar",
+            "libs/pdfa-7.2.4.jar",
+            "libs/pdftest-7.2.4.jar",
+            "libs/sign-7.2.4.jar",
+            "libs/styled-xml-parser-7.2.4.jar",
+            "libs/svg-7.2.4.jar"
         ],
         "exclude": [
             "libs/json-20160810.jar"

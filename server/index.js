@@ -1,10 +1,39 @@
 const http = require('http');
+const express = require('express');
+const bodyParser = require('body-parser');
+const Momo = require('./Momo');
 
 //*HTTP SERVER
 let port = process.env.PORT || 9004;
 let ip = process.env.IP || 'localhost';
 
-const server = http.createServer().listen(port, ip, function(){
+const app = express();
+
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.static('public'));
+
+//Add CORS
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', '*');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+const server = http.createServer(app).listen(port, ip, function(){
     console.log('IO SERVER STARTED ON %s:%s', ip, port);
 });
 
@@ -31,4 +60,19 @@ io.on('connection', socket => {
     })
 
     socket.on('disconnect', () => { /* … */ });
+});
+
+//* API
+app.post("/create_pay", async (req, res) => {
+    let body = req.body;
+
+    let result = await Momo.createEWallet(body.amount, body.extraData);
+
+    res.send(JSON.stringify(result.data));
+});
+
+app.post("/complete_order", async (req, res) => {
+    let body = req.body;
+
+    res.status(204).send();
 });

@@ -120,7 +120,7 @@ public class ThemHoaDon extends View {
     private void submitOrder() {
         try {
             //* CREATE PAYMENT */
-            Document momo = Momo.create(billPrice, "");
+            Document momo = Momo.create(10000.0, "");
             WebBrowser.open(momo.getString("payUrl"));
 
             //* CREATE CUSTOMER */

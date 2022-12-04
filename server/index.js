@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const Momo = require('./Momo');
 
 //*HTTP SERVER
-let port = process.env.PORT || 9004;
+let port = process.env.PORT || 3006;
 let ip = process.env.IP || 'localhost';
 
 const app = express();
@@ -33,8 +33,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-const server = http.createServer(app).listen(port, ip, function(){
-    console.log('IO SERVER STARTED ON %s:%s', ip, port);
+const server = http.createServer(app).listen(port, function(){
+    console.log('SERVER STARTED ON HOST:%s', port);
 });
 
 //*SOCKET IO
@@ -73,6 +73,8 @@ app.post("/create_pay", async (req, res) => {
 
 app.post("/complete_order", async (req, res) => {
     let body = req.body;
+
+    console.log(body);
 
     res.status(204).send();
 });

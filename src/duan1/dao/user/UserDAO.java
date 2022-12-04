@@ -17,11 +17,27 @@ public class UserDAO extends DAO<UserModel> {
         super.add(user);
     }
 
+    public void updateOne(UserModel query, UserModel user) throws Exception {
+        super.updateOne(query, user);
+    }
+
+    public void updateMany(UserModel query, UserModel user) throws Exception {
+        super.updateMany(query, user);
+    }
+
     public ArrayList<UserModel> getAll(UserModel... user) throws Exception {
         return super.getAll(user);
     }
 
     public UserModel get(UserModel user) throws Exception {
         return super.get(user);
+    }
+
+    public void deleteOne(UserModel query) throws Exception {
+        super.deleteOne(query);
+    }
+
+    public void deleteMany(UserModel query) throws Exception {
+        super.deleteMany(query);
     }
 }

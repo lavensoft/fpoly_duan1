@@ -14,6 +14,18 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class UserController {
     private UserDAO userDAO = new UserDAO();
 
+    public void add(UserModel user) throws Exception {
+        userDAO.add(user);
+    }
+
+    public void updateOne(UserModel query, UserModel user) throws Exception {
+        userDAO.updateOne(query, user);
+    }
+
+    public void updateMany(UserModel query, UserModel user) throws Exception {
+        userDAO.updateMany(query, user);
+    }
+
     public UserModel checkLogin() throws Exception {
         UserModel user = new UserModel();
 
@@ -70,5 +82,13 @@ public class UserController {
 
     public UserModel get(UserModel query) throws Exception {
         return userDAO.get(query);
+    }
+
+    public void deleteOne(UserModel query) throws Exception {
+        userDAO.deleteOne(query);
+    }
+
+    public void deleteMany(UserModel query) throws Exception {
+        userDAO.deleteMany(query);
     }
 }

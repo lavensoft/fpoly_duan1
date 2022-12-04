@@ -73,6 +73,9 @@ public class SanPham extends View{
 
         // btnThem.setFont(btnFont);
         // btnThem.setText("\uf102");
+
+        //Header bar
+        headerBar1.setTitle("Sản Phẩm");
     }
 
     @Override
@@ -158,8 +161,17 @@ public class SanPham extends View{
             _loadDimensions = true;
             _dimensionProduct = _id;
 
-            Log.info("CLICKED ON PRODUCT: " + _id, SanPham.class.getName());
+            //Redraw headerbar
+            headerBar1.onBack(() -> {
+                //Load product
+                _loadDimensions = false;
+                drawCard();
 
+                //Clear back btn
+                headerBar1.onBack(null);
+            });
+
+            //Load dimension
             DimensionModel query = new DimensionModel();
             query.product = _id;
 

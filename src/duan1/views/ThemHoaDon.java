@@ -151,8 +151,12 @@ public class ThemHoaDon extends View {
     private void submitOrder() {
         try {
             //* CREATE PAYMENT */
-            Document momo = Momo.create(10000.0, "");
-            WebBrowser.open(momo.getString("payUrl"));
+            Document momo = new Document();
+            
+            if(comboPayment.getSelectedIndex() == 0) {
+                momo = Momo.create(10000.0, "");
+                WebBrowser.open(momo.getString("payUrl"));
+            } 
 
             //* CREATE CUSTOMER */
             if(customerId == null) {
@@ -181,8 +185,8 @@ public class ThemHoaDon extends View {
             order.customer = customerId;
             order.description = txtNote.getText();
             order.paymentMethod = Config.PAYMENT_METHODS[comboPayment.getSelectedIndex()];
-            order.paymentStatus = "pending";
-            order.paymentOrderId = momo.getString("orderId");
+            order.paymentStatus = comboPayment.getSelectedIndex() == 0 ? "pending" : "success";
+            order.paymentOrderId = comboPayment.getSelectedIndex() == 0 ? momo.getString("orderId") : "";
 
             orderController.add(order);
             order = orderController.get(order);
@@ -243,6 +247,7 @@ public class ThemHoaDon extends View {
 
     private void init() {
         productContainer.setLayout(new WrapLayout(1, 12, 24));
+        headerBar1.setTitle("Tạo Đơn Hàng");
     }
 
     /**

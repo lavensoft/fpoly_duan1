@@ -29,7 +29,12 @@ public class NhanVien extends View {
 
     public NhanVien() {
         initComponents();
+        init();
         load();
+    }
+
+    private void init() {
+        headerBar1.setTitle("Nhân Viên");
     }
 
     void load() {

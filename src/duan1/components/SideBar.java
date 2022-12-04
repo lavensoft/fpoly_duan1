@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import duan1.config.Config;
 import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
+import duan1.utils.Async;
 import duan1.utils.WrapLayout;
 import duan1.views.App;
 import duan1.views.KhachHang;
@@ -125,8 +126,11 @@ public class SideBar extends javax.swing.JPanel {
                 menuItem.onClick(e -> {
                     unActiveAllMenuItem();
                     menuItem.setActive(true);
+                    
+                    Async.setTimeout(() -> {
+                        appContext.navigate(item.view);
+                    }, 100);
 
-                    appContext.navigate(item.view);
                     return null;
                 });
 

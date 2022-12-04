@@ -8,16 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.function.Function;
 
-import javax.swing.JPanel;
-
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Dimension;
-
 import duan1.config.Config;
-import java.awt.AlphaComposite;
 
 /**
  *

@@ -23,6 +23,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Component;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
@@ -72,6 +74,8 @@ public class App extends javax.swing.JFrame {
 
     private void init() {
         this.setSize(1280, 770);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
         sideBar2.setAppContext(this);
 

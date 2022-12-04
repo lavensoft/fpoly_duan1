@@ -120,8 +120,8 @@ public class ThemHoaDon extends View {
     private void submitOrder() {
         try {
             //* CREATE PAYMENT */
-            // Document momo = Momo.create();
-            // WebBrowser.open(momo.getString("payUrl"));
+            Document momo = Momo.create(billPrice, "");
+            WebBrowser.open(momo.getString("payUrl"));
 
             //* CREATE CUSTOMER */
             if(customerId == null) {
@@ -189,7 +189,6 @@ public class ThemHoaDon extends View {
         try {
             CustomerModel customer = new CustomerModel();
             customer.phone = txtPhone.getText();
-            System.out.println(customer.toDocument());
             customer = customerController.get(customer);
 
             if(customer != null) {

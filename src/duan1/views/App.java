@@ -42,11 +42,11 @@ public class App extends javax.swing.JFrame {
      * Creates new form App
      */
     public App() {
-        
         initAssets();
         initComponents();
         init();
         initProtocol();
+        initStates();
     }
 
     public <V> void navigate(Class<V> view) {
@@ -70,6 +70,10 @@ public class App extends javax.swing.JFrame {
 
     private void initProtocol() {
 
+    }
+
+    private void initStates() {
+        AppStates.init(socket);
     }
 
     private void init() {

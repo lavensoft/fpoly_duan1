@@ -4,10 +4,12 @@
  */
 package duan1.views;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
 import org.bson.Document;
@@ -57,6 +59,7 @@ public class ThemHoaDon extends View {
     Boolean searchWaiting = false;
     String customerId;
     Double customerPoints = 0.0;
+    OrderModel order;
 
     /**
      * Creates new form ThemHoaDon
@@ -116,7 +119,35 @@ public class ThemHoaDon extends View {
         lblBillTotal.setText(vndFormat.format(Math.round(billPrice * 1.1)));
     }
 
-    //* SAVE ORDER */
+    //* CHECK ORDER PAYMENT */
+    private void checkPayment() {
+        try {
+            OrderModel query = new OrderModel();
+            query._id = order._id;
+
+            order = orderController.get(query);
+
+            if(order.paymentStatus.equals("success")) {
+                btnAdd.setEnabled(false);
+                btnAdd.setBackground(new Color(0, 122, 255));
+                btnAdd.setForeground(new Color(255, 255, 255));
+                // btnAdd.setBorder(BorderFactory.createEmptyBorder());
+                btnAdd.setText("Đơn Đã Thanh Toán");
+                JOptionPane.showMessageDialog(addProductPopup, "Đơn hàng đã được thanh toán!");
+            }else{
+                btnAdd.setBackground(new Color(255, 149, 0));
+                btnAdd.setForeground(new Color(255, 255, 255));
+                // btnAdd.setBorder(BorderFactory.createEmptyBorder());
+                btnAdd.setText("Kiểm Tra Thanh Toán");
+                JOptionPane.showMessageDialog(addProductPopup, "Đơn hàng chưa được thanh toán!");
+            }
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(addProductPopup, e.getMessage());
+            Log.error(e);
+        }
+    }
+
+    //* CREATE ORDER */
     private void submitOrder() {
         try {
             //* CREATE PAYMENT */
@@ -150,6 +181,8 @@ public class ThemHoaDon extends View {
             order.customer = customerId;
             order.description = txtNote.getText();
             order.paymentMethod = Config.PAYMENT_METHODS[comboPayment.getSelectedIndex()];
+            order.paymentStatus = "pending";
+            order.paymentOrderId = momo.getString("orderId");
 
             orderController.add(order);
             order = orderController.get(order);
@@ -165,6 +198,9 @@ public class ThemHoaDon extends View {
                 orderDimensionController.add(orderDimension);
             }
 
+            this.order = order;
+
+            btnAdd.setText("Kiểm Tra Thanh Toán");
             JOptionPane.showMessageDialog(addProductPopup, "ORDER_CREATE_SUCCESSFULLY");
         }catch(Exception e) {
             e.printStackTrace();
@@ -538,7 +574,8 @@ public class ThemHoaDon extends View {
     }//GEN-LAST:event_btnAddProductActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        this.submitOrder();
+        if(order == null) this.submitOrder();
+        if(order != null && order.paymentStatus != "success") this.checkPayment();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void txtPhoneInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtPhoneInputMethodTextChanged

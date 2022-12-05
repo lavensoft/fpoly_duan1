@@ -52,6 +52,10 @@ public class SanPham extends View{
     private boolean _loadDimensions = false;
     private String _dimensionProduct = "";
 
+    //* VIEWS */
+    private SanPhamEdit sanPhamEditView = new SanPhamEdit();
+    private DimensionEdit dimensionEditView = new DimensionEdit();
+
     public SanPham() {
         initComponents();
         revalidateComponents();
@@ -73,11 +77,17 @@ public class SanPham extends View{
 
         // btnThem.setFont(btnFont);
         // btnThem.setText("\uf102");
+
+        //Header bar
+        headerBar1.setTitle("Sản Phẩm");
     }
 
     @Override
     public void setSocket(Socket socket) {
         this.socket = socket;
+
+        sanPhamEditView.setSocket(socket);
+        dimensionEditView.setSocket(socket);
 
         initSocket();
     }
@@ -158,8 +168,17 @@ public class SanPham extends View{
             _loadDimensions = true;
             _dimensionProduct = _id;
 
-            Log.info("CLICKED ON PRODUCT: " + _id, SanPham.class.getName());
+            //Redraw headerbar
+            headerBar1.onBack(() -> {
+                //Load product
+                _loadDimensions = false;
+                drawCard();
 
+                //Clear back btn
+                headerBar1.onBack(null);
+            });
+
+            //Load dimension
             DimensionModel query = new DimensionModel();
             query.product = _id;
 
@@ -362,7 +381,9 @@ public class SanPham extends View{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new ThemSanPham(socket, _dimensionProduct).setVisible(true);
+        // new ThemSanPham(socket, _dimensionProduct).setVisible(true);
+        if(_loadDimensions) dimensionEditView.setVisible(true);
+        else sanPhamEditView.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

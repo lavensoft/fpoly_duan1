@@ -2,6 +2,23 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const Momo = require('./Momo');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const Config = require('./config');
+
+//* DATABASE
+mongoose.connect(Config.DATABASE);
+
+//* DATABASE SCHEMA
+const Orders = mongoose.model('orders', new Schema({
+    author: String,
+    customer: String,
+    description: String,
+    dateCreated: String,
+    paymentMethod: String,
+    paymentStatus: String,
+    paymentOrderId: String
+}))
 
 //*HTTP SERVER
 let port = process.env.PORT || 3006;
@@ -71,10 +88,15 @@ app.post("/create_pay", async (req, res) => {
     res.send(JSON.stringify(result.data));
 });
 
+//* PAYMENT IPN
 app.post("/complete_order", async (req, res) => {
     let body = req.body;
 
-    console.log(body);
+    await Orders.updateOne({
+        paymentOrderId: body.orderId
+    }, {
+        paymentStatus: "success"
+    });
 
     res.status(204).send();
 });

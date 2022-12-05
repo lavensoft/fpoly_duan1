@@ -15,6 +15,11 @@ public class KhuyenMai extends View {
      */
     public KhuyenMai() {
         initComponents();
+        init();
+    }
+
+    private void init() {
+        headerBar2.setTitle("Khuyến Mãi");
     }
 
     /**

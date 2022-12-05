@@ -6,6 +6,7 @@ package duan1.components;
 
 import duan1.config.Config;
 import duan1.utils.Log;
+import duan1.utils.NextImage;
 
 import java.awt.Font;
 import java.awt.Image;
@@ -37,20 +38,10 @@ public class DetailCard extends javax.swing.JPanel {
 
     public void setImg(String imageurl) {
         try {
-            URL urls = new URL(imageurl);
-            banner.setIcon(ImageProduct(urls));
+            banner.setIcon(new NextImage().load(imageurl, banner.getWidth(), banner.getHeight()));
         } catch (Exception ex) {
             Log.error(ex);
         }
-    }
-
-    ImageIcon ImageProduct(URL src) {
-        ImageIcon imacon = new ImageIcon(src);
-        Image dadimage = imacon.getImage();
-        Image modifiedDabImage = dadimage.getScaledInstance(50, 50, java.awt.Image.SCALE_AREA_AVERAGING);
-        imacon = new ImageIcon(modifiedDabImage);
-        
-        return imacon;
     }
 
     public void setName(String name) {

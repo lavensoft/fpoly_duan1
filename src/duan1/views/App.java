@@ -42,11 +42,11 @@ public class App extends javax.swing.JFrame {
      * Creates new form App
      */
     public App() {
-        
         initAssets();
         initComponents();
         init();
         initProtocol();
+        initStates();
     }
 
     public <V> void navigate(Class<V> view) {
@@ -72,11 +72,17 @@ public class App extends javax.swing.JFrame {
 
     }
 
+    private void initStates() {
+        AppStates.init(socket);
+    }
+
     private void init() {
+        //* WINDOW
         this.setSize(1280, 770);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
+        //* APP
         sideBar2.setAppContext(this);
 
         ThemHoaDon hd = new ThemHoaDon();

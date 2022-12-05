@@ -16,38 +16,56 @@ import duan1.config.Config;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.RenderingHints;
 
 public class NextImage {
-    public ImageIcon load(String url) throws Exception {
-        String[] imagePath = url.split("/");
-        String fileName = imagePath[imagePath.length - 1];
+    public ImageIcon load(String url, int w, int h) throws Exception {
+        if(url.contains("http")) { //* NETWORK */
+            String[] imagePath = url.split("/");
+            String fileName = imagePath[imagePath.length - 1];
+    
+            ImageIcon image;
+            image = loadCache(fileName, w, h);
+    
+            if(image == null) image = loadNetwork(url, fileName, w, h);
+    
+            return image;
+        }else{ //* LOCAL */
+            URL filePath = new File(url).toURI().toURL();
+            ImageIcon imageIcon = new ImageIcon(filePath);
+            Image image = imageIcon.getImage();
+            image = getScaledImage(image, w, h);
 
-        ImageIcon image;
+            imageIcon = new ImageIcon(image);
 
-        image = loadCache(fileName);
-
-        if(image == null) image = loadNetwork(url, fileName);
-
-        return image;
+            return imageIcon;
+        }
     }
 
-    private ImageIcon loadCache(String fileName) throws MalformedURLException {
+    private ImageIcon loadCache(String fileName, int w, int h) throws MalformedURLException {
         File imageFile = new File(Config.CACHE_PATH + fileName);
         URL filePath = new File(Config.CACHE_PATH + fileName).toURI().toURL();
 
         if(imageFile.exists() && !imageFile.isDirectory()) { 
-            return new ImageIcon(filePath);
+            ImageIcon imageIcon = new ImageIcon(filePath);
+            Image image = imageIcon.getImage();
+            image = getScaledImage(image, w, h);
+
+            imageIcon = new ImageIcon(image);
+
+            return imageIcon;
         }
 
         return null;
     }
 
-    private ImageIcon loadNetwork(String url, String fileName) throws IOException {
+    private ImageIcon loadNetwork(String url, String fileName, int w, int h) throws IOException {
         //* LOAD IMAGE */
         URL imageUrl = new URL(url);
         ImageIcon imageIcon = new ImageIcon(imageUrl);
         Image image = imageIcon.getImage();
-        image = image.getScaledInstance(161, 150, java.awt.Image.SCALE_AREA_AVERAGING);
+        image = getScaledImage(image, w, h);
+
         imageIcon = new ImageIcon(image);
 
         //* CACHE IMAGE */
@@ -72,5 +90,16 @@ public class NextImage {
         Files.createDirectories(Paths.get(Config.CACHE_PATH));
 
         ImageIO.write(bufferImage, fileType, cacheImage);
+    }
+
+    private Image getScaledImage(Image srcImg, int w, int h){
+        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+    
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(srcImg, 0, 0, w, h, null);
+        g2.dispose();
+    
+        return resizedImg;
     }
 }

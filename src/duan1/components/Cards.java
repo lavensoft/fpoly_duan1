@@ -114,7 +114,7 @@ public class Cards extends javax.swing.JPanel {
 
     public void setImg(String imageurl) {
         try {
-            ImgLable.setIcon(new NextImage().load(imageurl));
+            ImgLable.setIcon(new NextImage().load(imageurl, 150, 130));
         } catch (Exception ex) {
             Logger.getLogger(Cards.class.getName()).log(Level.SEVERE, null, ex);
         }

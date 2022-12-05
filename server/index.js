@@ -21,7 +21,7 @@ const Orders = mongoose.model('orders', new Schema({
 }))
 
 //*HTTP SERVER
-let port = process.env.PORT || 3006;
+let port = Config.DEBUG ? 3006 : 9004;
 let ip = process.env.IP || 'localhost';
 
 const app = express();

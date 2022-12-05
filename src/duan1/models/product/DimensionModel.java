@@ -21,6 +21,12 @@ public class DimensionModel extends Document implements IModel {
     public String dateCreated = "";
     public Integer stocks;
     public String product = "";
+    public String ram = "";
+    public String rom = "";
+    public String pin = "";
+    public String camera = "";
+    public String display = "";
+    public String sim = "";
 
     @Override
     public void fromDocument(Document document) {
@@ -33,6 +39,12 @@ public class DimensionModel extends Document implements IModel {
         this.dateCreated = document.getString("dateCreated");
         this.stocks = document.getInteger("stocks");
         this.product =  document.getString("product");
+        this.ram =  document.getString("ram");
+        this.rom =  document.getString("rom");
+        this.pin =  document.getString("pin");
+        this.camera =  document.getString("camera");
+        this.display =  document.getString("display");
+        this.sim =  document.getString("sim");
     }
 
     @Override
@@ -46,6 +58,12 @@ public class DimensionModel extends Document implements IModel {
         if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
         if(stocks != null) put("stocks", this.stocks);
         if(!this.product.isEmpty()) put("product", this.product);
+        if(!this.ram.isEmpty()) put("ram", this.ram);
+        if(!this.rom.isEmpty()) put("rom", this.rom);
+        if(!this.pin.isEmpty()) put("pin", this.pin);
+        if(!this.camera.isEmpty()) put("camera", this.camera);
+        if(!this.display.isEmpty()) put("display", this.display);
+        if(!this.sim.isEmpty()) put("sim", this.sim);
 
         return this;
     }
@@ -60,7 +78,13 @@ public class DimensionModel extends Document implements IModel {
              !this.banner.isEmpty() ? Updates.set("banner", this.banner) : new Document(),
              !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
              stocks != null ? Updates.set("stocks", this.stocks) : new Document(),
-             !this.product.isEmpty() ? Updates.set("product", this.product) : new Document()
+             !this.product.isEmpty() ? Updates.set("product", this.product) : new Document(),
+             !this.ram.isEmpty() ? Updates.set("ram", this.ram) : new Document(),
+             !this.rom.isEmpty() ? Updates.set("rom", this.rom) : new Document(),
+             !this.pin.isEmpty() ? Updates.set("pin", this.pin) : new Document(),
+             !this.camera.isEmpty() ? Updates.set("camera", this.camera) : new Document(),
+             !this.display.isEmpty() ? Updates.set("display", this.display) : new Document(),
+             !this.sim.isEmpty() ? Updates.set("sim", this.sim) : new Document()
          );
  
          return updates;

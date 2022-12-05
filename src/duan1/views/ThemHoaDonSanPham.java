@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JViewport;
+
 import org.w3c.dom.css.RGBColor;
 
 /**
@@ -53,7 +56,8 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
     //* PRIVATE */
     private void init() {
-        
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
+        jScrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
     }
 
     void load() {

@@ -12,6 +12,8 @@ import duan1.utils.WrapLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JViewport;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,6 +46,7 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
     public ThemKhuyenMai() {
         initComponents();
         load();
+        init();
         drawCard();
     }
 
@@ -55,6 +58,11 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
             Logger.getLogger(ThemKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    private void init() {
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
+        jScrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
     }
 
     void drawCard() {

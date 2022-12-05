@@ -79,7 +79,7 @@ public class NextImage {
         Image img = image;
         String[] fileContentTypeSplited = URLConnection.guessContentTypeFromName(new File(fileName).getName()).split("/");
         String fileType = fileContentTypeSplited[1];
-        BufferedImage bufferImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferImage = new BufferedImage(image.getWidth(null), image.getHeight(null), fileType == "png" ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
         File cacheImage = new File(Config.CACHE_PATH + fileName);
 
         Graphics2D g2 = bufferImage.createGraphics();

@@ -38,7 +38,7 @@ public class DetailCard extends javax.swing.JPanel {
 
     public void setImg(String imageurl) {
         try {
-            banner.setIcon(new NextImage().load(imageurl));
+            banner.setIcon(new NextImage().load(imageurl, banner.getWidth(), banner.getHeight()));
         } catch (Exception ex) {
             Log.error(ex);
         }

@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/IT17303/22FALL/DuAn2/duan1/src/duan1/views/KhuyenMai.java</file>
+            <file>file:/D:/IT17303/22FALL/DuAn2/duan1/src/duan1/views/ThemSanPham.java</file>
+            <file>file:/D:/IT17303/22FALL/DuAn2/duan1/src/duan1/controllers/user/UserController.java</file>
+            <file>file:/D:/IT17303/22FALL/DuAn2/duan1/src/duan1/views/NhanVien.java</file>
+            <file>file:/D:/IT17303/22FALL/DuAn2/duan1/src/duan1/dao/user/UserDAO.java</file>
+            <file>file:/D:/IT17303/22FALL/DuAn2/duan1/src/duan1/views/SanPham.java</file>
+            <file>file:/D:/IT17303/22FALL/DuAn2/duan1/src/duan1/views/ThemKhuyenMai.java</file>
+        </group>
     </open-files>
 </project-private>

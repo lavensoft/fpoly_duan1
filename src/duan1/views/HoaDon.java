@@ -4,74 +4,68 @@
  */
 package duan1.views;
 
-import duan1.models.product.DimensionModel;
-import duan1.models.product.ProductModel;
-import duan1.utils.WrapLayout;
-
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import java.awt.FlowLayout;
+
+import duan1.controllers.order.OrderController;
+import duan1.models.order.OrderModel;
+import duan1.utils.Log;
 
 /**
  *
- * @author TAN PHAT
+ * @author nhatsdevil
  */
-public class HoaDon extends javax.swing.JPanel {
+public class HoaDon extends View {
+    //* VARIABLES */
+
+    //* CONTROLLERS */
+    private OrderController orderController = new OrderController();
+
+    //* DATA */
+    private ArrayList<OrderModel> orders = new ArrayList<>();
 
     /**
      * Creates new form HoaDon
      */
-    DefaultTableModel model = new DefaultTableModel();
-    ArrayList<DimensionModel> billProducts = new ArrayList<>();
-
     public HoaDon() {
         initComponents();
-        setOpaque(false);
-        reinit();
+        fetchData();
+        init();
     }
 
-    private void reinit() {
-        billTotalPanel.setLayout(new WrapLayout(0, 24, 24));
-    }
-
-    private void loadTotalBill() {
-        billProducts.forEach(data -> {
-            JPanel row = new JPanel();
-            row.setLayout(new FlowLayout());
-            // row.setSize(500, 250);
-            row.setBackground(new Color(255, 255, 0));
-
-            JPanel productNameContainer = new JPanel();
-
-            Double price = 0.0;
-
-            if(data.price != null) price = data.price;
+    //* PUBLIC */
     
-            productNameContainer.add(new JLabel(data.name));
-            row.add(productNameContainer);
-            row.add(new JLabel(price.toString() + " đ"));
+    //* PRIVATE */
+    private void init() {
+        headerBar1.setTitle("Đơn Hàng");
 
-            billTotalPanel.add(row);
+        //TABLE
+        String[] columnNames = {"Khách hàng", "Ngày mua hàng", "Loại thanh toán", "Trạng thái thanh toán", "Người tạo", "Ghi chú"};
+        Object[][] data = {};
+
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+        orders.forEach(item -> {
+            model.addRow(new Object[]{
+                item.customer,
+                item.dateCreated,
+                item.paymentMethod,
+                item.paymentStatus,
+                item.author,
+                item.description
+            });
         });
 
-        billTotalPanel.revalidate();
+        table.setModel(model);
     }
 
-    private void loadTable() {
-        
-    }
-
-    public void addBillProduct(DimensionModel dimension) {
-        billProducts.add(dimension);
-        
-        loadTable();
-        loadTotalBill();
+    private void fetchData() {
+        try {
+            orders = orderController.getAll();
+        }catch(Exception e) {
+            Log.error(e);
+        }
     }
 
     /**
@@ -83,72 +77,80 @@ public class HoaDon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menu1 = new duan1.components.Menu();
-        panelBoder1 = new duan1.components.PanelBoder();
-        jButton2 = new javax.swing.JButton();
-        billTotalView = new javax.swing.JScrollPane();
-        billTotalPanel = new duan1.components.PanelBoder();
-        jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JButton();
+        headerBar1 = new duan1.components.HeaderBar();
 
-        panelBoder1.setBackground(new java.awt.Color(255, 255, 255));
-        panelBoder1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(new java.awt.BorderLayout());
 
-        jButton2.setText("Them");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(819, 64));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setSize(new java.awt.Dimension(100, 64));
+
+        btnAdd.setFont(new java.awt.Font("Ionicons", 0, 18)); // NOI18N
+        btnAdd.setText("");
+        btnAdd.setPreferredSize(new java.awt.Dimension(36, 36));
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMouseClicked(evt);
             }
         });
-        panelBoder1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, -1, -1));
 
-        billTotalPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout billTotalPanelLayout = new javax.swing.GroupLayout(billTotalPanel);
-        billTotalPanel.setLayout(billTotalPanelLayout);
-
-        billTotalView.setViewportView(billTotalPanel);
-
-        panelBoder1.add(billTotalView, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 830, 650));
-
-        jButton4.setText("Thanh Toan");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        panelBoder1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, -1, -1));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBoder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBoder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_END);
+        jPanel1.add(headerBar1, java.awt.BorderLayout.LINE_START);
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        ThemHoaDonSanPham themHD = new ThemHoaDonSanPham();
-        themHD.setHoaDonContext(this);
-        themHD.setVisible(true);
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        appContext.navigate(ThemHoaDon.class);
+    }//GEN-LAST:event_btnAddMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private duan1.components.PanelBoder billTotalPanel;
-    private javax.swing.JScrollPane billTotalView;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private duan1.components.Menu menu1;
-    private duan1.components.PanelBoder panelBoder1;
+    private javax.swing.JButton btnAdd;
+    private duan1.components.HeaderBar headerBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

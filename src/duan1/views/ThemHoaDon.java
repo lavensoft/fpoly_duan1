@@ -154,7 +154,7 @@ public class ThemHoaDon extends View {
             Document momo = new Document();
             
             if(comboPayment.getSelectedIndex() == 0) {
-                momo = Momo.create(10000.0, "");
+                momo = Momo.create(billPrice, "");
                 WebBrowser.open(momo.getString("payUrl"));
             } 
 
@@ -248,6 +248,9 @@ public class ThemHoaDon extends View {
     private void init() {
         productContainer.setLayout(new WrapLayout(1, 12, 24));
         headerBar1.setTitle("Tạo Đơn Hàng");
+        headerBar1.onBack(() -> {
+            this.appContext.navigate(HoaDon.class);
+        });
     }
 
     /**

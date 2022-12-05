@@ -15,6 +15,7 @@ public class UserController {
     private UserDAO userDAO = new UserDAO();
 
     public void add(UserModel user) throws Exception {
+        user.password = DigestUtils.sha256Hex(user.password);
         userDAO.add(user);
     }
 

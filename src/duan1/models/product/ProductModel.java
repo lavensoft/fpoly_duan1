@@ -19,6 +19,7 @@ public class ProductModel extends Document implements IModel {
     public String description = "";
     public String banner = "";
     public String dateCreated = "";
+    public String releaseYear = "";
     public String author = "";
     public ArrayList<String> dimensions = new ArrayList<String>();
     public String manufacturer = "";
@@ -30,6 +31,7 @@ public class ProductModel extends Document implements IModel {
         this.description = document.getString("email");
         this.banner = document.getString("banner");
         this.dateCreated = document.getString("dateCreated");
+        this.releaseYear = document.getString("releaseYear");
         this.author = document.getString("author");
         this.dimensions = (ArrayList<String>)document.get("dimensions");
         this.manufacturer = document.getString("manufacturer");
@@ -42,6 +44,7 @@ public class ProductModel extends Document implements IModel {
         if(!this.description.isEmpty()) put("description", this.description);
         if(!this.banner.isEmpty()) put("banner", this.banner);
         if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
+        if(!this.releaseYear.isEmpty()) put("releaseYear", this.releaseYear);
         if(!this.author.isEmpty()) put("author", this.author);
         if(!this.dimensions.isEmpty()) put("dimensions", this.dimensions);
         if(!this.manufacturer.isEmpty()) put("manufacturer", this.manufacturer);
@@ -56,6 +59,7 @@ public class ProductModel extends Document implements IModel {
             !this.description.isEmpty() ? Updates.set("description", this.description) : new Document(),
             !this.banner.isEmpty() ? Updates.set("banner", this.banner) : new Document(),
             !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
+            !this.releaseYear.isEmpty() ? Updates.set("releaseYear", this.releaseYear) : new Document(),
             !this.author.isEmpty() ? Updates.set("author", this.author) : new Document(),
             !this.dimensions.isEmpty() ? Updates.set("dimensions", this.dimensions) : new Document(),
             !this.manufacturer.isEmpty() ? Updates.set("manufacturer", this.manufacturer) : new Document()

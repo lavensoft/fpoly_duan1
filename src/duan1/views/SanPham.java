@@ -54,6 +54,7 @@ public class SanPham extends View{
 
     //* VIEWS */
     private SanPhamEdit sanPhamEditView = new SanPhamEdit();
+    private DimensionEdit dimensionEditView = new DimensionEdit();
 
     public SanPham() {
         initComponents();
@@ -86,6 +87,8 @@ public class SanPham extends View{
         this.socket = socket;
 
         sanPhamEditView.setSocket(socket);
+        dimensionEditView.setSocket(socket);
+
         initSocket();
     }
     
@@ -379,7 +382,8 @@ public class SanPham extends View{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // new ThemSanPham(socket, _dimensionProduct).setVisible(true);
-        sanPhamEditView.setVisible(true);
+        if(_loadDimensions) dimensionEditView.setVisible(true);
+        else sanPhamEditView.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

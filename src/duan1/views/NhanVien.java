@@ -53,7 +53,7 @@ public class NhanVien extends View {
         }
     }
 
-    void AddEmloyee() {
+    void AddEmployee() {
         userModel.name = txtTenNV.getText();
         userModel.password = txtMatKhau.getText();
         userModel.cccd = txtCMND.getText();
@@ -61,8 +61,38 @@ public class NhanVien extends View {
         userModel.salary = Double.parseDouble(txtLuong.getText());
         userModel.permission = txtViTri.getText();
 
-        arrUser.add(userModel);
+        try {
+            controller.add(userModel);
+        } catch (Exception ex) {
+            Logger.getLogger(NhanVien.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }
+    
+    void DeleteEmployee(){
+        String testCMND = txtCMND.getText();
+        arrUser.forEach(data ->{
+            if(data.cccd == testCMND){
+                
+            }
+        });
+    }
+    
+    
+    void showInfo(int index){
+        modelTable = (DefaultTableModel) tblNhanVien.getModel();
+        
+        userModel = arrUser.get(index);
+        
+        if(index >=0){
+            txtTenNV.setText(modelTable.getValueAt(index, 0).toString());
+            txtMatKhau.setText(modelTable.getValueAt(index, 1).toString());
+            txtCMND.setText(modelTable.getValueAt(index, 2).toString());
+            txtNgayTao.setText(modelTable.getValueAt(index, 3).toString());
+            txtLuong.setText(modelTable.getValueAt(index, 4).toString());
+            txtViTri.setText(modelTable.getValueAt(index, 5).toString());
+            
+        }
     }
 
     /**
@@ -275,6 +305,11 @@ public class NhanVien extends View {
                 "Tên", "Mật  Khẩu", "Cccd", "Ngày gia nhập", "Lương", "Vị trí"
             }
         ));
+        tblNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblNhanVienMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblNhanVien);
 
         javax.swing.GroupLayout panelBoder3Layout = new javax.swing.GroupLayout(panelBoder3);
@@ -336,12 +371,14 @@ public class NhanVien extends View {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        AddEmloyee();
+        AddEmployee();
         load();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
+        DeleteEmployee();
+        load();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void txtTenNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenNVActionPerformed
@@ -367,6 +404,12 @@ public class NhanVien extends View {
     private void txtViTriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViTriActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtViTriActionPerformed
+
+    private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblNhanVien.getSelectedRow();
+        showInfo(selectedRow);
+    }//GEN-LAST:event_tblNhanVienMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

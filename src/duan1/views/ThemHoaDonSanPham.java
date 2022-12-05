@@ -7,9 +7,11 @@ package duan1.views;
 import duan1.components.Cards;
 import duan1.controllers.product.DeviceConfigurationController;
 import duan1.controllers.product.DimensionController;
+import duan1.controllers.product.ManufacturerController;
 import duan1.controllers.product.ProductController;
 import duan1.models.product.DeviceConfigurationModel;
 import duan1.models.product.DimensionModel;
+import duan1.models.product.ManufacturerModel;
 import duan1.models.product.ProductModel;
 import duan1.utils.Log;
 import duan1.utils.NextImage;
@@ -38,13 +40,19 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
      * Creates new form ThemHoaDonSanPham
      */
 
+    //* POPULATES */
+    Populate<DeviceConfigurationModel> configPopulate = new Populate<>();
+    Populate<ManufacturerModel> manufacturerPopulate = new Populate<>();
+
     //* CONTROLLERS */
-    DimensionController controller = new DimensionController();
+    private DimensionController controller = new DimensionController();
     private DeviceConfigurationController deviceConfigController = new DeviceConfigurationController();
+    private ManufacturerController manufacturerController = new ManufacturerController();
     
     //* DATA */
-    ArrayList<DimensionModel> arrProduct = new ArrayList<>();
+    private ArrayList<DimensionModel> arrProduct = new ArrayList<>();
     private ArrayList<DeviceConfigurationModel> deviceConfigs = new ArrayList<>();
+    private ArrayList<ManufacturerModel> manufacturers = new ArrayList<>();
 
     DimensionModel model = new DimensionModel();
     int index = 0;
@@ -73,6 +81,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     void fetchData() {
         try {
             deviceConfigs = deviceConfigController.getAll();
+            manufacturers = manufacturerController.getAll();
             arrProduct = controller.getAll();
             Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
@@ -93,7 +102,6 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
             card.onClick(e -> {
                 this.model = data;
-                Populate<DeviceConfigurationModel> configPopulate = new Populate<DeviceConfigurationModel>();
                 
                 //* UPDATE TO UI */
                 try {
@@ -111,7 +119,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
                 lblRam.setText(configPopulate.find(data.ram, deviceConfigs).value);
                 lblPin.setText(configPopulate.find(data.pin, deviceConfigs).value);
                 lblDisplay.setText(configPopulate.find(data.display, deviceConfigs).value);
-                lblManufacturer.setText(data.manufacturer);
+                lblManufacturer.setText(manufacturerPopulate.find(data.manufacturer, manufacturers).title);
                 lblRom.setText(configPopulate.find(data.rom, deviceConfigs).value);
                 lblCamera.setText(configPopulate.find(data.camera, deviceConfigs).value);
                 lblSim.setText(configPopulate.find(data.sim, deviceConfigs).value);

@@ -248,6 +248,9 @@ public class ThemHoaDon extends View {
     private void init() {
         productContainer.setLayout(new WrapLayout(1, 12, 24));
         headerBar1.setTitle("Tạo Đơn Hàng");
+        headerBar1.onBack(() -> {
+            this.appContext.navigate(HoaDon.class);
+        });
     }
 
     /**

@@ -12,6 +12,7 @@ import io.socket.client.Socket;
  */
 public class View extends javax.swing.JPanel {
     public Socket socket;
+    public App appContext;
 
     /**
      * Creates new form NewJFrame
@@ -21,6 +22,10 @@ public class View extends javax.swing.JPanel {
 
     public void setSocket(Socket socket){
         this.socket = socket;
+    }
+
+    public void setAppContext(App appContext) {
+        this.appContext = appContext;
     }
 
     public void initSocket() {

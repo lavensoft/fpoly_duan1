@@ -13,9 +13,11 @@ import javax.swing.JOptionPane;
 
 import duan1.controllers.product.DeviceConfigurationController;
 import duan1.controllers.product.DimensionController;
+import duan1.controllers.product.ProductController;
 import duan1.models.product.DeviceConfigurationModel;
 import duan1.models.product.DimensionConfigurationModel;
 import duan1.models.product.DimensionModel;
+import duan1.models.product.ProductModel;
 import duan1.utils.Log;
 import duan1.utils.NextImage;
 import io.socket.client.Socket;
@@ -32,6 +34,7 @@ public class DimensionEdit extends javax.swing.JFrame {
     //* CONTROLLERS */
     private DeviceConfigurationController deviceConfigController = new DeviceConfigurationController();
     private DimensionController dimensionController = new DimensionController();
+    private ProductController productController = new ProductController();
 
     //* DATA */
     private ArrayList<DeviceConfigurationModel> deviceConfigs = new ArrayList<>();
@@ -129,6 +132,12 @@ public class DimensionEdit extends javax.swing.JFrame {
 
     private void submitDimension() {
         try {
+            //Get parent product data
+            ProductModel parentProductData = new ProductModel();
+            parentProductData._id = parentProduct;
+            parentProductData = productController.get(parentProductData);
+
+            //Create dimension
             DimensionModel dimension = new DimensionModel();
             dimension.name = txtName.getText();
             dimension.description = txtDesc.getText();
@@ -143,6 +152,8 @@ public class DimensionEdit extends javax.swing.JFrame {
             dimension.camera = cameraConfigs.get(selectCamera.getSelectedIndex())._id;
             dimension.display = displayConfigs.get(selectDisplay.getSelectedIndex())._id;
             dimension.sim = simConfigs.get(selectSim.getSelectedIndex())._id;
+            dimension.manufacturer = parentProductData.manufacturer;
+            dimension.releaseYear = parentProductData.releaseYear;
 
             dimensionController.add(dimension);
 

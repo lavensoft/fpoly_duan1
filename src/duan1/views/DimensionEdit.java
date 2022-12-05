@@ -6,10 +6,16 @@ package duan1.views;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import duan1.controllers.product.DeviceConfigurationController;
+import duan1.controllers.product.DimensionController;
+import duan1.models.product.DeviceConfigurationModel;
+import duan1.models.product.DimensionConfigurationModel;
+import duan1.models.product.DimensionModel;
 import duan1.utils.Log;
 import duan1.utils.NextImage;
 import io.socket.client.Socket;
@@ -21,12 +27,27 @@ import io.socket.client.Socket;
 public class DimensionEdit extends javax.swing.JFrame {
     private Socket socket;
     private File productImage;
+    private String parentProduct;
+
+    //* CONTROLLERS */
+    private DeviceConfigurationController deviceConfigController = new DeviceConfigurationController();
+    private DimensionController dimensionController = new DimensionController();
+
+    //* DATA */
+    private ArrayList<DeviceConfigurationModel> deviceConfigs = new ArrayList<>();
+    private ArrayList<DeviceConfigurationModel> ramConfigs = new ArrayList<>();
+    private ArrayList<DeviceConfigurationModel> romConfigs = new ArrayList<>();
+    private ArrayList<DeviceConfigurationModel> pinConfigs = new ArrayList<>();
+    private ArrayList<DeviceConfigurationModel> cameraConfigs = new ArrayList<>();
+    private ArrayList<DeviceConfigurationModel> displayConfigs = new ArrayList<>();
+    private ArrayList<DeviceConfigurationModel> simConfigs = new ArrayList<>();
 
     /**
      * Creates new form SanPhamEdit
      */
     public DimensionEdit() {
         initComponents();
+        fetchData();
         init();
     }
 
@@ -35,12 +56,63 @@ public class DimensionEdit extends javax.swing.JFrame {
         this.socket = socket;
     }
 
-    public void init() {
-        this.setLocationRelativeTo(null);
-        this.setPreferredSize(new Dimension(810, 493));
+    public void setParentProduct(String productId) {
+        this.parentProduct = productId;
     }
 
     //* PRIVATE */
+    private void init() {
+        this.setLocationRelativeTo(null);
+        this.setPreferredSize(new Dimension(810, 493));
+
+        //* Set select value */
+        selectRam.removeAllItems();
+        selectRom.removeAllItems();
+        selectPin.removeAllItems();
+        selectCamera.removeAllItems();
+        selectDisplay.removeAllItems();
+        selectSim.removeAllItems();
+
+        deviceConfigs.forEach(item -> {
+            switch(item.key) {
+                case "ram" : 
+                    ramConfigs.add(item);
+                    selectRam.addItem(item.value); 
+                    break;
+                case "rom" : 
+                    romConfigs.add(item);
+                    selectRom.addItem(item.value); 
+                    break;
+                case "pin" : 
+                    pinConfigs.add(item);
+                    selectPin.addItem(item.value); 
+                    break;
+                case "camera" :
+                    cameraConfigs.add(item); 
+                    selectCamera.addItem(item.value); 
+                    break;
+                case "display" : 
+                    displayConfigs.add(item);
+                    selectDisplay.addItem(item.value); 
+                    break;
+                case "sim" : 
+                    simConfigs.add(item);
+                    selectSim.addItem(item.value); 
+                    break;
+                default : 
+                    break;
+            }
+        });
+    }
+
+    private void fetchData() {
+        try {
+            deviceConfigs = deviceConfigController.getAll();
+        } catch (Exception e) {
+            Log.error(e);
+        }
+    }
+
     private void uploadImage() {
         try {
             JFileChooser fileDialog = new JFileChooser();
@@ -52,6 +124,35 @@ public class DimensionEdit extends javax.swing.JFrame {
         }catch(Exception e) {
             Log.error(e);
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+    }
+
+    private void submitDimension() {
+        try {
+            DimensionModel dimension = new DimensionModel();
+            dimension.name = txtName.getText();
+            dimension.description = txtDesc.getText();
+            dimension.price = Double.parseDouble(txtPrice.getText());
+            dimension.salePrice = 0.0;
+            dimension.banner = productImage.getAbsolutePath();
+            dimension.stocks = Integer.parseInt(txtStocks.getText());
+            dimension.product = parentProduct;
+            dimension.ram = ramConfigs.get(selectRam.getSelectedIndex())._id;
+            dimension.rom = romConfigs.get(selectRom.getSelectedIndex())._id;
+            dimension.pin = pinConfigs.get(selectPin.getSelectedIndex())._id;
+            dimension.camera = cameraConfigs.get(selectCamera.getSelectedIndex())._id;
+            dimension.display = displayConfigs.get(selectDisplay.getSelectedIndex())._id;
+            dimension.sim = simConfigs.get(selectSim.getSelectedIndex())._id;
+
+            dimensionController.add(dimension);
+
+            //*Emit to Socket
+            socket.emit("/products/dimension/add", dimension.toJson());
+
+            this.dispose();
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+            Log.error(e);
         }
     }
 
@@ -70,29 +171,29 @@ public class DimensionEdit extends javax.swing.JFrame {
         txtStocks = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        txtRom = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
-        txtCamera = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtRam = new javax.swing.JTextField();
-        txtSim = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        txtPin = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
         btnExit = new duan1.components.Button();
         btnAdd = new duan1.components.Button();
         jLabel14 = new javax.swing.JLabel();
-        txtDisplay1 = new javax.swing.JTextField();
+        selectRom = new javax.swing.JComboBox<>();
+        selectSim = new javax.swing.JComboBox<>();
+        selectRam = new javax.swing.JComboBox<>();
+        selectPin = new javax.swing.JComboBox<>();
+        selectCamera = new javax.swing.JComboBox<>();
+        selectDisplay = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -111,7 +212,7 @@ public class DimensionEdit extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
 
         jLabel3.setText("ROM");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 240, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
 
         txtStocks.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,13 +230,6 @@ public class DimensionEdit extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 280, -1));
-
-        txtRom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRomActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtRom, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, 200, -1));
 
         jLabel5.setText("Giá");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, -1, -1));
@@ -155,45 +249,17 @@ public class DimensionEdit extends javax.swing.JFrame {
         });
         getContentPane().add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 130, -1));
 
-        txtCamera.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCameraActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtCamera, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 200, -1));
-
         jLabel8.setText("Camera");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, -1, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, -1, -1));
 
         jLabel9.setText("RAM");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
 
         jLabel10.setText("Sim");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, -1, -1));
-
-        txtRam.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRamActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtRam, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 190, -1));
-
-        txtSim.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSimActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtSim, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 400, 200, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 380, -1, -1));
 
         jLabel11.setText("Pin");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, -1, -1));
-
-        txtPin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPinActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtPin, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 190, -1));
 
         txtDesc.setColumns(20);
         txtDesc.setRows(5);
@@ -225,12 +291,23 @@ public class DimensionEdit extends javax.swing.JFrame {
         jLabel14.setText("Màn hình");
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
 
-        txtDisplay1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDisplay1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtDisplay1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 190, -1));
+        selectRom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(selectRom, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 190, -1));
+
+        selectSim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(selectSim, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 400, 190, -1));
+
+        selectRam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(selectRam, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 190, -1));
+
+        selectPin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(selectPin, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 190, -1));
+
+        selectCamera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(selectCamera, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, 190, -1));
+
+        selectDisplay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(selectDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 190, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -243,45 +320,21 @@ public class DimensionEdit extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
 
-    private void txtRomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRomActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRomActionPerformed
-
     private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceActionPerformed
-
-    private void txtCameraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCameraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCameraActionPerformed
-
-    private void txtRamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRamActionPerformed
-
-    private void txtSimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSimActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSimActionPerformed
-
-    private void txtPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPinActionPerformed
 
     private void lblImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImageMouseClicked
         this.uploadImage();
     }//GEN-LAST:event_lblImageMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-        // TODO add your handling code here:
+        this.submitDimension();
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
         this.dispose();
     }//GEN-LAST:event_btnExitMouseClicked
-
-    private void txtDisplay1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDisplay1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDisplay1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,15 +392,15 @@ public class DimensionEdit extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblImage;
-    private javax.swing.JTextField txtCamera;
+    private javax.swing.JComboBox<String> selectCamera;
+    private javax.swing.JComboBox<String> selectDisplay;
+    private javax.swing.JComboBox<String> selectPin;
+    private javax.swing.JComboBox<String> selectRam;
+    private javax.swing.JComboBox<String> selectRom;
+    private javax.swing.JComboBox<String> selectSim;
     private javax.swing.JTextArea txtDesc;
-    private javax.swing.JTextField txtDisplay1;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPin;
     private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtRam;
-    private javax.swing.JTextField txtRom;
-    private javax.swing.JTextField txtSim;
     private javax.swing.JTextField txtStocks;
     // End of variables declaration//GEN-END:variables
 }

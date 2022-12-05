@@ -382,8 +382,10 @@ public class SanPham extends View{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // new ThemSanPham(socket, _dimensionProduct).setVisible(true);
-        if(_loadDimensions) dimensionEditView.setVisible(true);
-        else sanPhamEditView.setVisible(true);
+        if(_loadDimensions) {
+            dimensionEditView.setParentProduct(_dimensionProduct);
+            dimensionEditView.setVisible(true); 
+        }else sanPhamEditView.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

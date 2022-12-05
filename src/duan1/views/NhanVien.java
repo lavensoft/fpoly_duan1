@@ -93,18 +93,42 @@ public class NhanVien extends View {
     void showInfo(int index) {
         modelTable = (DefaultTableModel) tblNhanVien.getModel();
 
-        userModel = arrUser.get(index);
-
         if (index >= 0) {
-            txtTenNV.setText(modelTable.getValueAt(index, 0).toString());
-            txtEmail.setText(modelTable.getValueAt(index, 1).toString());
-            txtMatKhau.setText(modelTable.getValueAt(index, 2).toString());
-            txtCMND.setText(modelTable.getValueAt(index, 3).toString());
-            txtNgayTao.setText(modelTable.getValueAt(index, 4).toString());
-            txtLuong.setText(modelTable.getValueAt(index, 5).toString());
-            txtViTri.setText(modelTable.getValueAt(index, 6).toString());
+            txtTenNV.setText(arrUser.get(tblNhanVien.getSelectedRow()).name);
+            txtEmail.setText(arrUser.get(tblNhanVien.getSelectedRow()).email);
+            txtMatKhau.setText(arrUser.get(tblNhanVien.getSelectedRow()).password);
+            txtCMND.setText(arrUser.get(tblNhanVien.getSelectedRow()).cccd);
+            txtNgayTao.setText(arrUser.get(tblNhanVien.getSelectedRow()).dateCreated);
+            txtLuong.setText(arrUser.get(tblNhanVien.getSelectedRow()).salary.toString());
+            txtViTri.setText(arrUser.get(tblNhanVien.getSelectedRow()).permission);
 
         }
+    }
+
+    void UpdateEmployee() {
+        UserModel updateData = new UserModel();
+        modelTable = (DefaultTableModel) tblNhanVien.getModel();
+
+        userModel.cccd = txtCMND.getText();
+        try {
+
+            if (userModel.cccd.equals(txtCMND.getText())) {
+
+                updateData.name = txtTenNV.getText();
+                updateData.email = txtEmail.getText();
+                updateData.password = txtMatKhau.getText();
+                updateData.cccd = txtCMND.getText();
+                updateData.dateCreated = txtNgayTao.getText();
+                updateData.salary = Double.parseDouble(txtLuong.getText());
+                updateData.permission = txtViTri.getText();
+
+                controller.updateOne(userModel, updateData);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(NhanVien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -355,11 +379,11 @@ public class NhanVien extends View {
         panelBoder1Layout.setHorizontalGroup(
             panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelBoder3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(headerBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(headerBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
             .addGroup(panelBoder1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(panelBoder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelBoder4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65))
         );
@@ -372,7 +396,7 @@ public class NhanVien extends View {
                         .addGap(40, 40, 40)
                         .addComponent(panelBoder4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelBoder1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(panelBoder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelBoder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,6 +417,8 @@ public class NhanVien extends View {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
+        UpdateEmployee();
+        load();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed

@@ -48,7 +48,7 @@ public class SideBarItem extends javax.swing.JPanel {
         }else{
             iconLbl.setForeground(new Color(176, 190, 197));
             titleLbl.setForeground(new Color(176, 190, 197));
-            activeBackground.setBackground(new Color(0, 0, 0, 0));
+            activeBackground.setBackground(new Color(18, 19, 26));
         }
     }
 
@@ -57,10 +57,10 @@ public class SideBarItem extends javax.swing.JPanel {
         titleLbl.setForeground(new Color(176, 190, 197));
 
         this.setOpaque(true);
-        this.setBackground(new Color(0, 0, 0, 0));
+        this.setBackground(new Color(18, 19, 26));
 
         // activeBackground.setOpaque(true);
-        activeBackground.setBackground(new Color(0, 0, 0, 0));
+        activeBackground.setBackground(new Color(18, 19, 26));
     }
 
     /**

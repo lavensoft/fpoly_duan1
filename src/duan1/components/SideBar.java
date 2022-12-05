@@ -72,8 +72,8 @@ public class SideBar extends javax.swing.JPanel {
     }
 
     private void init() {
-        backdrop.setIcon(new ImageIcon(getClass().getResource("/duan1/assets/images/background.jpeg")));
-        background.setBackground(new Color(18, 19, 26, 190));
+        // backdrop.setIcon(new ImageIcon(getClass().getResource("/duan1/assets/images/background.jpeg")));
+        background.setBackground(new Color(18, 19, 26));
         // backdrop.setBackground(new Color(255,255,255));
         // this.setBackground(new Color(18, 19, 26, 0));
         userNameLbl.setForeground(new Color(255, 255, 255));

@@ -107,11 +107,14 @@ public class SanPham extends View{
         socket.on("/products/add", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+                System.out.println("SOCKET ON");
                 //Update data
                 ProductModel product = new ProductModel();
 
                 Document data = new Document();
                 data = data.parse((String) args[0]);
+
+                System.out.println(data);
                 
                 product.fromDocument(data);
 

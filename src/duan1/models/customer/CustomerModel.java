@@ -20,10 +20,17 @@ public class CustomerModel extends IModel {
    @Override
    public void fromDocument(Document document) {
     this._id = document.getObjectId("_id").toString();
-    this.phone = document.getString("phone");
-    this.name = document.getString("name");
-    this.dateCreated = document.getString("dateCreated");
-    this.points = document.getDouble("points");
+
+    if(document.getString("phone") != null) this.phone = document.getString("phone");
+    if(document.getString("name") != null) this.name = document.getString("name");
+    if(document.getString("dateCreated") != null) this.dateCreated = document.getString("dateCreated");
+    if(document.getDouble("points") != null) this.points = document.getDouble("points");
+
+    if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
+    if(!this.phone.isEmpty()) put("phone", this.phone);
+    if(!this.name.isEmpty()) put("name", this.name);
+    if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
+    if(points != null) put("points", this.points);
    }
 
    @Override

@@ -8,9 +8,14 @@ import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 
+import duan1.controllers.customer.CustomerController;
 import duan1.controllers.order.OrderController;
+import duan1.controllers.user.UserController;
+import duan1.models.customer.CustomerModel;
 import duan1.models.order.OrderModel;
+import duan1.models.user.UserModel;
 import duan1.utils.Log;
+import duan1.utils.Populate;
 
 /**
  *
@@ -19,11 +24,19 @@ import duan1.utils.Log;
 public class HoaDon extends View {
     //* VARIABLES */
 
+    //* POPULATES */
+    private Populate<CustomerModel> customerPopulate = new Populate<>();
+    private Populate<UserModel> userPopulate = new Populate<>();
+
     //* CONTROLLERS */
     private OrderController orderController = new OrderController();
+    private CustomerController customerController = new CustomerController();
+    private UserController userController = new UserController();
 
     //* DATA */
     private ArrayList<OrderModel> orders = new ArrayList<>();
+    private ArrayList<CustomerModel> customers = new ArrayList<>();
+    private ArrayList<UserModel> users = new ArrayList<>();
 
     /**
      * Creates new form HoaDon
@@ -48,11 +61,11 @@ public class HoaDon extends View {
 
         orders.forEach(item -> {
             model.addRow(new Object[]{
-                item.customer,
+                customerPopulate.find(item.customer, customers).name,
                 item.dateCreated,
                 item.paymentMethod,
                 item.paymentStatus,
-                item.author,
+                userPopulate.find(item.author, users).name,
                 item.description
             });
         });
@@ -62,6 +75,8 @@ public class HoaDon extends View {
 
     private void fetchData() {
         try {
+            users = userController.getAll();
+            customers = customerController.getAll();
             orders = orderController.getAll();
         }catch(Exception e) {
             Log.error(e);

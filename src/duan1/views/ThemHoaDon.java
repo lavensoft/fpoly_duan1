@@ -154,7 +154,7 @@ public class ThemHoaDon extends View {
             Document momo = new Document();
             
             if(comboPayment.getSelectedIndex() == 0) {
-                momo = Momo.create(10000.0, "");
+                momo = Momo.create(billPrice, "");
                 WebBrowser.open(momo.getString("payUrl"));
             } 
 

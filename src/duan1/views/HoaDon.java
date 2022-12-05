@@ -4,17 +4,33 @@
  */
 package duan1.views;
 
+import java.util.ArrayList;
+
+import javax.swing.table.DefaultTableModel;
+
+import duan1.controllers.order.OrderController;
+import duan1.models.order.OrderModel;
+import duan1.utils.Log;
+
 /**
  *
  * @author nhatsdevil
  */
 public class HoaDon extends View {
     //* VARIABLES */
+
+    //* CONTROLLERS */
+    private OrderController orderController = new OrderController();
+
+    //* DATA */
+    private ArrayList<OrderModel> orders = new ArrayList<>();
+
     /**
      * Creates new form HoaDon
      */
     public HoaDon() {
         initComponents();
+        fetchData();
         init();
     }
 
@@ -23,6 +39,33 @@ public class HoaDon extends View {
     //* PRIVATE */
     private void init() {
         headerBar1.setTitle("Đơn Hàng");
+
+        //TABLE
+        String[] columnNames = {"Khách hàng", "Ngày mua hàng", "Loại thanh toán", "Trạng thái thanh toán", "Người tạo", "Ghi chú"};
+        Object[][] data = {};
+
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+        orders.forEach(item -> {
+            model.addRow(new Object[]{
+                item.customer,
+                item.dateCreated,
+                item.paymentMethod,
+                item.paymentStatus,
+                item.author,
+                item.description
+            });
+        });
+
+        table.setModel(model);
+    }
+
+    private void fetchData() {
+        try {
+            orders = orderController.getAll();
+        }catch(Exception e) {
+            Log.error(e);
+        }
     }
 
     /**

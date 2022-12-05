@@ -84,17 +84,13 @@ public class DimensionEdit extends javax.swing.JFrame {
         txtSim = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtPin = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
         btnExit = new duan1.components.Button();
         btnAdd = new duan1.components.Button();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
         txtDisplay1 = new javax.swing.JTextField();
-        selectDate = new javax.swing.JComboBox<>();
-        selectManufacturer = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -199,14 +195,11 @@ public class DimensionEdit extends javax.swing.JFrame {
         });
         getContentPane().add(txtPin, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 190, -1));
 
-        jLabel12.setText("Năm ra mắt");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, -1, -1));
-
         txtDesc.setColumns(20);
         txtDesc.setRows(5);
         jScrollPane1.setViewportView(txtDesc);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 290, 420));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 290, 350));
 
         jLabel13.setText("Tên thiết bị");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, -1, -1));
@@ -217,7 +210,7 @@ public class DimensionEdit extends javax.swing.JFrame {
                 btnExitMouseClicked(evt);
             }
         });
-        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 510, -1, -1));
+        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 440, -1, -1));
 
         btnAdd.setBackground(new java.awt.Color(0, 122, 255));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -227,13 +220,10 @@ public class DimensionEdit extends javax.swing.JFrame {
                 btnAddMouseClicked(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 510, -1, -1));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, -1, -1));
 
         jLabel14.setText("Màn hình");
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
-
-        jLabel15.setText("Hãng sản xuất");
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, -1, -1));
 
         txtDisplay1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,12 +231,6 @@ public class DimensionEdit extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtDisplay1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 190, -1));
-
-        selectDate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(selectDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 470, 200, -1));
-
-        selectManufacturer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(selectManufacturer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 190, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -342,10 +326,8 @@ public class DimensionEdit extends javax.swing.JFrame {
     private duan1.components.Button btnExit;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -357,8 +339,6 @@ public class DimensionEdit extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblImage;
-    private javax.swing.JComboBox<String> selectDate;
-    private javax.swing.JComboBox<String> selectManufacturer;
     private javax.swing.JTextField txtCamera;
     private javax.swing.JTextArea txtDesc;
     private javax.swing.JTextField txtDisplay1;

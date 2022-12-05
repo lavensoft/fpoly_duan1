@@ -21,10 +21,17 @@ public class ManufacturerModel extends IModel {
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
-        this.title = document.getString("title");
-        this.description = document.getString("email");
-        this.logo = document.getString("logo");
-        this.dateCreated = document.getString("dateCreated");
+        
+        if(document.getString("title") != null) this.title = document.getString("title");
+        if(document.getString("email") != null) this.description = document.getString("email");
+        if(document.getString("logo") != null) this.logo = document.getString("logo");
+        if(document.getString("dateCreated") != null) this.dateCreated = document.getString("dateCreated");
+
+        if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
+        if(!this.title.isEmpty()) put("title", this.title);
+        if(!this.description.isEmpty()) put("description", this.description);
+        if(!this.logo.isEmpty()) put("banner", this.logo);
+        if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
     }
 
     @Override

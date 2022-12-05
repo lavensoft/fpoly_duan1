@@ -11,7 +11,7 @@ import com.mongodb.client.model.Updates;
 
 import org.bson.types.ObjectId;
 
-public class DimensionModel extends Document implements IModel {
+public class DimensionModel extends IModel {
     public String _id = "";
     public String name = "";
     public String description = "";

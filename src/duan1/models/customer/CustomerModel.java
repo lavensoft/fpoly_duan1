@@ -10,7 +10,7 @@ import com.mongodb.client.model.Updates;
 
 import duan1.interfaces.IModel;
 
-public class CustomerModel extends Document implements IModel {
+public class CustomerModel extends IModel {
    public String _id = "";
    public String phone = "";
    public String name = "";

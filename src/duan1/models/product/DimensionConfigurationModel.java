@@ -10,7 +10,7 @@ import com.mongodb.client.model.Updates;
 
 import duan1.interfaces.IModel;
 
-public class DimensionConfigurationModel extends Document implements IModel {
+public class DimensionConfigurationModel extends IModel {
     public String _id = "";
     public String dimension = "";
     public String configuration = "";

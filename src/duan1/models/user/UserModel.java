@@ -11,7 +11,7 @@ import com.mongodb.client.model.Updates;
 
 import org.bson.types.ObjectId;
 
-public class UserModel extends Document implements IModel {
+public class UserModel extends IModel {
     public String _id = "";
     public String name = "";
     public String email = "";

@@ -5,12 +5,15 @@
 package duan1.views;
 
 import duan1.components.Cards;
+import duan1.controllers.product.DeviceConfigurationController;
 import duan1.controllers.product.DimensionController;
 import duan1.controllers.product.ProductController;
+import duan1.models.product.DeviceConfigurationModel;
 import duan1.models.product.DimensionModel;
 import duan1.models.product.ProductModel;
 import duan1.utils.Log;
 import duan1.utils.NextImage;
+import duan1.utils.Populate;
 import duan1.utils.WrapLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -34,8 +37,15 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     /**
      * Creates new form ThemHoaDonSanPham
      */
+
+    //* CONTROLLERS */
     DimensionController controller = new DimensionController();
+    private DeviceConfigurationController deviceConfigController = new DeviceConfigurationController();
+    
+    //* DATA */
     ArrayList<DimensionModel> arrProduct = new ArrayList<>();
+    private ArrayList<DeviceConfigurationModel> deviceConfigs = new ArrayList<>();
+
     DimensionModel model = new DimensionModel();
     int index = 0;
 
@@ -44,7 +54,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     public ThemHoaDonSanPham() {
         initComponents();
         this.setLocationRelativeTo(null);
-        load();
+        fetchData();
         drawcard();
         init();
     }
@@ -60,11 +70,13 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         jScrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
     }
 
-    void load() {
+    void fetchData() {
         try {
+            deviceConfigs = deviceConfigController.getAll();
             arrProduct = controller.getAll();
             Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
+            Log.error(e);
         }
     }
 
@@ -81,6 +93,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
             card.onClick(e -> {
                 this.model = data;
+                Populate<DeviceConfigurationModel> configPopulate = new Populate<DeviceConfigurationModel>();
                 
                 //* UPDATE TO UI */
                 try {
@@ -94,13 +107,14 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
                 lblStocks.setText("HẾT HÀNG");
                 if(data.stocks != null) lblStocks.setText(data.stocks > 0 ? "CÒN HÀNG" : "HẾT HÀNG");
                 lblDesc.setText(data.description);
-                lblRam.setText(data.ram);
-                lblPin.setText(data.pin);
-                lblDisplay.setText(data.display);
+
+                lblRam.setText(configPopulate.find(data.ram, deviceConfigs).value);
+                lblPin.setText(configPopulate.find(data.pin, deviceConfigs).value);
+                lblDisplay.setText(configPopulate.find(data.display, deviceConfigs).value);
                 lblManufacturer.setText(data.manufacturer);
-                lblRom.setText(data.rom);
-                lblCamera.setText(data.camera);
-                lblSim.setText(data.sim);
+                lblRom.setText(configPopulate.find(data.rom, deviceConfigs).value);
+                lblCamera.setText(configPopulate.find(data.camera, deviceConfigs).value);
+                lblSim.setText(configPopulate.find(data.sim, deviceConfigs).value);
                 lblReleaseYear.setText(data.releaseYear);
 
                 return null;

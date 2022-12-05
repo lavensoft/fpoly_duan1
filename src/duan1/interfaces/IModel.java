@@ -5,11 +5,11 @@ import org.bson.conversions.Bson;
 
 import com.mongodb.client.MongoCollection;
 
-public interface IModel {
+public abstract class IModel extends Document {
     public String _id = "";
     public MongoCollection<Document> collection = null;
     
-    public void fromDocument(Document document);
-    public Document toDocument();
-    public Bson toUpdates();
+    public abstract void fromDocument(Document document);
+    public abstract Document toDocument();
+    public abstract Bson toUpdates();
 }

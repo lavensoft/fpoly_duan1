@@ -19,7 +19,7 @@ public class PromotionModel extends IModel {
     public String startDate = "";
     public String endDate = "";
     public String dateCreated = "";
-    public Integer stocks;
+    public Double points;
     public String product = "";
 
     @Override
@@ -31,7 +31,7 @@ public class PromotionModel extends IModel {
         this.startDate = document.getString("startDate");
         this.endDate = document.getString("endDate");
         this.dateCreated = document.getString("dateCreated");
-        this.stocks = document.getInteger("stocks");
+        this.points = document.getDouble("points");
         this.product = document.getString("product");
     }
 
@@ -44,7 +44,7 @@ public class PromotionModel extends IModel {
         if(!this.startDate.isEmpty()) put("startDate", this.startDate);
         if(!this.endDate.isEmpty()) put("endDate", this.endDate);
         if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
-        if(stocks != null) put("stocks", this.stocks);
+        if(points != null) put("points", this.points);
         if(!this.product.isEmpty()) put("product", this.product);
 
         return this;
@@ -59,7 +59,7 @@ public class PromotionModel extends IModel {
             !this.startDate.isEmpty() ? Updates.set("startDate", this.startDate) : new Document(),
             !this.endDate.isEmpty() ? Updates.set("endDate", this.endDate) : new Document(),
             !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
-            stocks != null ? Updates.set("stocks", this.stocks) : new Document(),
+            points != null ? Updates.set("points", this.points) : new Document(),
             !this.product.isEmpty() ? Updates.set("product", this.product) : new Document()
         );
 

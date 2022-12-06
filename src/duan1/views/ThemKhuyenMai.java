@@ -7,7 +7,10 @@ package duan1.views;
 import duan1.components.Cards;
 import java.util.Collections;
 import duan1.controllers.product.DimensionController;
+import duan1.controllers.product.PromotionController;
 import duan1.models.product.DimensionModel;
+import duan1.models.product.DimensionPromotionModel;
+import duan1.models.product.PromotionModel;
 import duan1.utils.WrapLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -39,6 +42,11 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
      */
     DimensionModel dimension = new DimensionModel();
     DimensionController controller = new DimensionController();
+    //
+    PromotionModel promotion = new PromotionModel();
+    PromotionController promotionController = new PromotionController();
+    //
+    ArrayList<PromotionModel> arrPromotion = new ArrayList<>();
     ArrayList<DimensionModel> arrDimension = new ArrayList<>();
     ArrayList<DimensionModel> arrDimensionTable = new ArrayList<>(); // Array chứa sản phẩm thêm trong table
     DefaultTableModel model = new DefaultTableModel();
@@ -92,6 +100,33 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
         });
     }
 
+    void AddPromotion() {
+        try {
+            model = (DefaultTableModel) tblSanPham.getModel();
+
+            promotion.title = txtMaKhuyenMai.getText();
+            promotion.dateCreated = txtNgayBatDau.getText();
+            promotion.endDate = txtNgayKetThuc.getText();
+            promotion.stocks = Integer.parseInt(txtGiamGia.getText());
+
+            promotionController.add(promotion);
+            //
+            PromotionModel promotionModel = new PromotionModel();
+            promotionModel = promotionController.get(promotion);
+
+            for (DimensionModel data : arrDimensionTable) {
+                DimensionPromotionModel DPM = new DimensionPromotionModel();
+
+                DPM.dimension = data._id;
+                DPM.promotion = promotionModel._id;
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ThemKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -137,7 +172,7 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panelBoder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -248,6 +283,11 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
         );
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnThoat.setText("Thoát");
 
@@ -320,6 +360,11 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        AddPromotion();
+    }//GEN-LAST:event_btnThemActionPerformed
 
     /**
      * @param args the command line arguments

@@ -7,6 +7,7 @@ package duan1.views;
 import duan1.components.Cards;
 import java.util.Collections;
 import duan1.controllers.product.DimensionController;
+import duan1.controllers.product.DimensionPromotionController;
 import duan1.controllers.product.PromotionController;
 import duan1.models.product.DimensionModel;
 import duan1.models.product.DimensionPromotionModel;
@@ -45,6 +46,7 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
     //
     PromotionModel promotion = new PromotionModel();
     PromotionController promotionController = new PromotionController();
+    DimensionPromotionController dimensionPromotionController = new DimensionPromotionController();
     //
     ArrayList<PromotionModel> arrPromotion = new ArrayList<>();
     ArrayList<DimensionModel> arrDimension = new ArrayList<>();
@@ -119,6 +121,8 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
 
                 DPM.dimension = data._id;
                 DPM.promotion = promotionModel._id;
+
+                dimensionPromotionController.add(DPM);
             }
 
         } catch (Exception ex) {

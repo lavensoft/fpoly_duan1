@@ -17,6 +17,10 @@ public class DimensionDAO extends DAO<DimensionModel> {
         super.add(dimension);
     }
 
+    public ArrayList<DimensionModel> search(String value) throws Exception {
+        return super.search(value);
+    }
+
     public ArrayList<DimensionModel> getAll(DimensionModel... queries) throws Exception {
         if(queries.length > 0) queries[0].toDocument();
         return super.getAll(queries);

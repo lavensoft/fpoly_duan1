@@ -13,9 +13,11 @@ import duan1.models.product.DeviceConfigurationModel;
 import duan1.models.product.DimensionModel;
 import duan1.models.product.ManufacturerModel;
 import duan1.models.product.ProductModel;
+import duan1.utils.Async;
 import duan1.utils.Log;
 import duan1.utils.NextImage;
 import duan1.utils.Populate;
+import duan1.utils.Text;
 import duan1.utils.WrapLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -26,8 +28,10 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.processing.Filer;
 import javax.swing.JViewport;
 
+import org.bson.Document;
 import org.w3c.dom.css.RGBColor;
 
 /**
@@ -40,6 +44,8 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
      * Creates new form ThemHoaDonSanPham
      */
 
+    Boolean searchWaiting = false;
+
     //* POPULATES */
     Populate<DeviceConfigurationModel> configPopulate = new Populate<>();
     Populate<ManufacturerModel> manufacturerPopulate = new Populate<>();
@@ -48,11 +54,15 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private DimensionController controller = new DimensionController();
     private DeviceConfigurationController deviceConfigController = new DeviceConfigurationController();
     private ManufacturerController manufacturerController = new ManufacturerController();
+    private DimensionController dimensionController = new DimensionController();
     
     //* DATA */
     private ArrayList<DimensionModel> arrProduct = new ArrayList<>();
     private ArrayList<DeviceConfigurationModel> deviceConfigs = new ArrayList<>();
     private ArrayList<ManufacturerModel> manufacturers = new ArrayList<>();
+
+    //* VIEWS */
+    private ProductFilter productFilterView = new ProductFilter();
 
     DimensionModel model = new DimensionModel();
     int index = 0;
@@ -76,6 +86,12 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private void init() {
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
         jScrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+
+        //Events
+        productFilterView.onFilter(filter -> {
+            filterProduct(filter);
+            return null;
+        });
     }
 
     void fetchData() {
@@ -92,6 +108,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     void drawcard() {
         PanelCard.setLayout(new WrapLayout());
         PanelCard.removeAll();
+        PanelCard.repaint();
 
         arrProduct.forEach(data -> {
             Cards card = new Cards();
@@ -131,10 +148,68 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
         });
 
+        PanelCard.revalidate();
     }
 
     void opacity() {
         // txtSanPham.setBackground(new Color(0, 0, 0, 1));
+    }
+
+    private void searchProduct() {
+        try {
+            if(txtSearch.getText().isBlank()) {
+                arrProduct = dimensionController.getAll();
+            }else{
+                arrProduct = dimensionController.search(txtSearch.getText());
+            }
+
+            drawcard();
+        } catch (Exception e) {
+            Log.error(e);
+        }
+    }
+
+    private void filterProduct(Document filter) {
+        try {
+            ArrayList<DimensionModel> dimensions = new ArrayList<DimensionModel>();
+            dimensions = dimensionController.getAll();
+            arrProduct.clear();
+
+            for(DimensionModel dimension : dimensions) {
+                if(dimension.manufacturer == null || !filter.getString("manufacturer").equals("all") 
+                && !dimension.manufacturer.equals(filter.getString("manufacturer"))) continue;
+
+                if(dimension.releaseYear == null || !filter.getString("releaseYear").equals("all") 
+                && !dimension.releaseYear.equals(filter.getString("releaseYear"))) continue;
+
+                if(dimension.display == null || !filter.getString("display").equals("all") 
+                && !dimension.display.equals(filter.getString("display"))) continue;
+
+                if(dimension.ram == null || !filter.getString("ram").equals("all") 
+                && !dimension.ram.equals(filter.getString("ram"))) continue;
+
+                if(dimension.rom == null || !filter.getString("rom").equals("all") 
+                && !dimension.rom.equals(filter.getString("rom"))) continue;
+
+                if(dimension.pin == null || !filter.getString("pin").equals("all") 
+                && !dimension.pin.equals(filter.getString("pin"))) continue;
+
+                if(dimension.camera == null || !filter.getString("camera").equals("all") 
+                && !dimension.camera.equals(filter.getString("camera"))) continue;
+
+                if(filter.getInteger("price") != 0) {
+                    if(filter.getInteger("price") == 1 && dimension.price < 20000000) continue;
+                    if(filter.getInteger("price") == 2 && dimension.price < 10000000 && dimension.price >= 20000000) continue;
+                    if(filter.getInteger("price") == 3 && dimension.price < 1000000) continue;
+                }
+
+                arrProduct.add(dimension);
+            }
+
+            drawcard();
+        } catch (Exception e) {
+            Log.error(e);
+        }
     }
 
     /**
@@ -178,7 +253,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         lblRom = new javax.swing.JLabel();
         lblCamera = new javax.swing.JLabel();
         lblSim = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         btnFilter = new javax.swing.JButton();
         btnExit = new duan1.components.Button();
@@ -323,8 +398,13 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
         panelBoder4.add(panelBoder2, new org.netbeans.lib.awtextra.AbsoluteConstraints(618, 0, -1, -1));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(78, 30));
-        panelBoder4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 15, 525, -1));
+        txtSearch.setPreferredSize(new java.awt.Dimension(78, 30));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
+        panelBoder4.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 15, 525, -1));
 
         jLabel10.setFont(new java.awt.Font("Ionicons", 0, 20)); // NOI18N
         jLabel10.setText("");
@@ -367,7 +447,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBoder4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelBoder4, javax.swing.GroupLayout.DEFAULT_SIZE, 1079, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,7 +458,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        new ProductFilter().setVisible(true);
+        productFilterView.setVisible(true);
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
@@ -400,6 +480,17 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(!searchWaiting) {
+            Async.setTimeout(() -> {
+                searchProduct();
+                searchWaiting = false;
+            }, 1000);
+        }
+
+        searchWaiting = true;
+    }//GEN-LAST:event_txtSearchKeyPressed
 
     /**
      * @param args the command line arguments
@@ -456,7 +547,6 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel lblCamera;
     private javax.swing.JLabel lblDesc;
@@ -474,6 +564,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private duan1.components.PanelBoder panelBoder1;
     private duan1.components.PanelBoder panelBoder2;
     private duan1.components.PanelBoder panelBoder4;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
 }

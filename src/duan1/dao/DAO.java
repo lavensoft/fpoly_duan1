@@ -7,6 +7,8 @@ import org.bson.conversions.Bson;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.TextSearchOptions;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 
@@ -53,6 +55,21 @@ public class DAO<M extends IModel> {
             Log.error(e);
             throw e;
         }
+    }
+
+    public ArrayList<M> search(String value) throws Exception {
+        ArrayList<M> docs = new ArrayList<M>();
+        TextSearchOptions options = new TextSearchOptions().caseSensitive(false);
+        Bson filter = Filters.text(value, options);
+        MongoCursor<Document> documents = collection.find(filter).cursor();
+            
+        while(documents.hasNext()) {
+            M doc = (M) type.getClass().newInstance();
+            doc.fromDocument(documents.next());
+            docs.add(doc);
+        }
+
+        return docs;
     }
 
     public ArrayList<M> getAll(M... queries) throws InstantiationException, IllegalAccessException, Exception {

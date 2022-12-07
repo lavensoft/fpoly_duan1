@@ -7,11 +7,19 @@ package duan1.views;
 import duan1.components.Cards;
 import java.util.Collections;
 import duan1.controllers.product.DimensionController;
+import duan1.controllers.product.DimensionPromotionController;
+import duan1.controllers.product.PromotionController;
 import duan1.models.product.DimensionModel;
+import duan1.models.product.DimensionPromotionModel;
+import duan1.models.product.PromotionModel;
 import duan1.utils.WrapLayout;
+import io.socket.client.Socket;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JViewport;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,14 +45,27 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
      */
     DimensionModel dimension = new DimensionModel();
     DimensionController controller = new DimensionController();
+    //
+    PromotionModel promotion = new PromotionModel();
+    PromotionController promotionController = new PromotionController();
+    DimensionPromotionController dimensionPromotionController = new DimensionPromotionController();
+    //
+    ArrayList<PromotionModel> arrPromotion = new ArrayList<>();
     ArrayList<DimensionModel> arrDimension = new ArrayList<>();
     ArrayList<DimensionModel> arrDimensionTable = new ArrayList<>(); // Array chứa sản phẩm thêm trong table
     DefaultTableModel model = new DefaultTableModel();
 
+    Socket socket;
+
     public ThemKhuyenMai() {
         initComponents();
         load();
+        init();
         drawCard();
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 
     void load() {
@@ -55,6 +76,11 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
             Logger.getLogger(ThemKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    private void init() {
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
+        jScrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
     }
 
     void drawCard() {
@@ -84,6 +110,40 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
         });
     }
 
+    void submitPromotion() {
+        try {
+            model = (DefaultTableModel) tblSanPham.getModel();
+
+            promotion.title = txtMaKhuyenMai.getText();
+            promotion.startDate = txtNgayKetThuc.getText();
+            promotion.endDate = txtNgayKetThuc.getText();
+            promotion.percent = Double.parseDouble(txtGiamGia.getText());
+            promotion.points = Double.parseDouble(txtDiemThanhVien.getText());
+            promotionController.add(promotion);
+            
+            //
+            PromotionModel promotionModel = new PromotionModel();
+            promotionModel = promotionController.get(promotion);
+
+            for (DimensionModel data : arrDimensionTable) {
+                DimensionPromotionModel DPM = new DimensionPromotionModel();
+
+                DPM.dimension = data._id;
+                DPM.promotion = promotionModel._id;
+
+                dimensionPromotionController.add(DPM);
+            }
+
+            //*Emit to Socket
+            socket.emit("/promotions/add", promotion.toJson());
+
+            this.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(ThemKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -108,15 +168,17 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtMaKhuyenMai = new javax.swing.JTextField();
-        txtNgayBatDau = new javax.swing.JTextField();
         txtNgayKetThuc = new javax.swing.JTextField();
         txtGiamGia = new javax.swing.JTextField();
-        btnThem = new javax.swing.JButton();
-        btnThoat = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        txtDiemThanhVien = new javax.swing.JTextField();
+        txtNgayBatDau = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox4 = new javax.swing.JComboBox<>();
+        btnAdd = new duan1.components.Button();
+        btnExit = new duan1.components.Button();
 
         javax.swing.GroupLayout panelBoder2Layout = new javax.swing.GroupLayout(panelBoder2);
         panelBoder2.setLayout(panelBoder2Layout);
@@ -129,7 +191,7 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panelBoder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -150,7 +212,6 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(PanelCard);
 
-        tblSanPham.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -161,87 +222,49 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
             new String [] {
                 "Tên Sản Phẩm", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblSanPham);
 
         panelBoder4.setBackground(new java.awt.Color(255, 255, 255));
         panelBoder4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(153, 153, 153), null, null));
+        panelBoder4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Thêm Khuyến Mãi");
+        panelBoder4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 2, 335, 43));
 
-        jLabel2.setText("Mã Khuyến mãi");
+        jLabel2.setText("Tên Khuyến Mãi");
+        panelBoder4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 125, 30));
+        panelBoder4.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 45, 587, 10));
 
         jLabel3.setText("Ngày Bắt Đầu");
+        panelBoder4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 125, 30));
 
         jLabel4.setText("Ngày Kết Thúc");
+        panelBoder4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 125, 30));
 
         jLabel5.setText("Giảm Giá");
+        panelBoder4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 125, 30));
 
         jLabel6.setText("Chọn Sản Phẩm");
+        panelBoder4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 375, 125, 40));
+        panelBoder4.add(txtMaKhuyenMai, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 360, 29));
+        panelBoder4.add(txtNgayKetThuc, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, 360, 29));
+        panelBoder4.add(txtGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 360, 29));
 
-        javax.swing.GroupLayout panelBoder4Layout = new javax.swing.GroupLayout(panelBoder4);
-        panelBoder4.setLayout(panelBoder4Layout);
-        panelBoder4Layout.setHorizontalGroup(
-            panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106))
-            .addComponent(jSeparator1)
-            .addGroup(panelBoder4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBoder4Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtMaKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelBoder4Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelBoder4Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelBoder4Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelBoder4Layout.setVerticalGroup(
-            panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBoder4Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addGroup(panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMaKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 32, Short.MAX_VALUE))
-        );
-
-        btnThem.setText("Thêm");
-
-        btnThoat.setText("Thoát");
+        jLabel7.setText("Điểm Thành Viên");
+        panelBoder4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 125, 30));
+        panelBoder4.add(txtDiemThanhVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 310, 360, 29));
+        panelBoder4.add(txtNgayBatDau, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 360, 29));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -250,6 +273,22 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnAdd.setBackground(new java.awt.Color(0, 122, 255));
+        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setText("Thêm Khuyến Mãi");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        btnExit.setText("Thoát");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
         panelBoder1.setLayout(panelBoder1Layout);
@@ -268,28 +307,31 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                     .addComponent(panelBoder4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelBoder1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelBoder1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2))
                         .addContainerGap())))
         );
         panelBoder1Layout.setVerticalGroup(
             panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(panelBoder1Layout.createSequentialGroup()
-                .addComponent(panelBoder4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBoder4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThoat)
-                    .addComponent(btnThem))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
             .addGroup(panelBoder1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,6 +354,16 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        this.submitPromotion();
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -350,8 +402,8 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private duan1.components.PanelBoder PanelCard;
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnThoat;
+    private duan1.components.Button btnAdd;
+    private duan1.components.Button btnExit;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -362,6 +414,7 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
@@ -369,6 +422,7 @@ public class ThemKhuyenMai extends javax.swing.JFrame {
     private duan1.components.PanelBoder panelBoder2;
     private duan1.components.PanelBoder panelBoder4;
     private javax.swing.JTable tblSanPham;
+    private javax.swing.JTextField txtDiemThanhVien;
     private javax.swing.JTextField txtGiamGia;
     private javax.swing.JTextField txtMaKhuyenMai;
     private javax.swing.JTextField txtNgayBatDau;

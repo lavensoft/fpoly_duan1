@@ -10,7 +10,7 @@ import com.mongodb.client.model.Updates;
 
 import duan1.interfaces.IModel;
 
-public class DeviceConfigurationModel extends Document implements IModel {
+public class DeviceConfigurationModel extends IModel {
    public String _id = "";
    public String key = "";
    public String value = "";
@@ -19,9 +19,16 @@ public class DeviceConfigurationModel extends Document implements IModel {
    @Override
    public void fromDocument(Document document) {
     this._id = document.getObjectId("_id").toString();
-    this.key = document.getString("key");
-    this.value = document.getString("value");
-    this.dateCreated = document.getString("dateCreated");
+
+    if(document.getString("key") != null) this.key = document.getString("key");
+    if(document.getString("value") != null) this.value = document.getString("value");
+    if(document.getString("dateCreated") != null) this.dateCreated = document.getString("dateCreated");
+
+    //Put to document
+    if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
+    if(!this.key.isEmpty()) put("key", this.key);
+    if(!this.value.isEmpty()) put("value", this.value);
+    if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
    }
 
    @Override

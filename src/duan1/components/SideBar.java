@@ -22,11 +22,13 @@ import duan1.models.user.UserModel;
 import duan1.utils.Async;
 import duan1.utils.WrapLayout;
 import duan1.views.App;
+import duan1.views.HoaDon;
 import duan1.views.KhachHang;
 import duan1.views.KhuyenMai;
 import duan1.views.Login;
 import duan1.views.NhanVien;
 import duan1.views.SanPham;
+import duan1.views.Staff;
 import duan1.views.ThemHoaDon;
 
 /**
@@ -71,8 +73,8 @@ public class SideBar extends javax.swing.JPanel {
     }
 
     private void init() {
-        backdrop.setIcon(new ImageIcon(getClass().getResource("/duan1/assets/images/background.jpeg")));
-        background.setBackground(new Color(18, 19, 26, 190));
+        // backdrop.setIcon(new ImageIcon(getClass().getResource("/duan1/assets/images/background.jpeg")));
+        background.setBackground(new Color(18, 19, 26));
         // backdrop.setBackground(new Color(255,255,255));
         // this.setBackground(new Color(18, 19, 26, 0));
         userNameLbl.setForeground(new Color(255, 255, 255));
@@ -99,13 +101,13 @@ public class SideBar extends javax.swing.JPanel {
         
         //Create items
         menuItems.add(new SMenuItem<SideBarItem>("Bán Hàng", "", SideBarItem.class, true));
-        menuItems.add(new SMenuItem<ThemHoaDon>("Đơn Hàng", "\uf292", ThemHoaDon.class, false));
+        menuItems.add(new SMenuItem<HoaDon>("Đơn Hàng", "\uf292", HoaDon.class, false));
         menuItems.add(new SMenuItem<SanPham>("Sản Phẩm", "\uf10e", SanPham.class, false));
         menuItems.add(new SMenuItem<KhuyenMai>("Khuyến Mãi", "\uf35b", KhuyenMai.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Thống Kê", "\uf21c", ThemHoaDon.class, false));
         menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "\uf2d7", KhachHang.class, false));
         menuItems.add(new SMenuItem<SideBarItem>("Quản Lý", "", SideBarItem.class, true));
-        menuItems.add(new SMenuItem<NhanVien>("Nhân Viên", "\uf345", NhanVien.class, false));
+        menuItems.add(new SMenuItem<Staff>("Nhân Viên", "\uf345", Staff.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Cài Đặt", "\uf377", ThemHoaDon.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Đăng Xuất", "\uf4c7", ThemHoaDon.class, false));
 

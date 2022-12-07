@@ -13,7 +13,7 @@ import com.mongodb.client.model.Updates;
 
 import org.bson.types.ObjectId;
 
-public class ProductModel extends Document implements IModel {
+public class ProductModel extends IModel {
     public String _id = "";
     public String name = "";
     public String description = "";

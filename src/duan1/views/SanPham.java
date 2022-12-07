@@ -27,6 +27,7 @@ import java.util.function.Function;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JViewport;
 import javax.swing.LookAndFeel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -80,6 +81,9 @@ public class SanPham extends View{
 
         //Header bar
         headerBar1.setTitle("Sản Phẩm");
+
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(16);
+        jScrollPane1.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
     }
 
     @Override

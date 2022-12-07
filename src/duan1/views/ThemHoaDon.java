@@ -19,14 +19,19 @@ import duan1.config.Config;
 import duan1.controllers.customer.CustomerController;
 import duan1.controllers.order.OrderController;
 import duan1.controllers.order.OrderDimensionController;
+import duan1.controllers.product.DimensionPromotionController;
+import duan1.controllers.product.PromotionController;
 import duan1.models.customer.CustomerModel;
 import duan1.models.order.OrderDimensionModel;
 import duan1.models.order.OrderModel;
 import duan1.models.product.DimensionModel;
+import duan1.models.product.DimensionPromotionModel;
+import duan1.models.product.PromotionModel;
 import duan1.states.AppStates;
 import duan1.utils.Async;
 import duan1.utils.Log;
 import duan1.utils.Momo;
+import duan1.utils.Populate;
 import duan1.utils.PrintOrder;
 import duan1.utils.WebBrowser;
 import duan1.utils.WrapLayout;
@@ -50,6 +55,16 @@ public class ThemHoaDon extends View {
     CustomerController customerController = new CustomerController();
     OrderController orderController = new OrderController();
     OrderDimensionController orderDimensionController = new OrderDimensionController();
+    private DimensionPromotionController dimensionPromotionController = new DimensionPromotionController();
+    private PromotionController promotionController = new PromotionController();
+
+    //* DATA */
+    private ArrayList<DimensionPromotionModel> dimensionPromotions = new ArrayList<DimensionPromotionModel>();
+    private ArrayList<PromotionModel> promotions = new ArrayList<PromotionModel>();
+
+    //* POPULATE */
+    private Populate<DimensionPromotionModel> dimensionPromotionPopulate = new Populate<>();
+    private Populate<PromotionModel> promotionPopulate = new Populate<>();
 
     //* VARIABLES */
     ArrayList<Cart> products = new ArrayList<>();
@@ -60,12 +75,14 @@ public class ThemHoaDon extends View {
     String customerId;
     Double customerPoints = 0.0;
     OrderModel order;
+    Double discountPrice = 0.0;
 
     /**
      * Creates new form ThemHoaDon
      */
     public ThemHoaDon() {
         initComponents();
+        fetchData();
         init();
         vndFormat.setMaximumFractionDigits(8);
     }
@@ -102,6 +119,15 @@ public class ThemHoaDon extends View {
         calculateBill();
     }
 
+    private void fetchData() {
+        try {
+            dimensionPromotions = dimensionPromotionController.getAll();
+            promotions = promotionController.getAll();
+        }catch(Exception e) {
+            Log.error(e);
+        }
+    }
+
     //* CALCULATE ORDER */
     private void calculateBill() {
         billPrice = 0.0;
@@ -113,10 +139,29 @@ public class ThemHoaDon extends View {
             billPrice += productPrice * item.count;
         }
 
+        calculateDiscount();
+
         //Render to ui
         lblTotal.setText(vndFormat.format(billPrice));
-        lblDiscount.setText("0");
-        lblBillTotal.setText(vndFormat.format(Math.round(billPrice * 1.1)));
+        lblBillTotal.setText(vndFormat.format(Math.round(billPrice * 1.1) - discountPrice));
+    }
+
+    private void calculateDiscount() {
+        discountPrice = 0.0;
+
+        for(Cart cart : products) {
+            DimensionModel product = cart.product;
+            DimensionPromotionModel dimProm = new DimensionPromotionModel();
+            dimProm = dimensionPromotionPopulate.findAttr("dimension", product._id, dimensionPromotions);
+            PromotionModel promotionModel = new PromotionModel();
+            promotionModel = promotionPopulate.find(dimProm.promotion, promotions);
+
+            //Check customer poinnt
+            if(customerPoints >= promotionModel.points) {
+                discountPrice += product.price * promotionModel.percent / 100;
+                lblDiscount.setText(vndFormat.format(discountPrice));
+            }
+        }
     }
 
     //* CHECK ORDER PAYMENT */
@@ -154,7 +199,7 @@ public class ThemHoaDon extends View {
             Document momo = new Document();
             
             if(comboPayment.getSelectedIndex() == 0) {
-                momo = Momo.create(10000.0, "");
+                momo = Momo.create(billPrice, "");
                 WebBrowser.open(momo.getString("payUrl"));
             } 
 
@@ -238,6 +283,8 @@ public class ThemHoaDon extends View {
 
                 customerId = customer._id;
                 if(customer.points != null) customerPoints = customer.points;
+
+                calculateBill();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -248,6 +295,9 @@ public class ThemHoaDon extends View {
     private void init() {
         productContainer.setLayout(new WrapLayout(1, 12, 24));
         headerBar1.setTitle("Tạo Đơn Hàng");
+        headerBar1.onBack(() -> {
+            this.appContext.navigate(HoaDon.class);
+        });
     }
 
     /**

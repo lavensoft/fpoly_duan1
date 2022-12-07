@@ -11,7 +11,7 @@ import com.mongodb.client.model.Updates;
 
 import org.bson.types.ObjectId;
 
-public class UserModel extends Document implements IModel {
+public class UserModel extends IModel {
     public String _id = "";
     public String name = "";
     public String email = "";
@@ -28,17 +28,31 @@ public class UserModel extends Document implements IModel {
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
-        this.name = document.getString("name");
-        this.email = document.getString("email");
-        this.uname = document.getString("uname");
-        this.cccd = document.getString("cccd");
-        this.joinDate = document.getString("joinDate");
-        this.dateCreated = document.getString("dateCreated");
-        this.permission = document.getString("permission");
-        this.salary = document.getDouble("salary");
-        this.refreshToken = document.getString("refreshToken");
-        this.password = document.getString("password");
-        this.avatar = document.getString("avatar");
+
+        if(document.getString("name") != null) this.name = document.getString("name");
+        if(document.getString("email") != null) this.email = document.getString("email");
+        if(document.getString("uname") != null) this.uname = document.getString("uname");
+        if(document.getString("cccd") != null) this.cccd = document.getString("cccd");
+        if(document.getString("joinDate") != null) this.joinDate = document.getString("joinDate");
+        if(document.getString("dateCreated") != null) this.dateCreated = document.getString("dateCreated");
+        if(document.getString("permission") != null) this.permission = document.getString("permission");
+        if(document.getDouble("salary") != null) this.salary = document.getDouble("salary");
+        if(document.getString("refreshToken") != null) this.refreshToken = document.getString("refreshToken");
+        if(document.getString("password") != null) this.password = document.getString("password");
+        if(document.getString("avatar") != null) this.avatar = document.getString("avatar");
+
+        if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
+        if(!this.name.isEmpty()) put("name", this.name);
+        if(!this.email.isEmpty()) put("email", this.email);
+        if(!this.uname.isEmpty()) put("uname", this.uname);
+        if(!this.cccd.isEmpty()) put("cccd", this.cccd);
+        if(!this.joinDate.isEmpty()) put("joinDate", this.joinDate);
+        if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
+        if(!this.permission.isEmpty()) put("permission", this.permission);
+        if(this.salary != null) put("salary", this.salary);
+        if(!this.refreshToken.isEmpty()) put("refreshToken", this.refreshToken);
+        if(!this.password.isEmpty()) put("password", this.password);
+        if(!this.avatar.isEmpty()) put("avatar", this.avatar);
     }
 
     @Override

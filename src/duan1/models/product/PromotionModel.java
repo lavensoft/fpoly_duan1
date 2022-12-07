@@ -11,7 +11,7 @@ import com.mongodb.client.model.Updates;
 
 import org.bson.types.ObjectId;
 
-public class SaleModel extends Document implements IModel {
+public class PromotionModel extends IModel {
     public String _id = "";
     public String title = "";
     public String description = "";
@@ -19,20 +19,30 @@ public class SaleModel extends Document implements IModel {
     public String startDate = "";
     public String endDate = "";
     public String dateCreated = "";
-    public Integer stocks;
+    public Double points;
     public String product = "";
 
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
-        this.title = document.getString("title");
-        this.description = document.getString("email");
-        this.percent = document.getDouble("percent");
-        this.startDate = document.getString("startDate");
-        this.endDate = document.getString("endDate");
-        this.dateCreated = document.getString("dateCreated");
-        this.stocks = document.getInteger("stocks");
-        this.product = document.getString("product");
+        if(document.getString("title") != null) this.title = document.getString("title");
+        if(document.getString("email") != null) this.description = document.getString("email");
+        if(document.getDouble("percent") != null) this.percent = document.getDouble("percent");
+        if(document.getString("startDate") != null) this.startDate = document.getString("startDate");
+        if(document.getString("endDate") != null) this.endDate = document.getString("endDate");
+        if(document.getString("dateCreated") != null) this.dateCreated = document.getString("dateCreated");
+        if(document.getDouble("points") != null) this.points = document.getDouble("points");
+        if(document.getString("product") != null) this.product = document.getString("product");
+        
+        //Put to document
+        if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
+        if(!this.title.isEmpty()) put("title", this.title);
+        if(!this.description.isEmpty()) put("description", this.description);
+        if(percent != null) put("percent", this.percent);
+        if(!this.endDate.isEmpty()) put("endDate", this.endDate);
+        if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
+        if(points != null) put("points", this.points);
+        if(!this.product.isEmpty()) put("product", this.product);
     }
 
     @Override
@@ -40,11 +50,11 @@ public class SaleModel extends Document implements IModel {
         if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
         if(!this.title.isEmpty()) put("title", this.title);
         if(!this.description.isEmpty()) put("description", this.description);
-        if(percent != null) put("price", this.percent);
+        if(percent != null) put("percent", this.percent);
         if(!this.startDate.isEmpty()) put("startDate", this.startDate);
         if(!this.endDate.isEmpty()) put("endDate", this.endDate);
         if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
-        if(stocks != null) put("stocks", this.stocks);
+        if(points != null) put("points", this.points);
         if(!this.product.isEmpty()) put("product", this.product);
 
         return this;
@@ -59,7 +69,7 @@ public class SaleModel extends Document implements IModel {
             !this.startDate.isEmpty() ? Updates.set("startDate", this.startDate) : new Document(),
             !this.endDate.isEmpty() ? Updates.set("endDate", this.endDate) : new Document(),
             !this.dateCreated.isEmpty() ? Updates.set("dateCreated", this.dateCreated) : new Document(),
-            stocks != null ? Updates.set("stocks", this.stocks) : new Document(),
+            points != null ? Updates.set("points", this.points) : new Document(),
             !this.product.isEmpty() ? Updates.set("product", this.product) : new Document()
         );
 

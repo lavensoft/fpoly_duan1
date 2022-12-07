@@ -55,6 +55,7 @@ public class App extends javax.swing.JFrame {
         try {
             v = (View) view.newInstance();
             v.setSocket(socket);
+            v.setAppContext(this);
 
             getContentPane().remove(currentView);
             getContentPane().add(BorderLayout.CENTER, v);

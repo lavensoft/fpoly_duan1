@@ -8,7 +8,7 @@ import com.mongodb.client.model.Updates;
 
 import duan1.interfaces.IModel;
 
-public class OrderModel extends Document implements IModel {
+public class OrderModel extends IModel {
    public String _id = "";
    public String author = "";
    public String customer = "";

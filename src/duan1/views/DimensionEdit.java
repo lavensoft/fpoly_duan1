@@ -13,9 +13,11 @@ import javax.swing.JOptionPane;
 
 import duan1.controllers.product.DeviceConfigurationController;
 import duan1.controllers.product.DimensionController;
+import duan1.controllers.product.ProductController;
 import duan1.models.product.DeviceConfigurationModel;
 import duan1.models.product.DimensionConfigurationModel;
 import duan1.models.product.DimensionModel;
+import duan1.models.product.ProductModel;
 import duan1.utils.Log;
 import duan1.utils.NextImage;
 import io.socket.client.Socket;
@@ -32,6 +34,7 @@ public class DimensionEdit extends javax.swing.JFrame {
     //* CONTROLLERS */
     private DeviceConfigurationController deviceConfigController = new DeviceConfigurationController();
     private DimensionController dimensionController = new DimensionController();
+    private ProductController productController = new ProductController();
 
     //* DATA */
     private ArrayList<DeviceConfigurationModel> deviceConfigs = new ArrayList<>();
@@ -129,6 +132,12 @@ public class DimensionEdit extends javax.swing.JFrame {
 
     private void submitDimension() {
         try {
+            //Get parent product data
+            ProductModel parentProductData = new ProductModel();
+            parentProductData._id = parentProduct;
+            parentProductData = productController.get(parentProductData);
+
+            //Create dimension
             DimensionModel dimension = new DimensionModel();
             dimension.name = txtName.getText();
             dimension.description = txtDesc.getText();
@@ -143,6 +152,8 @@ public class DimensionEdit extends javax.swing.JFrame {
             dimension.camera = cameraConfigs.get(selectCamera.getSelectedIndex())._id;
             dimension.display = displayConfigs.get(selectDisplay.getSelectedIndex())._id;
             dimension.sim = simConfigs.get(selectSim.getSelectedIndex())._id;
+            dimension.manufacturer = parentProductData.manufacturer;
+            dimension.releaseYear = parentProductData.releaseYear;
 
             dimensionController.add(dimension);
 
@@ -192,8 +203,9 @@ public class DimensionEdit extends javax.swing.JFrame {
         selectPin = new javax.swing.JComboBox<>();
         selectCamera = new javax.swing.JComboBox<>();
         selectDisplay = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -208,7 +220,7 @@ public class DimensionEdit extends javax.swing.JFrame {
         getContentPane().add(lblImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 19, 128, 128));
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 15)); // NOI18N
-        jLabel2.setText("Thông Tin Cơ Bản");
+        jLabel2.setText("Thông Tin Cấu Hình");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
 
         jLabel3.setText("ROM");
@@ -309,6 +321,9 @@ public class DimensionEdit extends javax.swing.JFrame {
         selectDisplay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         getContentPane().add(selectDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 190, -1));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 500));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -389,6 +404,7 @@ public class DimensionEdit extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblImage;

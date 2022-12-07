@@ -11,7 +11,7 @@ import com.mongodb.client.model.Updates;
 
 import org.bson.types.ObjectId;
 
-public class DimensionModel extends Document implements IModel {
+public class DimensionModel extends IModel {
     public String _id = "";
     public String name = "";
     public String description = "";
@@ -27,7 +27,9 @@ public class DimensionModel extends Document implements IModel {
     public String camera = "";
     public String display = "";
     public String sim = "";
-
+    public String manufacturer = "";
+    public String releaseYear = "";
+        
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
@@ -45,6 +47,8 @@ public class DimensionModel extends Document implements IModel {
         this.camera =  document.getString("camera");
         this.display =  document.getString("display");
         this.sim =  document.getString("sim");
+        this.manufacturer =  document.getString("manufacturer");
+        this.releaseYear =  document.getString("releaseYear");
     }
 
     @Override
@@ -64,6 +68,8 @@ public class DimensionModel extends Document implements IModel {
         if(!this.camera.isEmpty()) put("camera", this.camera);
         if(!this.display.isEmpty()) put("display", this.display);
         if(!this.sim.isEmpty()) put("sim", this.sim);
+        if(!this.manufacturer.isEmpty()) put("manufacturer", this.manufacturer);
+        if(!this.releaseYear.isEmpty()) put("releaseYear", this.releaseYear);
 
         return this;
     }
@@ -84,7 +90,9 @@ public class DimensionModel extends Document implements IModel {
              !this.pin.isEmpty() ? Updates.set("pin", this.pin) : new Document(),
              !this.camera.isEmpty() ? Updates.set("camera", this.camera) : new Document(),
              !this.display.isEmpty() ? Updates.set("display", this.display) : new Document(),
-             !this.sim.isEmpty() ? Updates.set("sim", this.sim) : new Document()
+             !this.sim.isEmpty() ? Updates.set("sim", this.sim) : new Document(),
+             !this.manufacturer.isEmpty() ? Updates.set("manufacturer", this.manufacturer) : new Document(),
+             !this.releaseYear.isEmpty() ? Updates.set("releaseYear", this.releaseYear) : new Document()
          );
  
          return updates;

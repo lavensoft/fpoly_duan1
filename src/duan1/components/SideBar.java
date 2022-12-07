@@ -28,6 +28,7 @@ import duan1.views.KhuyenMai;
 import duan1.views.Login;
 import duan1.views.NhanVien;
 import duan1.views.SanPham;
+import duan1.views.Staff;
 import duan1.views.ThemHoaDon;
 
 /**
@@ -106,7 +107,7 @@ public class SideBar extends javax.swing.JPanel {
         menuItems.add(new SMenuItem<ThemHoaDon>("Thống Kê", "\uf21c", ThemHoaDon.class, false));
         menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "\uf2d7", KhachHang.class, false));
         menuItems.add(new SMenuItem<SideBarItem>("Quản Lý", "", SideBarItem.class, true));
-        menuItems.add(new SMenuItem<NhanVien>("Nhân Viên", "\uf345", NhanVien.class, false));
+        menuItems.add(new SMenuItem<Staff>("Nhân Viên", "\uf345", Staff.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Cài Đặt", "\uf377", ThemHoaDon.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Đăng Xuất", "\uf4c7", ThemHoaDon.class, false));
 

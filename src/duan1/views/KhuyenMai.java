@@ -256,6 +256,8 @@ public class KhuyenMai extends View {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        scrollView.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout scrollViewLayout = new javax.swing.GroupLayout(scrollView);
         scrollView.setLayout(scrollViewLayout);
         scrollViewLayout.setHorizontalGroup(

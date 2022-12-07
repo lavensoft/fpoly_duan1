@@ -78,9 +78,14 @@ io.on('connection', socket => {
 
     //* PROMOTIONS
     socket.on('/promotions/add', data => {
-        console.log(data);
         socket.emit('/promotions/add', data);
         socket.broadcast.emit('/promotions/add', data);
+    });
+
+    //* USERS
+    socket.on('/users/add', data => {
+        socket.emit('/users/add', data);
+        socket.broadcast.emit('/users/add', data);
     });
 
     socket.on('disconnect', () => { /* … */ });

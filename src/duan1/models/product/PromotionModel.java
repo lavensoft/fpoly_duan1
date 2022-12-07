@@ -25,14 +25,24 @@ public class PromotionModel extends IModel {
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
-        this.title = document.getString("title");
-        this.description = document.getString("email");
-        this.percent = document.getDouble("percent");
-        this.startDate = document.getString("startDate");
-        this.endDate = document.getString("endDate");
-        this.dateCreated = document.getString("dateCreated");
-        this.points = document.getDouble("points");
-        this.product = document.getString("product");
+        if(document.getString("title") != null) this.title = document.getString("title");
+        if(document.getString("email") != null) this.description = document.getString("email");
+        if(document.getDouble("percent") != null) this.percent = document.getDouble("percent");
+        if(document.getString("startDate") != null) this.startDate = document.getString("startDate");
+        if(document.getString("endDate") != null) this.endDate = document.getString("endDate");
+        if(document.getString("dateCreated") != null) this.dateCreated = document.getString("dateCreated");
+        if(document.getDouble("points") != null) this.points = document.getDouble("points");
+        if(document.getString("product") != null) this.product = document.getString("product");
+        
+        //Put to document
+        if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
+        if(!this.title.isEmpty()) put("title", this.title);
+        if(!this.description.isEmpty()) put("description", this.description);
+        if(percent != null) put("percent", this.percent);
+        if(!this.endDate.isEmpty()) put("endDate", this.endDate);
+        if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);
+        if(points != null) put("points", this.points);
+        if(!this.product.isEmpty()) put("product", this.product);
     }
 
     @Override

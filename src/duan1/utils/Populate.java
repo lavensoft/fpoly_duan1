@@ -16,4 +16,14 @@ public class Populate<M extends IModel> {
 
         return null;
     }
+
+    public M findAttr(String field, String value, ArrayList<M> arr) {
+        for(int i = 0; i < arr.size(); i++) {
+            if(arr.get(i).toDocument().getString(field).equals(value)) {
+                return arr.get(i);
+            }
+        }
+
+        return null;
+    }
 }

@@ -7,12 +7,16 @@ package duan1.views;
 import duan1.components.Cards;
 import duan1.controllers.product.DeviceConfigurationController;
 import duan1.controllers.product.DimensionController;
+import duan1.controllers.product.DimensionPromotionController;
 import duan1.controllers.product.ManufacturerController;
 import duan1.controllers.product.ProductController;
+import duan1.controllers.product.PromotionController;
 import duan1.models.product.DeviceConfigurationModel;
 import duan1.models.product.DimensionModel;
+import duan1.models.product.DimensionPromotionModel;
 import duan1.models.product.ManufacturerModel;
 import duan1.models.product.ProductModel;
+import duan1.models.product.PromotionModel;
 import duan1.utils.Async;
 import duan1.utils.Log;
 import duan1.utils.NextImage;
@@ -55,6 +59,8 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
     private DeviceConfigurationController deviceConfigController = new DeviceConfigurationController();
     private ManufacturerController manufacturerController = new ManufacturerController();
     private DimensionController dimensionController = new DimensionController();
+    private DimensionPromotionController dimensionPromotionController = new DimensionPromotionController();
+    private PromotionController promotionController = new PromotionController();
     
     //* DATA */
     private ArrayList<DimensionModel> arrProduct = new ArrayList<>();

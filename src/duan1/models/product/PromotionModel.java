@@ -40,7 +40,7 @@ public class PromotionModel extends IModel {
         if(!this._id.isEmpty()) put("_id", new ObjectId(this._id));
         if(!this.title.isEmpty()) put("title", this.title);
         if(!this.description.isEmpty()) put("description", this.description);
-        if(percent != null) put("price", this.percent);
+        if(percent != null) put("percent", this.percent);
         if(!this.startDate.isEmpty()) put("startDate", this.startDate);
         if(!this.endDate.isEmpty()) put("endDate", this.endDate);
         if(!this.dateCreated.isEmpty()) put("dateCreated", this.dateCreated);

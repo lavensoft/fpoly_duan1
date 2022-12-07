@@ -76,6 +76,13 @@ io.on('connection', socket => {
         socket.broadcast.emit('/products/dimension/add', data);
     })
 
+    //* PROMOTIONS
+    socket.on('/promotions/add', data => {
+        console.log(data);
+        socket.emit('/promotions/add', data);
+        socket.broadcast.emit('/promotions/add', data);
+    });
+
     socket.on('disconnect', () => { /* … */ });
 });
 

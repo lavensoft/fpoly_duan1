@@ -20,6 +20,7 @@ import duan1.config.Config;
 import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
 import duan1.utils.Async;
+import duan1.utils.NextImage;
 import duan1.utils.WrapLayout;
 import duan1.views.App;
 import duan1.views.HoaDon;
@@ -95,6 +96,7 @@ public class SideBar extends javax.swing.JPanel {
             
             userNameLbl.setText(userInfo.name);
             emailLbl.setText(userInfo.email);
+            lblAvatar.setIcon(new NextImage().load(userInfo.avatar, 58, 58));
         } catch (Exception e1) {
             
         }
@@ -165,7 +167,7 @@ public class SideBar extends javax.swing.JPanel {
 
         menuItemsGroup = new javax.swing.JPanel();
         userInfoContainer = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAvatar = new javax.swing.JLabel();
         userNameLbl = new javax.swing.JLabel();
         emailLbl = new javax.swing.JLabel();
         appVersion = new javax.swing.JLabel();
@@ -193,15 +195,15 @@ public class SideBar extends javax.swing.JPanel {
         userInfoContainer.setBackground(new java.awt.Color(255, 255, 255));
         userInfoContainer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         userInfoContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        userInfoContainer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 58, 58));
+        userInfoContainer.add(lblAvatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 58, 58));
 
         userNameLbl.setFont(new java.awt.Font("sansserif", 0, 13)); // NOI18N
         userNameLbl.setText("USER NAME");
-        userInfoContainer.add(userNameLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, -1, -1));
+        userInfoContainer.add(userNameLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
 
         emailLbl.setFont(new java.awt.Font("sansserif", 0, 11)); // NOI18N
         emailLbl.setText("EMAIL");
-        userInfoContainer.add(emailLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
+        userInfoContainer.add(emailLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
 
         add(userInfoContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 230, 70));
 
@@ -231,7 +233,7 @@ public class SideBar extends javax.swing.JPanel {
     private javax.swing.JLabel backdrop;
     private javax.swing.JPanel background;
     private javax.swing.JLabel emailLbl;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblAvatar;
     private javax.swing.JPanel menuItemsGroup;
     private javax.swing.JPanel userInfoContainer;
     private javax.swing.JLabel userNameLbl;

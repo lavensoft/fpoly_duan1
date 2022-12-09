@@ -20,6 +20,7 @@ import duan1.config.Config;
 import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
 import duan1.utils.Async;
+import duan1.utils.Log;
 import duan1.utils.NextImage;
 import duan1.utils.WrapLayout;
 import duan1.views.App;
@@ -42,16 +43,18 @@ class SMenuItem <V> {
     public String icon;
     public Class<V> view;
     public Boolean isBreak;
+    public String id;
 
     public SMenuItem() {
         
     }
 
-    public SMenuItem(String title, String icon, Class<V> view, Boolean isBreak) {
+    public SMenuItem(String title, String id, String icon, Class<V> view, Boolean isBreak) {
         this.title = title;
         this.icon = icon;
         this.view = view;
         this.isBreak = isBreak;
+        this.id = id;
     }
 }
 
@@ -102,16 +105,16 @@ public class SideBar extends javax.swing.JPanel {
         }
         
         //Create items
-        menuItems.add(new SMenuItem<SideBarItem>("Bán Hàng", "", SideBarItem.class, true));
-        menuItems.add(new SMenuItem<HoaDon>("Đơn Hàng", "\uf292", HoaDon.class, false));
-        menuItems.add(new SMenuItem<SanPham>("Sản Phẩm", "\uf10e", SanPham.class, false));
-        menuItems.add(new SMenuItem<KhuyenMai>("Khuyến Mãi", "\uf35b", KhuyenMai.class, false));
+        menuItems.add(new SMenuItem<SideBarItem>("Bán Hàng", "", "", SideBarItem.class, true));
+        menuItems.add(new SMenuItem<HoaDon>("Đơn Hàng", "", "\uf292", HoaDon.class, false));
+        menuItems.add(new SMenuItem<SanPham>("Sản Phẩm", "", "\uf10e", SanPham.class, false));
+        menuItems.add(new SMenuItem<KhuyenMai>("Khuyến Mãi", "", "\uf35b", KhuyenMai.class, false));
         // menuItems.add(new SMenuItem<ThemHoaDon>("Thống Kê", "\uf21c", ThemHoaDon.class, false));
-        menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "\uf2d7", KhachHang.class, false));
-        menuItems.add(new SMenuItem<SideBarItem>("Quản Lý", "", SideBarItem.class, true));
-        menuItems.add(new SMenuItem<Staff>("Nhân Viên", "\uf345", Staff.class, false));
-        menuItems.add(new SMenuItem<ThemHoaDon>("Cài Đặt", "\uf377", ThemHoaDon.class, false));
-        menuItems.add(new SMenuItem<ThemHoaDon>("Đăng Xuất", "\uf4c7", ThemHoaDon.class, false));
+        menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "", "\uf2d7", KhachHang.class, false));
+        menuItems.add(new SMenuItem<SideBarItem>("Quản Lý", "", "", SideBarItem.class, true));
+        menuItems.add(new SMenuItem<Staff>("Nhân Viên", "", "\uf345", Staff.class, false));
+        menuItems.add(new SMenuItem<ThemHoaDon>("Cài Đặt", "", "\uf377", ThemHoaDon.class, false));
+        menuItems.add(new SMenuItem<ThemHoaDon>("Đăng Xuất", "logout", "\uf4c7", ThemHoaDon.class, false));
 
         //Render to UI
         menuItems.forEach(item -> {
@@ -131,9 +134,20 @@ public class SideBar extends javax.swing.JPanel {
                     unActiveAllMenuItem();
                     menuItem.setActive(true);
                     
-                    Async.setTimeout(() -> {
-                        appContext.navigate(item.view);
-                    }, 100);
+                    try {
+                        if(item.id.equals("logout")) {
+                            userController.logout();
+
+                            new Login().setVisible(true);
+                            appContext.dispose();
+                        }else{
+                            Async.setTimeout(() -> {
+                                appContext.navigate(item.view);
+                            }, 100);
+                        }
+                    }catch(Exception err) {
+                        Log.error(err);
+                    }
 
                     return null;
                 });

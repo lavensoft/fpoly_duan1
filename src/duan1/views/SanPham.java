@@ -100,7 +100,6 @@ public class SanPham extends View{
     void load(){
         try {
             arrProduct = productController.getAll();
-            Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
         }
     }

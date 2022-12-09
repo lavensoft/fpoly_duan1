@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
@@ -69,6 +70,8 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
     //* VIEWS */
     private ProductFilter productFilterView = new ProductFilter();
+    
+    DecimalFormat vndFormat = new DecimalFormat("#,### đ");
 
     DimensionModel model = new DimensionModel();
     int index = 0;
@@ -105,7 +108,6 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
             deviceConfigs = deviceConfigController.getAll();
             manufacturers = manufacturerController.getAll();
             arrProduct = controller.getAll();
-            Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
             Log.error(e);
         }
@@ -134,7 +136,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
                 }
 
                 lblName.setText(data.name);
-                lblPrice.setText(String.valueOf(data.price));
+                lblPrice.setText(vndFormat.format(data.price));
                 lblStocks.setText("HẾT HÀNG");
                 if(data.stocks != null) lblStocks.setText(data.stocks > 0 ? "CÒN HÀNG" : "HẾT HÀNG");
                 lblDesc.setText(data.description);

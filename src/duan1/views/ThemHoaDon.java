@@ -139,11 +139,12 @@ public class ThemHoaDon extends View {
             billPrice += productPrice * item.count;
         }
 
-        calculateDiscount();
-
         //Render to ui
         lblTotal.setText(vndFormat.format(billPrice));
+        lblDiscount.setText(vndFormat.format(0.0));
         lblBillTotal.setText(vndFormat.format(Math.round(billPrice * 1.1) - discountPrice));
+
+        calculateDiscount();
     }
 
     private void calculateDiscount() {
@@ -153,13 +154,16 @@ public class ThemHoaDon extends View {
             DimensionModel product = cart.product;
             DimensionPromotionModel dimProm = new DimensionPromotionModel();
             dimProm = dimensionPromotionPopulate.findAttr("dimension", product._id, dimensionPromotions);
-            PromotionModel promotionModel = new PromotionModel();
-            promotionModel = promotionPopulate.find(dimProm.promotion, promotions);
+            
+            if(dimProm != null) {
+                PromotionModel promotionModel = new PromotionModel();
+                promotionModel = promotionPopulate.find(dimProm.promotion, promotions);
 
-            //Check customer poinnt
-            if(customerPoints >= promotionModel.points) {
-                discountPrice += product.price * promotionModel.percent / 100;
-                lblDiscount.setText(vndFormat.format(discountPrice));
+                //Check customer poinnt
+                if(customerPoints >= promotionModel.points) {
+                    discountPrice += product.price * promotionModel.percent / 100;
+                    lblDiscount.setText(vndFormat.format(discountPrice));
+                }
             }
         }
     }
@@ -250,7 +254,7 @@ public class ThemHoaDon extends View {
             this.order = order;
 
             btnAdd.setText("Kiểm Tra Thanh Toán");
-            JOptionPane.showMessageDialog(addProductPopup, "ORDER_CREATE_SUCCESSFULLY");
+            JOptionPane.showMessageDialog(addProductPopup, "Đơn hàng đã tạo thành công!");
         }catch(Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e);

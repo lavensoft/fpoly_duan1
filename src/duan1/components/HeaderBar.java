@@ -53,14 +53,15 @@ public class HeaderBar extends javax.swing.JPanel {
         lead.setBackground(new java.awt.Color(255, 255, 255));
         lead.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnBack.setText("<");
+        btnBack.setFont(new java.awt.Font("Ionicons", 0, 15)); // NOI18N
+        btnBack.setText("");
         btnBack.setBorder(null);
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
             }
         });
-        lead.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 41, 50));
+        lead.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 10, 30, 50));
 
         add(lead, java.awt.BorderLayout.LINE_START);
 
@@ -74,9 +75,9 @@ public class HeaderBar extends javax.swing.JPanel {
         titleLayout.setHorizontalGroup(
             titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titleLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addComponent(lblTitle)
-                .addContainerGap(545, Short.MAX_VALUE))
+                .addContainerGap(533, Short.MAX_VALUE))
         );
         titleLayout.setVerticalGroup(
             titleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

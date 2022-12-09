@@ -118,6 +118,7 @@ public class SanPhamEdit extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         selectManufacturer = new javax.swing.JComboBox<>();
         txtReleaseDate = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -174,6 +175,9 @@ public class SanPhamEdit extends javax.swing.JFrame {
         selectManufacturer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         getContentPane().add(selectManufacturer, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 280, -1));
         getContentPane().add(txtReleaseDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 280, -1));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -239,6 +243,7 @@ public class SanPhamEdit extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblImage;
     private javax.swing.JComboBox<String> selectManufacturer;
     private javax.swing.JTextField txtName;

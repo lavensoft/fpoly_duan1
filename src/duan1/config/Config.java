@@ -3,7 +3,7 @@ package duan1.config;
 import java.awt.Font;
 
 public class Config {
-    public static Boolean DEBUG = false;
+    public static Boolean DEBUG = true;
     public static String CACHE_PATH = "cache/";
     public static String API_URL = DEBUG ? "http://localhost:3006" : "https://server.duan1.lavenes.com";
     public static String APP_VERSION = "Alpha 1.3.0";

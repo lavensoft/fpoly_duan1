@@ -21,8 +21,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 
 import javax.swing.BorderFactory;
@@ -107,30 +110,77 @@ public class SanPham extends View{
     //*SOCKET HANDLERS */
     @Override
     public void initSocket() {
+        //* PRODUCT */
         socket.on("/products/add", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                System.out.println("SOCKET ON");
                 //Update data
                 ProductModel product = new ProductModel();
 
                 Document data = new Document();
                 data = data.parse((String) args[0]);
-
-                System.out.println(data);
                 
                 product.fromDocument(data);
 
                 arrProduct.add(0, product);
 
                 //Render card
-                Cards card = addProductCard(product._id, product.banner, product.name, 0.0);
+                Cards card = addProductCard(product._id, product.banner, product.name, 0.0, data);
 
                 PanelCard.add(card, 0);
                 PanelCard.revalidate();
             }
         });
 
+        socket.on("/products/update", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                //Update data
+                ProductModel product = new ProductModel();
+
+                Document data = new Document();
+                data = data.parse((String) args[0]);
+                
+                product.fromDocument(data);
+
+                List<Component> cards = new ArrayList<>();
+                cards = Arrays.asList(PanelCard.getComponents());
+
+                cards.forEach(item -> {
+                    Cards card = (Cards) item;
+                    if(card._id.equals(product._id)) {
+                        card.setName(product.name);
+                        card.setImg(product.banner);
+
+                        card.onEdit(e -> {
+                            sanPhamEditView.setEditData(product);
+                            sanPhamEditView.setVisible(true);
+                            return null;
+                        });
+                    }
+                });
+            }
+        });
+
+        socket.on("/products/delete", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                String id = (String) args[0];
+
+                List<Component> cards = new ArrayList<>();
+                cards = Arrays.asList(PanelCard.getComponents());
+
+                for(Component comp : cards) {
+                    Cards card = (Cards) comp;
+                    if(card._id.equals(id)) {
+                        PanelCard.remove(comp);
+                        PanelCard.revalidate();
+                    }
+                };
+            }
+        });
+
+        //* DIMENSION */
         socket.on("/products/dimension/add", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -145,7 +195,7 @@ public class SanPham extends View{
                 arrDimension.add(0, dimension);
 
                 //Render card
-                Cards card = addProductCard(dimension._id, dimension.banner, dimension.name, 0.0);
+                Cards card = addProductCard(dimension._id, dimension.banner, dimension.name, 0.0, data);
                 
                 PanelCard.add(card, 0);
                 PanelCard.revalidate();
@@ -165,9 +215,10 @@ public class SanPham extends View{
         return card;
     }
 
-    Cards addProductCard(String _id, String banner, String name, Double price) {
+    Cards addProductCard(String _id, String banner, String name, Double price, Document data) {
 
         Cards card = addCard(banner, name, 0.0);
+        card._id = _id;
 
         card.onClick(e -> {
             //* CLICK */
@@ -199,6 +250,15 @@ public class SanPham extends View{
             return null;
         });
 
+        card.onEdit(e -> {
+            ProductModel product = new ProductModel();
+            product.fromDocument(data);
+
+            sanPhamEditView.setEditData(product);
+            sanPhamEditView.setVisible(true);
+            return null;
+        });
+
         card.onDelete(e -> {
             ProductModel query = new ProductModel();
             query._id = _id;
@@ -206,9 +266,8 @@ public class SanPham extends View{
             try {
                 productController.deleteOne(query);
 
-                //Redraw UI
-                PanelCard.remove(card);
-                PanelCard.revalidate(); //Redraw component
+                //*Emit to socket */
+                socket.emit("/products/delete", _id);
             } catch (Exception err) {
                 Log.error(err);
             }
@@ -225,6 +284,7 @@ public class SanPham extends View{
 
     Cards addDimensionCard(String _id, String banner, String name, Double price) {
         Cards card = addCard(banner, name, price);
+        card._id = _id;
 
         card.onDelete(e -> {
             DimensionModel query = new DimensionModel();
@@ -262,7 +322,7 @@ public class SanPham extends View{
         
         if(!_loadDimensions) { //PRIMARY
             arrProduct.forEach(data -> {
-                Cards card = addProductCard(data._id, data.banner, data.name, 0.0);
+                Cards card = addProductCard(data._id, data.banner, data.name, 0.0, data.toDocument());
                 PanelCard.add(card);
             });       
         }else{//DIMENSION

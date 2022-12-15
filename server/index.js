@@ -69,12 +69,33 @@ io.on('connection', socket => {
     socket.on('/products/add', data => {
         socket.emit('/products/add', data);
         socket.broadcast.emit('/products/add', data);
-    })
+    });
 
+    socket.on('/products/update', data => {
+        socket.emit('/products/update', data);
+        socket.broadcast.emit('/products/update', data);
+    });
+
+    socket.on('/products/delete', id => {
+        socket.emit('/products/delete', id);
+        socket.broadcast.emit('/products/delete', id);
+    });
+
+    //* DIMENSIONS
     socket.on('/products/dimension/add', data => {
         socket.emit('/products/dimension/add', data);
         socket.broadcast.emit('/products/dimension/add', data);
-    })
+    });
+
+    socket.on('/productss/dimension/update', data => {
+        socket.emit('/productss/dimension/update', data);
+        socket.broadcast.emit('/productss/dimension/update', data);
+    });
+
+    socket.on('/productss/dimension/delete', id => {
+        socket.emit('/productss/dimension/delete', id);
+        socket.broadcast.emit('/productss/dimension/delete', id);
+    });
 
     //* PROMOTIONS
     socket.on('/promotions/add', data => {

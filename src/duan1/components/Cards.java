@@ -87,6 +87,7 @@ public class Cards extends javax.swing.JPanel {
     private BufferedImage imageShadow;
     private final Insets shadowSize = new Insets(2, 5, 8, 5);
     private Color shadowColor = new Color(170, 170, 170);
+    public String _id;
 
     /**
      * Creates new form Cards

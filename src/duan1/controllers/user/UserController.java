@@ -1,5 +1,6 @@
 package duan1.controllers.user;
 
+import duan1.models.user.PermissionModel;
 import duan1.models.user.UserModel;
 import duan1.dao.*;
 import duan1.dao.user.UserDAO;

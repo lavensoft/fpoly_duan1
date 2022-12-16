@@ -97,6 +97,17 @@ io.on('connection', socket => {
         socket.broadcast.emit('/productss/dimension/delete', id);
     });
 
+    //*PERMISSIONS
+    socket.on('/permissions/add', data => {
+        socket.emit('/permissions/add', data);
+        socket.broadcast.emit('/permissions/add', data);
+    });
+
+    socket.on('/permissions/update', data => {
+        socket.emit('/permissions/update', data);
+        socket.broadcast.emit('/permissions/update', data);
+    });
+
     //* PROMOTIONS
     socket.on('/promotions/add', data => {
         socket.emit('/promotions/add', data);

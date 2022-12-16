@@ -17,7 +17,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import duan1.config.Config;
+import duan1.controllers.user.PermissionController;
 import duan1.controllers.user.UserController;
+import duan1.models.user.PermissionModel;
 import duan1.models.user.UserModel;
 import duan1.utils.Async;
 import duan1.utils.Log;
@@ -29,6 +31,7 @@ import duan1.views.KhachHang;
 import duan1.views.KhuyenMai;
 import duan1.views.Login;
 import duan1.views.NhanVien;
+import duan1.views.Permission;
 import duan1.views.SanPham;
 import duan1.views.Staff;
 import duan1.views.ThemHoaDon;
@@ -62,6 +65,7 @@ public class SideBar extends javax.swing.JPanel {
     private ArrayList<SMenuItem> menuItems = new ArrayList<>();
     private UserController userController = new UserController();
     private App appContext;
+    PermissionModel perm = new PermissionModel();
     
     /**
      * Creates new form SideBar
@@ -96,6 +100,9 @@ public class SideBar extends javax.swing.JPanel {
         //Set User Info
         try {
             UserModel userInfo = userController.checkLogin();
+            perm._id = userInfo.permission;
+
+            perm = new PermissionController().get(perm);
             
             userNameLbl.setText(userInfo.name);
             emailLbl.setText(userInfo.email);
@@ -106,14 +113,14 @@ public class SideBar extends javax.swing.JPanel {
         
         //Create items
         menuItems.add(new SMenuItem<SideBarItem>("Bán Hàng", "", "", SideBarItem.class, true));
-        menuItems.add(new SMenuItem<HoaDon>("Đơn Hàng", "", "\uf292", HoaDon.class, false));
-        menuItems.add(new SMenuItem<SanPham>("Sản Phẩm", "", "\uf10e", SanPham.class, false));
-        menuItems.add(new SMenuItem<KhuyenMai>("Khuyến Mãi", "", "\uf35b", KhuyenMai.class, false));
-        // menuItems.add(new SMenuItem<ThemHoaDon>("Thống Kê", "\uf21c", ThemHoaDon.class, false));
-        menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "", "\uf2d7", KhachHang.class, false));
+        if(perm.order.contains("r")) menuItems.add(new SMenuItem<HoaDon>("Đơn Hàng", "", "\uf292", HoaDon.class, false));
+        if(perm.product.contains("r")) menuItems.add(new SMenuItem<SanPham>("Sản Phẩm", "", "\uf10e", SanPham.class, false));
+        if(perm.discount.contains("r")) menuItems.add(new SMenuItem<KhuyenMai>("Khuyến Mãi", "", "\uf35b", KhuyenMai.class, false));
+        if(perm.order.contains("r")) // menuItems.add(new SMenuItem<ThemHoaDon>("Thống Kê", "\uf21c", ThemHoaDon.class, false));
+        if(perm.customer.contains("r")) menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "", "\uf2d7", KhachHang.class, false));
         menuItems.add(new SMenuItem<SideBarItem>("Quản Lý", "", "", SideBarItem.class, true));
-        menuItems.add(new SMenuItem<Staff>("Nhân Viên", "", "\uf345", Staff.class, false));
-        menuItems.add(new SMenuItem<ThemHoaDon>("Phân Quyền", "", "\uf377", ThemHoaDon.class, false));
+        if(perm.staff.contains("r")) menuItems.add(new SMenuItem<Staff>("Nhân Viên", "", "\uf345", Staff.class, false));
+        if(perm.permission.contains("r")) menuItems.add(new SMenuItem<Permission>("Phân Quyền", "", "\uf377", Permission.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Đăng Xuất", "logout", "\uf4c7", ThemHoaDon.class, false));
 
         //Render to UI

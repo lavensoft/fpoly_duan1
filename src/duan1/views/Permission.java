@@ -31,6 +31,7 @@ public class Permission extends View {
         initComponents();
         init();
         fetchData();
+        drawTable();
     }
 
     public void setSocket(Socket socket) {
@@ -46,8 +47,6 @@ public class Permission extends View {
     private void fetchData() {
         try {
             this.permissions = permissionController.getAll();
-
-            drawTable();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -75,11 +74,19 @@ public class Permission extends View {
     //*SOCKET HANDLERS */
     @Override
     public void initSocket() {
-        //* PRODUCT */
-        socket.on("/products/add", new Emitter.Listener() {
+        socket.on("/permissions/add", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                
+                fetchData();
+                drawTable();
+            }
+        });
+        
+        socket.on("/permissions/update", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                fetchData();
+                drawTable();
             }
         });
     };

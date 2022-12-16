@@ -16,6 +16,8 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import org.bson.Document;
+
 import duan1.config.Config;
 import duan1.controllers.user.PermissionController;
 import duan1.controllers.user.UserController;
@@ -35,6 +37,8 @@ import duan1.views.Permission;
 import duan1.views.SanPham;
 import duan1.views.Staff;
 import duan1.views.ThemHoaDon;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  *
@@ -65,6 +69,7 @@ public class SideBar extends javax.swing.JPanel {
     private ArrayList<SMenuItem> menuItems = new ArrayList<>();
     private UserController userController = new UserController();
     private App appContext;
+    private Socket socket;
     PermissionModel perm = new PermissionModel();
     
     /**
@@ -75,6 +80,37 @@ public class SideBar extends javax.swing.JPanel {
         initMenuItems();
         init();
     }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+        initSocket();
+    }
+
+    //*SOCKET HANDLERS */
+    private void initSocket() {
+        socket.on("/permissions/add", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+
+            }
+        });
+        
+        socket.on("/permissions/update", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Document dPerm = new Document();
+                dPerm = dPerm.parse((String) args[0]);
+
+                PermissionModel tPerm = new PermissionModel();
+                tPerm.fromDocument(dPerm);
+
+                if(tPerm._id.equals(perm._id)) {
+                    perm = tPerm;
+                    initMenuItems();
+                }
+            }
+        });
+    };
 
     public void setAppContext(App context) {
         this.appContext = context;
@@ -95,6 +131,14 @@ public class SideBar extends javax.swing.JPanel {
         //Set app version
         appVersion.setText(Config.APP_VERSION);
 
+        menuItems.clear();
+        menuItemsGroup.removeAll();
+        menuItemsGroup.revalidate();
+        menuItemsGroup.repaint();
+        menuItemsGroup.updateUI();
+        this.revalidate();
+        this.repaint();
+        this.updateUI();
         menuItemsGroup.setLayout(new WrapLayout(0, 0, 12));
 
         //Set User Info
@@ -113,14 +157,14 @@ public class SideBar extends javax.swing.JPanel {
         
         //Create items
         menuItems.add(new SMenuItem<SideBarItem>("Bán Hàng", "", "", SideBarItem.class, true));
-        if(perm.order.contains("r")) menuItems.add(new SMenuItem<HoaDon>("Đơn Hàng", "", "\uf292", HoaDon.class, false));
-        if(perm.product.contains("r")) menuItems.add(new SMenuItem<SanPham>("Sản Phẩm", "", "\uf10e", SanPham.class, false));
-        if(perm.discount.contains("r")) menuItems.add(new SMenuItem<KhuyenMai>("Khuyến Mãi", "", "\uf35b", KhuyenMai.class, false));
-        if(perm.order.contains("r")) // menuItems.add(new SMenuItem<ThemHoaDon>("Thống Kê", "\uf21c", ThemHoaDon.class, false));
-        if(perm.customer.contains("r")) menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "", "\uf2d7", KhachHang.class, false));
+        if(perm.order != null && perm.order.contains("r")) menuItems.add(new SMenuItem<HoaDon>("Đơn Hàng", "", "\uf292", HoaDon.class, false));
+        if(perm.product != null && perm.product.contains("r")) menuItems.add(new SMenuItem<SanPham>("Sản Phẩm", "", "\uf10e", SanPham.class, false));
+        if(perm.discount != null && perm.discount.contains("r")) menuItems.add(new SMenuItem<KhuyenMai>("Khuyến Mãi", "", "\uf35b", KhuyenMai.class, false));
+        if(perm.order != null && perm.order.contains("r")) // menuItems.add(new SMenuItem<ThemHoaDon>("Thống Kê", "\uf21c", ThemHoaDon.class, false));
+        if(perm.customer != null && perm.customer.contains("r")) menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "", "\uf2d7", KhachHang.class, false));
         menuItems.add(new SMenuItem<SideBarItem>("Quản Lý", "", "", SideBarItem.class, true));
-        if(perm.staff.contains("r")) menuItems.add(new SMenuItem<Staff>("Nhân Viên", "", "\uf345", Staff.class, false));
-        if(perm.permission.contains("r")) menuItems.add(new SMenuItem<Permission>("Phân Quyền", "", "\uf377", Permission.class, false));
+        if(perm.staff != null && perm.staff.contains("r")) menuItems.add(new SMenuItem<Staff>("Nhân Viên", "", "\uf345", Staff.class, false));
+        if(perm.permission != null && perm.permission.contains("r")) menuItems.add(new SMenuItem<Permission>("Phân Quyền", "", "\uf377", Permission.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Đăng Xuất", "logout", "\uf4c7", ThemHoaDon.class, false));
 
         //Render to UI
@@ -162,6 +206,13 @@ public class SideBar extends javax.swing.JPanel {
                 menuItemsGroup.add(menuItem);
             }
         });
+        
+        menuItemsGroup.revalidate();
+        menuItemsGroup.repaint();
+        menuItemsGroup.updateUI();
+        this.revalidate();
+        this.repaint();
+        this.updateUI();
     }
 
     private void unActiveAllMenuItem() {

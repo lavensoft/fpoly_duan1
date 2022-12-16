@@ -395,18 +395,12 @@ public class ThemHoaDon extends View {
             }
         });
 
-        lblPoint.setText("POINT");
-
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         jLabel7.setText("THÔNG TIN ĐƠN HÀNG");
 
         jLabel8.setText("Tổng tiền:");
 
-        lblTotal.setText("POINT");
-
         jLabel10.setText("Giảm giá:");
-
-        lblDiscount.setText("POINT");
 
         jLabel12.setText("Thuế VAT:");
 
@@ -418,8 +412,6 @@ public class ThemHoaDon extends View {
 
         jLabel15.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel15.setText("TỔNG TIỀN:");
-
-        lblBillTotal.setText("POINT");
 
         jLabel17.setText("Ghi chú:");
 
@@ -556,7 +548,7 @@ public class ThemHoaDon extends View {
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPrint, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

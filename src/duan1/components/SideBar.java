@@ -113,7 +113,7 @@ public class SideBar extends javax.swing.JPanel {
         menuItems.add(new SMenuItem<KhachHang>("Khách Hàng", "", "\uf2d7", KhachHang.class, false));
         menuItems.add(new SMenuItem<SideBarItem>("Quản Lý", "", "", SideBarItem.class, true));
         menuItems.add(new SMenuItem<Staff>("Nhân Viên", "", "\uf345", Staff.class, false));
-        menuItems.add(new SMenuItem<ThemHoaDon>("Cài Đặt", "", "\uf377", ThemHoaDon.class, false));
+        menuItems.add(new SMenuItem<ThemHoaDon>("Phân Quyền", "", "\uf377", ThemHoaDon.class, false));
         menuItems.add(new SMenuItem<ThemHoaDon>("Đăng Xuất", "logout", "\uf4c7", ThemHoaDon.class, false));
 
         //Render to UI

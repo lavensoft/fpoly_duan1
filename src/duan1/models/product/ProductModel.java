@@ -27,7 +27,7 @@ public class ProductModel extends IModel {
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
-        this.name = document.getString("name");
+        if(document.getString("name") != null) this.name = document.getString("name");
         if(document.getString("description") != null) this.description = document.getString("description");
         this.banner = document.getString("banner");
         this.dateCreated = document.getString("dateCreated");

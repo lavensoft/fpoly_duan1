@@ -5,11 +5,14 @@
 package duan1.views;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import duan1.controllers.user.PermissionController;
 import duan1.controllers.user.UserController;
+import duan1.models.user.PermissionModel;
 import duan1.models.user.UserModel;
 import duan1.utils.HttpClient;
 import duan1.utils.Log;
@@ -26,10 +29,15 @@ public class StaffEdit extends javax.swing.JFrame {
 
     //* CONTROLLERS */
     private UserController userController = new UserController();
+    private PermissionController permissionController = new PermissionController();
+
+    //* DATA */
+    private ArrayList<PermissionModel> permissions = new ArrayList<>();
 
     public StaffEdit() {
         initComponents();
         init();
+        fetchData();
     }
 
     //* PUBLIC */
@@ -40,6 +48,18 @@ public class StaffEdit extends javax.swing.JFrame {
     //* PRIVATE */
     private void init() {
         this.setLocationRelativeTo(null);
+    }
+
+    private void fetchData() {
+        try {
+            permissions = permissionController.getAll();
+
+            permissions.forEach(item -> {
+                comboPerm.addItem(item.name);
+            }); 
+        }catch(Exception e) {
+            Log.error(e);
+        }
     }
 
     private void uploadImage() {
@@ -67,6 +87,7 @@ public class StaffEdit extends javax.swing.JFrame {
             user.cccd = txtCCCD.getText();
             user.password = txtPassword.getText();
             user.salary = Double.parseDouble(txtSalary.getText());
+            user.permission = permissions.get(comboPerm.getSelectedIndex())._id;
 
             userController.add(user);
     
@@ -105,8 +126,10 @@ public class StaffEdit extends javax.swing.JFrame {
         btnAdd = new duan1.components.Button();
         txtCCCD = new javax.swing.JTextField();
         btnClose = new duan1.components.Button();
+        jLabel7 = new javax.swing.JLabel();
+        comboPerm = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -136,8 +159,8 @@ public class StaffEdit extends javax.swing.JFrame {
         });
         jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 280, -1));
 
-        jLabel5.setText("Email");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, -1, -1));
+        jLabel5.setText("Phân quyền");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, -1, -1));
 
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,19 +177,19 @@ public class StaffEdit extends javax.swing.JFrame {
                 txtSalaryActionPerformed(evt);
             }
         });
-        jPanel1.add(txtSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 250, 190, -1));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 400, 10));
+        jPanel1.add(txtSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 190, -1));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 400, 10));
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 15)); // NOI18N
         jLabel2.setText("Thông Tin Chi Tiết");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
 
         jLabel14.setText("Lương cơ bản");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
-        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 190, -1));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, -1, -1));
+        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 190, -1));
 
         jLabel15.setText("Mật khẩu");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, -1));
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
         btnAdd.setBackground(new java.awt.Color(0, 122, 255));
         btnAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -176,7 +199,7 @@ public class StaffEdit extends javax.swing.JFrame {
                 btnAddMouseClicked(evt);
             }
         });
-        jPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 300, -1, -1));
+        jPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, -1, -1));
 
         txtCCCD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,9 +214,14 @@ public class StaffEdit extends javax.swing.JFrame {
                 btnCloseMouseClicked(evt);
             }
         });
-        jPanel1.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, -1, -1));
+        jPanel1.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 350, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 360));
+        jLabel7.setText("Email");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, -1, -1));
+
+        jPanel1.add(comboPerm, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 280, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -264,10 +292,7 @@ public class StaffEdit extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private duan1.components.Button btnAdd;
     private duan1.components.Button btnClose;
-    private duan1.components.Button btnExit;
-    private duan1.components.Button btnExit1;
-    private duan1.components.Button btnExit2;
-    private duan1.components.Button btnExit3;
+    private javax.swing.JComboBox<String> comboPerm;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -275,6 +300,7 @@ public class StaffEdit extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblImage;

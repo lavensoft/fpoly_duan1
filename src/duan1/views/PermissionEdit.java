@@ -211,7 +211,7 @@ public class PermissionEdit extends javax.swing.JFrame {
         rPerm = new javax.swing.JCheckBox();
         cPerm = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -267,17 +267,17 @@ public class PermissionEdit extends javax.swing.JFrame {
                 btnExitsMouseClicked(evt);
             }
         });
-        jPanel1.add(btnExits, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 420, -1, -1));
+        jPanel1.add(btnExits, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 420, -1, -1));
 
         btnSave.setBackground(new java.awt.Color(0, 122, 255));
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
-        btnSave.setText("Thêm Sản Phẩm");
+        btnSave.setText("Lưu");
         btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSaveMouseClicked(evt);
             }
         });
-        jPanel1.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 420, -1, -1));
+        jPanel1.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, -1, -1));
         jPanel1.add(rBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, -1, -1));
         jPanel1.add(vBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, -1, -1));
         jPanel1.add(cBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, -1, -1));
@@ -356,10 +356,6 @@ public class PermissionEdit extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private duan1.components.Button btnAdd;
-    private duan1.components.Button btnAdd1;
-    private duan1.components.Button btnExit;
-    private duan1.components.Button btnExit1;
     private duan1.components.Button btnExits;
     private duan1.components.Button btnSave;
     private javax.swing.JCheckBox cBill;

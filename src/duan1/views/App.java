@@ -75,6 +75,7 @@ public class App extends javax.swing.JFrame {
 
     private void initStates() {
         AppStates.init(socket);
+        sideBar2.setSocket(socket);
     }
 
     private void init() {

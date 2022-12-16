@@ -2,6 +2,7 @@ package duan1.config;
 
 public class Collections {
     public static String USER = "users";
+    public static String PERMISSION = "permissions";
     public static String PROMOTION = "promotions";
     public static String DIMENSION_PROMOTION = "dimension_promotions";
     public static String DEVICE_CONFIGURATION = "device_configurations";

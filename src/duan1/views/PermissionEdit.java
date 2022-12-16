@@ -56,22 +56,22 @@ public class PermissionEdit extends javax.swing.JFrame {
 
                 switch(x) {
                     case 0: //Bill
-                        if(data.order.contains(perms[i])) checkb.setSelected(true);
+                        if(data.order != null && data.order.contains(perms[i])) checkb.setSelected(true);
                         break;
                     case 1: //Product
-                        if(data.product.contains(perms[i])) checkb.setSelected(true);
+                        if(data.product != null && data.product.contains(perms[i])) checkb.setSelected(true);
                         break;
                     case 2: //Discount
-                        if(data.discount.contains(perms[i])) checkb.setSelected(true);
+                        if(data.discount != null && data.discount.contains(perms[i])) checkb.setSelected(true);
                         break;
                     case 3: //Customer
-                        if(data.customer.contains(perms[i])) checkb.setSelected(true);
+                        if(data.customer != null && data.customer.contains(perms[i])) checkb.setSelected(true);
                         break;
                     case 4: //Staff
-                        if(data.staff.contains(perms[i])) checkb.setSelected(true);
+                        if(data.staff != null && data.staff.contains(perms[i])) checkb.setSelected(true);
                         break;
                     case 5: //Perm
-                        if(data.permission.contains(perms[i])) checkb.setSelected(true);
+                        if(data.permission != null && data.permission.contains(perms[i])) checkb.setSelected(true);
                         break;
                     default: 
                         break;

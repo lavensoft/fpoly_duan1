@@ -135,8 +135,10 @@ public class SideBar extends javax.swing.JPanel {
         menuItemsGroup.removeAll();
         menuItemsGroup.revalidate();
         menuItemsGroup.repaint();
+        menuItemsGroup.updateUI();
         this.revalidate();
         this.repaint();
+        this.updateUI();
         menuItemsGroup.setLayout(new WrapLayout(0, 0, 12));
 
         //Set User Info

@@ -26,6 +26,8 @@ import io.socket.client.Socket;
 public class SanPhamEdit extends javax.swing.JFrame {
     private Socket socket;
     private File productImage;
+    private String editId = "";
+    private String editImage = "";
 
     private ManufacturerController manufacturerController = new ManufacturerController();
     private ProductController productController = new ProductController();
@@ -46,6 +48,23 @@ public class SanPhamEdit extends javax.swing.JFrame {
         this.socket = socket;
     }
 
+    public void setEditData(ProductModel editData) {
+        this.editId = editData._id;
+        this.editImage = editData.banner;
+        
+        txtName.setText(editData.name);
+        selectManufacturer.setSelectedIndex(1);
+        txtReleaseDate.setText(editData.releaseYear);
+
+        btnAdd.setText("Chỉnh Sửa Sản Phẩm");
+
+        try {
+            lblImage.setIcon(new NextImage().load(editData.banner, lblImage.getWidth(), lblImage.getHeight()));
+        } catch (Exception e) {
+            Log.error(e);
+        }
+    }
+
     //* PRIVATE */
     private void init() {
         this.setLocationRelativeTo(null);
@@ -62,6 +81,15 @@ public class SanPhamEdit extends javax.swing.JFrame {
         } catch (Exception e) {
             Log.error(e);
         }
+    }
+
+    private void clearForm() {
+        this.editId = "";
+        this.editImage = "";
+        txtName.setText("");
+        txtReleaseDate.setText("");
+        lblImage.setIcon(null);
+        btnAdd.setText("Thêm Sản Phẩm");
     }
 
     private void uploadImage() {
@@ -82,16 +110,31 @@ public class SanPhamEdit extends javax.swing.JFrame {
         try {
             ProductModel product = new ProductModel();
             product.name = txtName.getText();
-            product.banner = productImage.getAbsolutePath();
+            product.banner = editImage.isEmpty() ? productImage.getAbsolutePath() : editImage;
             product.manufacturer = manufacturers.get(selectManufacturer.getSelectedIndex())._id;
             product.releaseYear = txtReleaseDate.getText();
 
-            //*Add to DB */
-            productController.add(product);
+            //Add new
+            if(this.editId.isEmpty()) {
+                //*Add to DB */
+                productController.add(product);
+    
+                //*Emit to Socket
+                socket.emit("/products/add", product.toJson());
+            }else{ //Edit
+                //* Update to DB */
+                ProductModel query = new ProductModel();
+                query._id = this.editId;
 
-            //*Emit to Socket
-            socket.emit("/products/add", product.toJson());
+                productController.updateOne(query, product);
 
+                product._id = this.editId;
+
+                //*Emit to Socket */
+                socket.emit("/products/update", product.toDocument().toJson());
+            }
+
+            clearForm();
             this.dispose();
         }catch(Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -118,6 +161,7 @@ public class SanPhamEdit extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         selectManufacturer = new javax.swing.JComboBox<>();
         txtReleaseDate = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -175,6 +219,9 @@ public class SanPhamEdit extends javax.swing.JFrame {
         getContentPane().add(selectManufacturer, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 280, -1));
         getContentPane().add(txtReleaseDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 280, -1));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 300));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -191,6 +238,7 @@ public class SanPhamEdit extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
+        clearForm();
         this.dispose();
     }//GEN-LAST:event_btnExitMouseClicked
 
@@ -239,6 +287,7 @@ public class SanPhamEdit extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblImage;
     private javax.swing.JComboBox<String> selectManufacturer;
     private javax.swing.JTextField txtName;

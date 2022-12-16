@@ -86,7 +86,7 @@ public class App extends javax.swing.JFrame {
         //* APP
         sideBar2.setAppContext(this);
 
-        ThemHoaDon hd = new ThemHoaDon();
+        Home hd = new Home();
 
         this.currentView = hd;
 

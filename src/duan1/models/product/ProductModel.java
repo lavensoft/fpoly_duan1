@@ -27,13 +27,13 @@ public class ProductModel extends IModel {
     @Override
     public void fromDocument(Document document) {
         this._id = document.getObjectId("_id").toString();
-        this.name = document.getString("name");
-        this.description = document.getString("email");
+        if(document.getString("name") != null) this.name = document.getString("name");
+        if(document.getString("description") != null) this.description = document.getString("description");
         this.banner = document.getString("banner");
         this.dateCreated = document.getString("dateCreated");
         this.releaseYear = document.getString("releaseYear");
-        this.author = document.getString("author");
-        this.dimensions = (ArrayList<String>)document.get("dimensions");
+        if(document.getString("author") != null) this.author = document.getString("author");
+        if(document.get("dimensions") != null) this.dimensions = (ArrayList<String>)document.get("dimensions");
         this.manufacturer = document.getString("manufacturer");
     }
 

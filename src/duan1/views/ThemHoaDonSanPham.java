@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
@@ -69,6 +70,8 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
 
     //* VIEWS */
     private ProductFilter productFilterView = new ProductFilter();
+    
+    DecimalFormat vndFormat = new DecimalFormat("#,### đ");
 
     DimensionModel model = new DimensionModel();
     int index = 0;
@@ -105,7 +108,6 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
             deviceConfigs = deviceConfigController.getAll();
             manufacturers = manufacturerController.getAll();
             arrProduct = controller.getAll();
-            Collections.reverse(arrProduct); //Sort to newest
         } catch (Exception e) {
             Log.error(e);
         }
@@ -134,7 +136,7 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
                 }
 
                 lblName.setText(data.name);
-                lblPrice.setText(String.valueOf(data.price));
+                lblPrice.setText(vndFormat.format(data.price));
                 lblStocks.setText("HẾT HÀNG");
                 if(data.stocks != null) lblStocks.setText(data.stocks > 0 ? "CÒN HÀNG" : "HẾT HÀNG");
                 lblDesc.setText(data.description);
@@ -309,23 +311,18 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         jLabel1.setText("Cấu Hình");
         panelBoder2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 275, 42));
         panelBoder2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 430, 17));
-
-        lblStocks.setText("PRODUCT_STOCKS");
-        panelBoder2.add(lblStocks, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 140, 25));
+        panelBoder2.add(lblStocks, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 280, 25));
 
         lblDesc.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblDesc.setText("PRODUCT_INFORMATION");
         lblDesc.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         panelBoder2.add(lblDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 440, 90));
         panelBoder2.add(lblImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 140, 140));
 
         lblPrice.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        lblPrice.setText("PRODUCT_PRICE");
-        panelBoder2.add(lblPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 125, 25));
+        panelBoder2.add(lblPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 280, 25));
 
         lblName.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        lblName.setText("PRODUCT NAME");
-        panelBoder2.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 125, 25));
+        panelBoder2.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 280, 25));
         panelBoder2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 54, 430, 17));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -347,7 +344,6 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         panelBoder2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 520, -1, -1));
 
         lblReleaseYear.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblReleaseYear.setText("VALUE");
         panelBoder2.add(lblReleaseYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 520, -1, -1));
 
         jLabel19.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
@@ -375,31 +371,24 @@ public class ThemHoaDonSanPham extends javax.swing.JFrame {
         panelBoder2.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 430, -1, -1));
 
         lblRam.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblRam.setText("VALUE");
         panelBoder2.add(lblRam, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 430, -1, -1));
 
         lblPin.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblPin.setText("VALUE");
         panelBoder2.add(lblPin, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 460, -1, -1));
 
         lblDisplay.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblDisplay.setText("VALUE");
         panelBoder2.add(lblDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 490, -1, -1));
 
         lblManufacturer.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblManufacturer.setText("VALUE");
         panelBoder2.add(lblManufacturer, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 520, -1, -1));
 
         lblRom.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblRom.setText("VALUE");
         panelBoder2.add(lblRom, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 430, -1, -1));
 
         lblCamera.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblCamera.setText("VALUE");
         panelBoder2.add(lblCamera, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, -1, -1));
 
         lblSim.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        lblSim.setText("VALUE");
         panelBoder2.add(lblSim, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, -1, -1));
 
         panelBoder4.add(panelBoder2, new org.netbeans.lib.awtextra.AbsoluteConstraints(618, 0, -1, -1));

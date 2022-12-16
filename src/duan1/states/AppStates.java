@@ -8,8 +8,8 @@ import io.socket.client.Socket;
 
 public class AppStates {
     public static UserState user = new UserState();
-    public static ProductState product;
-    public static DimensionState dimension;
+    // public static ProductState product;
+    // public static DimensionState dimension;
 
     private static Socket socket;
 
@@ -18,8 +18,8 @@ public class AppStates {
             AppStates.socket = socket;
 
             //* INIT STATES */
-            AppStates.product = new ProductState(socket);
-            AppStates.dimension = new DimensionState(socket);
+            // AppStates.product = new ProductState(socket);
+            // AppStates.dimension = new DimensionState(socket);
 
             Log.success("[ APP STATES LOADED SUCCESSFULLY ]", AppStates.class.getName());
         }catch(Exception e) {

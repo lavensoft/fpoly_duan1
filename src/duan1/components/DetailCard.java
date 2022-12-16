@@ -80,8 +80,9 @@ public class DetailCard extends javax.swing.JPanel {
         countLbl.setText("x12 - 120.000");
 
         deleteBtn.setBackground(new java.awt.Color(255, 0, 51));
+        deleteBtn.setFont(new java.awt.Font("Ionicons", 0, 15)); // NOI18N
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
-        deleteBtn.setText("T");
+        deleteBtn.setText("");
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteBtnActionPerformed(evt);

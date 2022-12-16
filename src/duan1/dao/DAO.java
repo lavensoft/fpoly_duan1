@@ -1,6 +1,7 @@
 package duan1.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -87,6 +88,8 @@ public class DAO<M extends IModel> {
                 docs.add(doc);
             }
 
+            Collections.reverse(docs);
+            
             return docs;
         }catch(Exception e) {
             Log.error(e);

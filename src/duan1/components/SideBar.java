@@ -206,6 +206,13 @@ public class SideBar extends javax.swing.JPanel {
                 menuItemsGroup.add(menuItem);
             }
         });
+        
+        menuItemsGroup.revalidate();
+        menuItemsGroup.repaint();
+        menuItemsGroup.updateUI();
+        this.revalidate();
+        this.repaint();
+        this.updateUI();
     }
 
     private void unActiveAllMenuItem() {

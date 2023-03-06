@@ -2,5 +2,8 @@
 ./build
 ./server/node_modules
 /server/node_modules
+<<<<<<< HEAD
 ./cache
+=======
+>>>>>>> 5ef9e40718d7897bfd61b3461d4c6791b109396a
 /cache

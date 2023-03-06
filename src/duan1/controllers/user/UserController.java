@@ -1,5 +1,6 @@
 package duan1.controllers.user;
 
+import duan1.models.user.PermissionModel;
 import duan1.models.user.UserModel;
 import duan1.dao.*;
 import duan1.dao.user.UserDAO;
@@ -13,6 +14,19 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class UserController {
     private UserDAO userDAO = new UserDAO();
+
+    public void add(UserModel user) throws Exception {
+        user.password = DigestUtils.sha256Hex(user.password);
+        userDAO.add(user);
+    }
+
+    public void updateOne(UserModel query, UserModel user) throws Exception {
+        userDAO.updateOne(query, user);
+    }
+
+    public void updateMany(UserModel query, UserModel user) throws Exception {
+        userDAO.updateMany(query, user);
+    }
 
     public UserModel checkLogin() throws Exception {
         UserModel user = new UserModel();
@@ -70,5 +84,13 @@ public class UserController {
 
     public UserModel get(UserModel query) throws Exception {
         return userDAO.get(query);
+    }
+
+    public void deleteOne(UserModel query) throws Exception {
+        userDAO.deleteOne(query);
+    }
+
+    public void deleteMany(UserModel query) throws Exception {
+        userDAO.deleteMany(query);
     }
 }

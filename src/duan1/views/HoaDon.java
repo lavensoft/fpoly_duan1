@@ -4,18 +4,97 @@
  */
 package duan1.views;
 
+import java.util.ArrayList;
+
+import javax.swing.table.DefaultTableModel;
+
+import duan1.controllers.customer.CustomerController;
+import duan1.controllers.order.OrderController;
+import duan1.controllers.user.UserController;
+import duan1.models.customer.CustomerModel;
+import duan1.models.order.OrderModel;
+import duan1.models.user.UserModel;
+import duan1.utils.Log;
+import duan1.utils.Populate;
+
 /**
  *
- * @author TAN PHAT
+ * @author nhatsdevil
  */
-public class HoaDon extends javax.swing.JPanel {
+public class HoaDon extends View {
+    //* VARIABLES */
+
+    //* POPULATES */
+    private Populate<CustomerModel> customerPopulate = new Populate<>();
+    private Populate<UserModel> userPopulate = new Populate<>();
+
+    //* CONTROLLERS */
+    private OrderController orderController = new OrderController();
+    private CustomerController customerController = new CustomerController();
+    private UserController userController = new UserController();
+
+    //* DATA */
+    private ArrayList<OrderModel> orders = new ArrayList<>();
+    private ArrayList<CustomerModel> customers = new ArrayList<>();
+    private ArrayList<UserModel> users = new ArrayList<>();
 
     /**
      * Creates new form HoaDon
      */
     public HoaDon() {
         initComponents();
-        setOpaque(false);
+        fetchData();
+        init();
+    }
+
+    //* PUBLIC */
+    
+    //* PRIVATE */
+    private void init() {
+        headerBar1.setTitle("Đơn Hàng");
+
+        //TABLE
+        String[] columnNames = {"Khách hàng", "Ngày mua hàng", "Loại thanh toán", "Trạng thái thanh toán", "Người tạo", "Ghi chú"};
+        Object[][] data = {};
+
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+        orders.forEach(item -> {
+            model.addRow(new Object[]{
+                customerPopulate.find(item.customer, customers).name,
+                item.dateCreated,
+                item.paymentMethod,
+                item.paymentStatus,
+                userPopulate.find(item.author, users).name,
+                item.description
+            });
+        });
+
+        table.setModel(model);
+    }
+
+    private void fetchData() {
+        try {
+            users = userController.getAll();
+            customers = customerController.getAll();
+            orders = orderController.getAll();
+        }catch(Exception e) {
+            Log.error(e);
+        }
+    }
+
+    private void handleShowInfo(java.awt.event.MouseEvent evt) {
+        OrderModel order = orders.get(table.getSelectedRow());
+        String authorName = userPopulate.find(order.author, users).name;
+        String customerName = customerPopulate.find(order.customer, customers).name;
+
+        //Render UI
+        lblPhone.setText(authorName);
+        lblName.setText(customerName);
+        lblPoint.setText(order.dateCreated);
+        lblTotal.setText(order.paymentStatus);
+        lblDiscount.setText(order.paymentMethod);
+        lblNote.setText(order.description);
     }
 
     /**
@@ -27,29 +106,34 @@ public class HoaDon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menu1 = new duan1.components.Menu();
-        panelBoder1 = new duan1.components.PanelBoder();
-        panelBoder2 = new duan1.components.PanelBoder();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        panelBoder3 = new duan1.components.PanelBoder();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
+        table = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JButton();
+        headerBar1 = new duan1.components.HeaderBar();
+        jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        panelBoder4 = new duan1.components.PanelBoder();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        lblPhone = new javax.swing.JLabel();
+        lblPoint = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        lblDiscount = new javax.swing.JLabel();
+        lblNote = new javax.swing.JLabel();
 
-        panelBoder2.setBackground(new java.awt.Color(153, 153, 153));
-        panelBoder2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -60,170 +144,149 @@ public class HoaDon extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout panelBoder2Layout = new javax.swing.GroupLayout(panelBoder2);
-        panelBoder2.setLayout(panelBoder2Layout);
-        panelBoder2Layout.setHorizontalGroup(
-            panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        panelBoder2Layout.setVerticalGroup(
-            panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-        );
-
-        panelBoder3.setBackground(new java.awt.Color(153, 153, 153));
-        panelBoder3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jButton1.setText("Thanh Toán");
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Hóa Đơn");
-
-        jLabel2.setText("Thành Tiền");
-
-        javax.swing.GroupLayout panelBoder3Layout = new javax.swing.GroupLayout(panelBoder3);
-        panelBoder3.setLayout(panelBoder3Layout);
-        panelBoder3Layout.setHorizontalGroup(
-            panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
-            .addComponent(jSeparator2)
-            .addGroup(panelBoder3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                    .addGroup(panelBoder3Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        panelBoder3Layout.setVerticalGroup(
-            panelBoder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(89, 89, 89)
-                .addComponent(jButton1)
-                .addContainerGap())
-        );
-
-        panelBoder4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        });
+        jScrollPane1.setViewportView(table);
 
-        javax.swing.GroupLayout panelBoder4Layout = new javax.swing.GroupLayout(panelBoder4);
-        panelBoder4.setLayout(panelBoder4Layout);
-        panelBoder4Layout.setHorizontalGroup(
-            panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(819, 64));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setSize(new java.awt.Dimension(100, 64));
+
+        btnAdd.setFont(new java.awt.Font("Ionicons", 0, 18)); // NOI18N
+        btnAdd.setText("");
+        btnAdd.setPreferredSize(new java.awt.Dimension(36, 36));
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
-        panelBoder4Layout.setVerticalGroup(
-            panelBoder4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hãng", "SamSung", "Apple", "Xiaomi", "Realmi", "Oppo" }));
-        jComboBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Giá", " " }));
-        jComboBox2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ram" }));
-        jComboBox3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rom" }));
-        jComboBox4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout panelBoder1Layout = new javax.swing.GroupLayout(panelBoder1);
-        panelBoder1.setLayout(panelBoder1Layout);
-        panelBoder1Layout.setHorizontalGroup(
-            panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBoder1Layout.createSequentialGroup()
-                .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelBoder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelBoder1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(panelBoder3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(panelBoder4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        panelBoder1Layout.setVerticalGroup(
-            panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBoder1Layout.createSequentialGroup()
-                .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBoder1Layout.createSequentialGroup()
-                        .addComponent(panelBoder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelBoder1Layout.createSequentialGroup()
-                        .addComponent(panelBoder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelBoder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)))
-                .addComponent(panelBoder4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBoder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBoder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_END);
+        jPanel1.add(headerBar1, java.awt.BorderLayout.LINE_START);
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setMinimumSize(new java.awt.Dimension(300, 100));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        jLabel2.setText("THÔNG TIN KHÁCH HÀNG");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 6, -1, -1));
+
+        jLabel3.setText("Người tạo:");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 36, -1, -1));
+
+        jLabel4.setText("Họ tên:");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 71, -1, -1));
+
+        jLabel5.setText("Thời gian tạo:");
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 106, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        jLabel7.setText("THÔNG TIN ĐƠN HÀNG");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 146, -1, -1));
+
+        jLabel8.setText("Trạng thái thanh toán:");
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 176, -1, -1));
+
+        jLabel10.setText("Loại thanh toán:");
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 205, -1, -1));
+
+        jLabel12.setText("Thuế VAT:");
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 234, -1, -1));
+
+        jLabel13.setText("10%");
+        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, -1, -1));
+
+        jLabel15.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel15.setText("TỔNG TIỀN:");
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
+
+        jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel16.setText("GHI CHÚ:");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
+
+        lblPhone.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(lblPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 36, 160, 20));
+
+        lblPoint.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(lblPoint, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 106, 160, 20));
+
+        lblName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 71, 160, 20));
+
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 176, 160, 20));
+
+        lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(lblDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 205, 160, 20));
+
+        lblNote.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblNote.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel3.add(lblNote, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 331, 290, 180));
+
+        add(jPanel3, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        appContext.navigate(ThemHoaDon.class);
+    }//GEN-LAST:event_btnAddMouseClicked
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        handleShowInfo(evt);
+    }//GEN-LAST:event_tableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnAdd;
+    private duan1.components.HeaderBar headerBar1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private duan1.components.Menu menu1;
-    private duan1.components.PanelBoder panelBoder1;
-    private duan1.components.PanelBoder panelBoder2;
-    private duan1.components.PanelBoder panelBoder3;
-    private duan1.components.PanelBoder panelBoder4;
+    private javax.swing.JLabel lblDiscount;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblNote;
+    private javax.swing.JLabel lblPhone;
+    private javax.swing.JLabel lblPoint;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

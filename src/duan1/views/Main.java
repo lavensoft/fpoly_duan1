@@ -5,14 +5,24 @@
 package duan1.views;
 
 import java.awt.CardLayout;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Color;
 import java.util.prefs.BackingStoreException;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 import duan1.config.*;
 import duan1.controllers.user.UserController;
 import duan1.models.user.UserModel;
+import duan1.utils.Log;
 import duan1.utils.SocketIO;
 import io.socket.client.Socket;
 
@@ -31,19 +41,34 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     public Main() {
+        initAssets();
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+    }
+
+    void initAssets() {
+        try {
+            InputStream ioniconStream = Main.class.getResourceAsStream("/duan1/assets/fonts/ionicons.ttf");
+            Font ioniconsFont = Font.createFont(Font.TRUETYPE_FONT, ioniconStream);
+            
+            Config.FONT_IONICONS = ioniconsFont.deriveFont(Font.PLAIN, 24f);
+
+            Log.success("[ ASSETS LOADED SUCCESSFULLY ]", Main.class.getName());
+        } catch (IOException e) {
+            Log.error(e);
+        } catch (FontFormatException e) {
+            Log.error(e);
+        }
     }
     
     void closeAll(){
         PnKhachHang.setVisible(false);
         PnKhuyenMai.setVisible(false);
         PnNhanVien.setVisible(false);
-        PnSanPham.setVisible(false);
+        PnSanPham1.setVisible(false);
+        PnThemHoaDon.setVisible(false);
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,9 +80,7 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        // sanPham2 = new duan1.views.SanPham(socket);
         khachHang1 = new duan1.views.KhachHang();
-        // sanPham3 = new duan1.views.SanPham(socket);
         jLabel1 = new javax.swing.JLabel();
         panelBoder3 = new duan1.components.PanelBoder();
         panelBoder2 = new duan1.components.PanelBoder();
@@ -73,10 +96,11 @@ public class Main extends javax.swing.JFrame {
         lblKhachHang = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         menu3 = new duan1.components.Menu();
-        PnSanPham = new duan1.views.SanPham(socket);
         PnNhanVien = new duan1.views.NhanVien();
         PnKhuyenMai = new duan1.views.KhuyenMai();
         PnKhachHang = new duan1.views.KhachHang();
+        PnSanPham1 = new duan1.views.SanPham();
+        PnThemHoaDon = new duan1.views.ThemHoaDon();
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -136,6 +160,11 @@ public class Main extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Hóa Đơn");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         panelBoder5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 240, 30));
 
         lblSanPham.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -196,10 +225,11 @@ public class Main extends javax.swing.JFrame {
         panelBoder5.add(lblKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 530, 240, 30));
         panelBoder5.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 250, 10));
         panelBoder5.add(menu3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-        panelBoder5.add(PnSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
         panelBoder5.add(PnNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
         panelBoder5.add(PnKhuyenMai, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
         panelBoder5.add(PnKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
+        panelBoder5.add(PnSanPham1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, -10, -1, -1));
+        panelBoder5.add(PnThemHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 830, 720));
 
         getContentPane().add(panelBoder5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 720));
 
@@ -238,7 +268,7 @@ public class Main extends javax.swing.JFrame {
     private void lblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanPhamMouseClicked
         // TODO add your handling code here:
         closeAll();
-        PnSanPham.setVisible(true);
+        PnSanPham1.setVisible(true);
     }//GEN-LAST:event_lblSanPhamMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -253,6 +283,12 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        closeAll();
+        PnThemHoaDon.setVisible(true);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
     
     /**
      * @param args the command line arguments
@@ -264,21 +300,28 @@ public class Main extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+
+            Log.success("[ UI LOADED SUCCESSFULLY ]", Main.class.getName());
+        }catch(Exception e) {
+            Log.error(e);
         }
+        // try {
+        //     for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+        //         if ("FlatLaf Light".equals(info.getName())) {
+        //             javax.swing.UIManager.setLookAndFeel(info.getClassName());
+        //             break;
+        //         }
+        //     }
+        // } catch (ClassNotFoundException ex) {
+        //     java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // } catch (InstantiationException ex) {
+        //     java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // } catch (IllegalAccessException ex) {
+        //     java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        //     java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        // }
         //</editor-fold>
 
         /* Create and display the form */
@@ -293,7 +336,8 @@ public class Main extends javax.swing.JFrame {
     private duan1.views.KhachHang PnKhachHang;
     private duan1.views.KhuyenMai PnKhuyenMai;
     private duan1.views.NhanVien PnNhanVien;
-    private duan1.views.SanPham PnSanPham;
+    private duan1.views.SanPham PnSanPham1;
+    private duan1.views.ThemHoaDon PnThemHoaDon;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -311,7 +355,5 @@ public class Main extends javax.swing.JFrame {
     private duan1.components.PanelBoder panelBoder2;
     private duan1.components.PanelBoder panelBoder3;
     private duan1.components.PanelBoder panelBoder5;
-    private duan1.views.SanPham sanPham2;
-    private duan1.views.SanPham sanPham3;
     // End of variables declaration//GEN-END:variables
 }

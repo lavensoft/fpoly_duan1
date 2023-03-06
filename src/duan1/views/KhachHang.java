@@ -4,25 +4,67 @@
  */
 package duan1.views;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+import duan1.controllers.customer.CustomerController;
+import duan1.models.customer.CustomerModel;
+import duan1.utils.Log;
 
 /**
  *
  * @author TAN PHAT
  */
-public class KhachHang extends javax.swing.JPanel {
+public class KhachHang extends View {
+    //* CONTROLLERS */
+    private CustomerController customerController = new CustomerController();
+
+    //* DATA */
+    private ArrayList<CustomerModel> customers = new ArrayList<>();
 
     /**
      * Creates new form KhachHang
      */
     public KhachHang() {
         initComponents();
-        setOpaque(false);
+        fetchData();
+        init();
+    }
+
+    //* PRIVATE */
+    private void init() {
+        //HEADER BAR
+        headerBar1.setTitle("Khách Hàng");
+
+        //TABLE
+        String[] columnNames = {"Họ Tên", "Số điện thoại", "Điểm thành viên", "Ngày tham gia"};
+        Object[][] data = {};
+
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+        customers.forEach(item -> {
+            model.addRow(new Object[]{
+                item.name,
+                item.phone,
+                item.points,
+                item.dateCreated
+            });
+        });
+
+        table.setModel(model);
+    }
+
+    private void fetchData() {
+        try {
+            customers = customerController.getAll();
+        } catch (Exception e) {
+            Log.error(e);
+        }
     }
     
-    
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,16 +76,40 @@ public class KhachHang extends javax.swing.JPanel {
 
         jSeparator1 = new javax.swing.JSeparator();
         popupMenu1 = new java.awt.PopupMenu();
-        panelBoder2 = new duan1.components.PanelBoder();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblKhachHang = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        headerBar1 = new duan1.components.HeaderBar();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         popupMenu1.setLabel("popupMenu1");
 
-        panelBoder2.setBackground(new java.awt.Color(64, 64, 64));
+        setLayout(new java.awt.BorderLayout());
 
-        tblKhachHang.setBackground(new java.awt.Color(217, 217, 217));
-        tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(819, 64));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setSize(new java.awt.Dimension(100, 64));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 64, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_END);
+        jPanel1.add(headerBar1, java.awt.BorderLayout.LINE_START);
+
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -54,43 +120,19 @@ public class KhachHang extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(tblKhachHang);
+        jScrollPane1.setViewportView(table);
 
-        javax.swing.GroupLayout panelBoder2Layout = new javax.swing.GroupLayout(panelBoder2);
-        panelBoder2.setLayout(panelBoder2Layout);
-        panelBoder2Layout.setHorizontalGroup(
-            panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBoder2Layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
-        );
-        panelBoder2Layout.setVerticalGroup(
-            panelBoder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBoder2Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBoder2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBoder2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane2;
+    private duan1.components.HeaderBar headerBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private duan1.components.PanelBoder panelBoder2;
     private java.awt.PopupMenu popupMenu1;
-    private javax.swing.JTable tblKhachHang;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

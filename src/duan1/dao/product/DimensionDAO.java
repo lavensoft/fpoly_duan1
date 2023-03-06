@@ -1,6 +1,7 @@
 package duan1.dao.product;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import duan1.models.product.DimensionModel;
 import duan1.config.Collections;
@@ -12,15 +13,28 @@ public class DimensionDAO extends DAO<DimensionModel> {
     }
 
     public void add(DimensionModel dimension) throws Exception {
+        dimension.dateCreated = new Date().toString();
         super.add(dimension);
     }
 
-    public ArrayList<DimensionModel> getAll(DimensionModel... dimension) throws Exception {
-        if(dimension.length > 0) dimension[0].toDocument();
-        return super.getAll(dimension);
+    public ArrayList<DimensionModel> search(String value) throws Exception {
+        return super.search(value);
     }
 
-    public DimensionModel get(DimensionModel dimension) throws Exception {
-        return super.get(dimension);
+    public ArrayList<DimensionModel> getAll(DimensionModel... queries) throws Exception {
+        if(queries.length > 0) queries[0].toDocument();
+        return super.getAll(queries);
+    }
+
+    public DimensionModel get(DimensionModel query) throws Exception {
+        return super.get(query);
+    }
+
+    public void deleteOne(DimensionModel query) throws Exception {
+        super.deleteOne(query);
+    }
+
+    public void deleteMany(DimensionModel query) throws Exception {
+        super.deleteMany(query);
     }
 }

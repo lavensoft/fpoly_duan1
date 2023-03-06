@@ -26,4 +26,27 @@ public class ProductController {
     public ProductModel get(ProductModel query) throws Exception {
         return productDAO.get(query);
     }
+
+    public void updateOne(ProductModel query, ProductModel product) throws Exception {
+        //Upload image
+        
+        if(!product.banner.contains("http")) {
+            String imageUrl = HttpClient.uploadFile(new File(product.banner));
+            product.banner = imageUrl;
+        }
+
+        productDAO.updateOne(query, product);
+    }
+
+    public void updateMany(ProductModel query, ProductModel data) throws Exception {
+        productDAO.updateMany(query, data);
+    }
+
+    public void deleteOne(ProductModel query) throws Exception {
+        productDAO.deleteOne(query);
+    }
+
+    public void deleteMany(ProductModel query) throws Exception {
+        productDAO.deleteMany(query);
+    }
 }

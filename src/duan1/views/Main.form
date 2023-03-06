@@ -22,8 +22,6 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="duan1.views.SanPham" name="sanPham2">
-    </Component>
     <Container class="duan1.views.KhachHang" name="khachHang1">
 
       <Layout>
@@ -39,8 +37,6 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="duan1.views.SanPham" name="sanPham3">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
@@ -142,6 +138,9 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="H&#xf3;a &#x110;&#x1a1;n"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel3MouseClicked"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="10" y="140" width="240" height="30"/>
@@ -272,13 +271,6 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="duan1.views.SanPham" name="PnSanPham">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="250" y="0" width="830" height="720"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="duan1.views.NhanVien" name="PnNhanVien">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -294,6 +286,20 @@
           </Constraints>
         </Component>
         <Component class="duan1.views.KhachHang" name="PnKhachHang">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="250" y="0" width="830" height="720"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="duan1.views.SanPham" name="PnSanPham1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="260" y="-10" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="duan1.views.ThemHoaDon" name="PnThemHoaDon">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="250" y="0" width="830" height="720"/>

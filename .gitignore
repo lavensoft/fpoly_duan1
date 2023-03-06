@@ -2,3 +2,5 @@
 ./build
 ./server/node_modules
 /server/node_modules
+./cache
+/cache

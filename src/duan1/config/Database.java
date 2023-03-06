@@ -27,7 +27,7 @@ public class Database {
             rootLogger.setLevel(Level.ERROR);
 
             //CONNECT TO DATABASE
-            uri = new MongoClientURI("mongodb://lavensoft:irUV9ikbAtcgdPQb_2468_otc@pi.lavenes.com:27019/duan1?retryWrites=true&w=majority");
+            uri = new MongoClientURI("mongodb://lavensoft:irUV9ikbAtcgdPQb_2468_otc@pi.lavenes.com:27019/duan1?authSource=admin");
             client = new MongoClient(uri);
             mongodb = client.getDatabase("duan1");
 

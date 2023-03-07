@@ -15,6 +15,10 @@ public class SocketIO {
     public Socket socket = IO.socket(uri);
 
     public SocketIO() {
-        socket.connect();
+        try {
+            socket.connect();
+        }catch(Exception e) {
+            System.out.println(e);
+        }
     }
 }

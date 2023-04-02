@@ -1,0 +1,51 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/commons-cli-1.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/flatlaf-2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/layout-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/hyph-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/logback-core-1.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jackson-databind-2.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.15-test-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/mongo-java-driver-3.12.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jackson-core-2.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ui-dashboard-010.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/forms-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jdatepicker-1.3.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpmime-4.5.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/sign-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/barcodes-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.5.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/pdftest-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/svg-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/TimingFramework-0.55.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.15-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/font-asian-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/okhttp-3.12.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/bson-4.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/styled-xml-parser-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/miglayout-4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/engine.io-client-2.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/bson-record-codec-4.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/socket.io-client-2.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/json-20090211.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.15-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/java-jwt-3.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jackson-annotations-2.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/pdfa-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.15-tests.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/logback-classic-1.2.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/io-7.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpcore-4.4.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/okio-1.15.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/kernel-7.2.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

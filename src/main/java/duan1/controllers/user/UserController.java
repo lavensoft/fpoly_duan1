@@ -25,8 +25,8 @@ public class UserController {
         if(user.salary < 0)
             throw new Exception("ACCOUNT_FORM_WRONG_SALARY_FORMAT");
         UserModel query = new UserModel();
-        query.name = user.name;
-        UserModel result = this.get(query);
+        query.email = user.email;
+        UserModel result = userDAO.get(query);
         if(result != null)
             throw new Exception("ACCOUNT_FORM_EXSITS");
         user.password = DigestUtils.sha256Hex(user.password);

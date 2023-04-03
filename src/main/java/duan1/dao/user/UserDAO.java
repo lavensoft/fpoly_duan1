@@ -30,6 +30,7 @@ public class UserDAO extends DAO<UserModel> {
     }
 
     public UserModel get(UserModel user) throws Exception {
+        System.out.println(user.toDocument());
         return super.get(user);
     }
 

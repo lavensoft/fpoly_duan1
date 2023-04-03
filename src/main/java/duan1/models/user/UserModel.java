@@ -20,7 +20,7 @@ public class UserModel extends IModel {
     public String joinDate = "";
     public String dateCreated = "";
     public String permission = "";
-    public Double salary = 0.0;
+    public Double salary;
     public String refreshToken = "";
     public String password = "";
     public String avatar = "";

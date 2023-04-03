@@ -69,7 +69,7 @@ public class AccountTest {
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheetAt(0);
             List<Object[]> list = new ArrayList<>();
-            for(int i=35;i<70;i++){
+            for(int i=35;i<71;i++){
                 Row row = sheet.getRow(i);
                 Object[] o = new Object[]{row.getCell(5).toString()+ row.getCell(6).toString()};
                 list.add(o);
